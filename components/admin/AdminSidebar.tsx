@@ -150,6 +150,32 @@ const menuSections: MenuSection[] = [
     title: 'Content',
     items: [
       {
+        name: 'Activities',
+        icon: 'Activity',
+        children: [
+          { name: 'All Activities', href: '/admin/activities' },
+          { name: 'Add New Activity', href: '/admin/activities/new' },
+          { name: 'Activity Categories', href: '/admin/activities/categories' },
+        ],
+      },
+      {
+        name: 'Blog',
+        icon: 'Blog',
+        children: [
+          { name: 'All Posts', href: '/admin/blog' },
+          { name: 'Add New Post', href: '/admin/blog/new' },
+          { name: 'Categories', href: '/admin/blog/categories' },
+        ],
+      },
+      {
+        name: 'Testimonials',
+        icon: 'Quote',
+        children: [
+          { name: 'All Testimonials', href: '/admin/testimonials' },
+          { name: 'Add New Testimonial', href: '/admin/testimonials/new' },
+        ],
+      },
+      {
         name: 'Homepage',
         icon: 'Home',
         children: [
@@ -169,15 +195,6 @@ const menuSections: MenuSection[] = [
         ],
       },
       {
-        name: 'Blog',
-        icon: 'Blog',
-        children: [
-          { name: 'All Posts', href: '/admin/blog' },
-          { name: 'Add New Post', href: '/admin/blog/new' },
-          { name: 'Categories', href: '/admin/blog/categories' },
-        ],
-      },
-      {
         name: 'Media Library',
         href: '/admin/media',
         icon: 'Image',
@@ -185,27 +202,8 @@ const menuSections: MenuSection[] = [
     ],
   },
   {
-    title: 'Activities & Attractions',
-    items: [
-      {
-        name: 'Activities',
-        icon: 'Activity',
-        children: [
-          { name: 'All Activities', href: '/admin/activities' },
-          { name: 'Add New Activity', href: '/admin/activities/new' },
-          { name: 'Activity Categories', href: '/admin/activities/categories' },
-        ],
-      },
-    ],
-  },
-  {
     title: 'Customer Engagement',
     items: [
-      {
-        name: 'Testimonials',
-        href: '/admin/testimonials',
-        icon: 'Quote',
-      },
       {
         name: 'FAQs',
         icon: 'Question',
@@ -321,20 +319,18 @@ export default function AdminSidebar() {
                       <>
                         <button
                           onClick={() => toggleExpand(item.name)}
-                          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-                            isItemActive
-                              ? 'bg-slate-800 text-white'
-                              : 'hover:bg-slate-800 hover:text-white'
-                          }`}
+                          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${isItemActive
+                            ? 'bg-slate-800 text-white'
+                            : 'hover:bg-slate-800 hover:text-white'
+                            }`}
                         >
                           <span className="flex items-center gap-3">
                             <Icon />
                             {item.name}
                           </span>
                           <span
-                            className={`transform transition-transform ${
-                              isExpanded ? 'rotate-180' : ''
-                            }`}
+                            className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''
+                              }`}
                           >
                             <Icons.ChevronDown />
                           </span>
@@ -345,11 +341,10 @@ export default function AdminSidebar() {
                               <li key={child.href}>
                                 <Link
                                   href={child.href}
-                                  className={`block px-3 py-2 rounded-lg text-sm transition-colors ${
-                                    isActive(child.href)
-                                      ? 'bg-amber-600/20 text-amber-500'
-                                      : 'hover:bg-slate-800 hover:text-white'
-                                  }`}
+                                  className={`block px-3 py-2 rounded-lg text-sm transition-colors ${isActive(child.href)
+                                    ? 'bg-amber-600/20 text-amber-500'
+                                    : 'hover:bg-slate-800 hover:text-white'
+                                    }`}
                                 >
                                   {child.name}
                                 </Link>
@@ -361,11 +356,10 @@ export default function AdminSidebar() {
                     ) : (
                       <Link
                         href={item.href || '#'}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                          isActive(item.href || '')
-                            ? 'bg-amber-600/20 text-amber-500'
-                            : 'hover:bg-slate-800 hover:text-white'
-                        }`}
+                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${isActive(item.href || '')
+                          ? 'bg-amber-600/20 text-amber-500'
+                          : 'hover:bg-slate-800 hover:text-white'
+                          }`}
                       >
                         <Icon />
                         {item.name}

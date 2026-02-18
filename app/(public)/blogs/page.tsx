@@ -209,9 +209,7 @@ async function BlogContent({
                     })}
                   </p>
                 )}
-                {blog.body_summary ? (
-                  <p className="my-0">{stripHtmlTags(blog.body_summary)}</p>
-                ) : blog.body ? (
+                {blog.body ? (
                   <p className="my-0">
                     {stripHtmlTags(blog.body).substring(0, 275)}
                     {stripHtmlTags(blog.body).length > 275 ? '...' : ''}

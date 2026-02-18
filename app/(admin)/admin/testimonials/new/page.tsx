@@ -3,7 +3,10 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createBlog, BlogCreateData } from '@/lib/api/blogs'
+import { createTestimonial, TestimonialCreateData } from '@/lib/api/testimonials'
+import { getAllCabins } from '@/lib/api/cabins'
+import { Property } from '@/lib/types'
+import ImageUploader from '@/components/admin/ImageUploader'
 
 // Lazy load the rich text editor to avoid SSR issues
 const RichTextEditor = lazy(() => import('@/components/admin/RichTextEditor'))
@@ -84,14 +87,37 @@ function Textarea({
   )
 }
 
-// Generate slug from title
-function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
+// Select component
+function Select({
+  value,
+  onChange,
+  options,
+  placeholder,
+  required,
+  ...props
+}: {
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  options: Array<{ value: string; label: string }>
+  placeholder?: string
+  required?: boolean
+} & React.SelectHTMLAttributes<HTMLSelectElement>) {
+  return (
+    <select
+      value={value}
+      onChange={onChange}
+      required={required}
+      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white cursor-pointer"
+      {...props}
+    >
+      {placeholder && <option value="">{placeholder}</option>}
+      {options.map((opt) => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  )
 }
 
 // Get today's date in YYYY-MM-DD format
@@ -103,39 +129,73 @@ function getTodayDate(): string {
   return `${year}-${month}-${day}`
 }
 
-export default function AddNewBlogPostPage() {
+export default function AddNewTestimonialPage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [cabins, setCabins] = useState<Property[]>([])
+  const [loadingCabins, setLoadingCabins] = useState(true)
 
   // Form state
   const [formData, setFormData] = useState<{
     title: string
-    slug: string
     body: string
+    cabin_name: string
+    cabin_slug: string
+    customer_image: { url: string; title?: string; width?: number; height?: number } | null
+    author_name: string
     published_at: string
     status: 'published' | 'draft' | 'archived'
-    is_promoted: boolean
+    is_featured: boolean
     is_sticky: boolean
+    display_order: number
   }>({
     title: '',
-    slug: '',
     body: '',
+    cabin_name: '',
+    cabin_slug: '',
+    customer_image: null,
+    author_name: '',
     published_at: getTodayDate(),
     status: 'draft',
-    is_promoted: false,
+    is_featured: false,
     is_sticky: false,
+    display_order: 0,
   })
 
-  // Auto-generate slug from title
-  const [autoSlug, setAutoSlug] = useState(true)
-
+  // Load cabins for dropdown
   useEffect(() => {
-    if (autoSlug && formData.title) {
-      setFormData((prev) => ({ ...prev, slug: generateSlug(prev.title) }))
+    async function loadCabins() {
+      try {
+        const allCabins = await getAllCabins()
+        setCabins(allCabins)
+      } catch (err) {
+        console.error('Failed to load cabins:', err)
+      } finally {
+        setLoadingCabins(false)
+      }
     }
-  }, [formData.title, autoSlug])
+    loadCabins()
+  }, [])
+
+  // Handle cabin selection
+  const handleCabinChange = (cabinId: string) => {
+    const selectedCabin = cabins.find((c) => c.id === cabinId)
+    if (selectedCabin) {
+      setFormData((prev) => ({
+        ...prev,
+        cabin_name: selectedCabin.title || '',
+        cabin_slug: selectedCabin.cabin_slug || '',
+      }))
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        cabin_name: '',
+        cabin_slug: '',
+      }))
+    }
+  }
 
   const updateField = <K extends keyof typeof formData>(field: K, value: typeof formData[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -150,21 +210,18 @@ export default function AddNewBlogPostPage() {
       return
     }
 
-    // Ensure slug is generated if empty
-    let finalSlug = formData.slug.trim()
-    if (!finalSlug) {
-      finalSlug = generateSlug(formData.title.trim())
-      if (!finalSlug) {
-        setError('Unable to generate a valid slug from the title. Please enter a custom slug.')
-        return
-      }
-      // Update the form state with the generated slug
-      setFormData((prev) => ({ ...prev, slug: finalSlug }))
+    if (!formData.cabin_name.trim()) {
+      setError('Cabin is required')
+      return
     }
 
-    // Validate slug format (should only contain lowercase letters, numbers, and hyphens)
-    if (!/^[a-z0-9-]+$/.test(finalSlug)) {
-      setError('Slug can only contain lowercase letters, numbers, and hyphens.')
+    if (!formData.published_at) {
+      setError('Published date is required')
+      return
+    }
+
+    if (!formData.body.trim()) {
+      setError('Testimonial content is required')
       return
     }
 
@@ -172,25 +229,29 @@ export default function AddNewBlogPostPage() {
     setError(null)
 
     try {
-      const blogData: BlogCreateData = {
+      const testimonialData: TestimonialCreateData = {
         title: formData.title.trim(),
-        slug: finalSlug,
         body: formData.body.trim() || undefined,
+        cabin_name: formData.cabin_name || undefined,
+        cabin_slug: formData.cabin_slug || undefined,
+        customer_image: formData.customer_image || undefined,
+        author_name: formData.author_name.trim() || undefined,
         published_at: formData.published_at || undefined,
         status: formData.status,
-        is_promoted: formData.is_promoted,
+        is_featured: formData.is_featured,
         is_sticky: formData.is_sticky,
+        display_order: formData.display_order,
       }
 
-      const blog = await createBlog(blogData)
-      setSuccessMessage(`Blog post "${blog.title}" created successfully!`)
+      const testimonial = await createTestimonial(testimonialData)
+      setSuccessMessage(`Testimonial "${testimonial.title}" created successfully!`)
 
       // Redirect after a short delay
       setTimeout(() => {
-        router.push('/admin/blog')
+        router.push('/admin/testimonials')
       }, 1500)
     } catch (err: any) {
-      let errorMessage = 'Failed to create blog post'
+      let errorMessage = 'Failed to create testimonial'
       
       if (err.response?.data?.detail) {
         const detail = err.response.data.detail
@@ -219,6 +280,9 @@ export default function AddNewBlogPostPage() {
     }
   }
 
+  // Get selected cabin ID for the dropdown
+  const selectedCabinId = cabins.find((c) => c.title === formData.cabin_name)?.id || ''
+
   return (
     <div className="max-w-5xl mx-auto">
       {/* Success Message */}
@@ -236,8 +300,8 @@ export default function AddNewBlogPostPage() {
       {/* Page Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
-          <Link href="/admin/blog" className="hover:text-amber-600 transition-colors">
-            Blog
+          <Link href="/admin/testimonials" className="hover:text-amber-600 transition-colors">
+            Testimonials
           </Link>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -246,8 +310,8 @@ export default function AddNewBlogPostPage() {
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Add New Post</h1>
-            <p className="text-slate-500 mt-1">Create a new blog post or article</p>
+            <h1 className="text-2xl font-bold text-slate-900">Add New Testimonial</h1>
+            <p className="text-slate-500 mt-1">Create a new guest testimonial or review</p>
           </div>
         </div>
       </div>
@@ -273,53 +337,38 @@ export default function AddNewBlogPostPage() {
             {/* Basic Information */}
             <div className='flex flex-col'>
               <div className="space-y-6">
-                <FormField label="Post Title" required>
+                <FormField label="Testimonial Title" required>
                   <Input
                     value={formData.title}
                     onChange={(e) => updateField('title', e.target.value)}
-                    placeholder="e.g., Top 10 Mountain Getaways"
+                    placeholder="e.g., Amazing Mountain Getaway!"
                     required
                   />
                 </FormField>
 
-                <FormField
-                  label="URL Slug"
-                  required
-                  hint={autoSlug ? 'Auto-generated from title. Click the lock to edit manually.' : 'Enter a custom URL slug. This will be used in the blog post URL.'}
-                >
-                  <div className="flex gap-2">
-                    <Input
-                      value={formData.slug}
-                      onChange={(e) => updateField('slug', e.target.value)}
-                      placeholder="top-10-mountain-getaways"
-                      disabled={autoSlug}
-                      className={autoSlug ? 'bg-slate-50' : ''}
+                <FormField label="Cabin" required hint="Select the cabin this testimonial is about">
+                  {loadingCabins ? (
+                    <div className="text-slate-500 text-sm">Loading cabins...</div>
+                  ) : (
+                    <Select
+                      value={selectedCabinId}
+                      onChange={(e) => handleCabinChange(e.target.value)}
+                      placeholder="Select a cabin"
+                      required
+                      options={cabins.map((cabin) => ({
+                        value: cabin.id,
+                        label: cabin.title || 'Untitled Cabin',
+                      }))}
                     />
-                    <button
-                      type="button"
-                      onClick={() => setAutoSlug(!autoSlug)}
-                      className={`px-3 py-2 rounded-lg border transition-colors ${autoSlug
-                        ? 'bg-amber-50 border-amber-300 text-amber-700'
-                        : 'bg-slate-50 border-slate-300 text-slate-600'
-                        }`}
-                      title={autoSlug ? 'Click to edit manually' : 'Click to auto-generate'}
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        {autoSlug ? (
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        ) : (
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                        )}
-                      </svg>
-                    </button>
-                  </div>
+                  )}
                 </FormField>
 
-                <FormField label="Published Date" hint="Date when the post was published or written">
+                <FormField label="Published Date" required hint="Date when the testimonial was published or written">
                   <Input
                     type="date"
                     value={formData.published_at}
                     onChange={(e) => updateField('published_at', e.target.value)}
+                    required
                   />
                 </FormField>
               </div>
@@ -330,8 +379,9 @@ export default function AddNewBlogPostPage() {
               <h2 className="text-lg font-semibold text-slate-900 mb-4">Content</h2>
               <div className="space-y-6">
                 <FormField 
-                  label="Post Content" 
-                  hint="Use the rich text editor to format the post content with headings, lists, links, and images."
+                  label="Testimonial Content" 
+                  required
+                  hint="Use the rich text editor to format the testimonial content with headings, lists, links, and images."
                 >
                   <Suspense fallback={
                     <div className="border border-slate-300 rounded-lg bg-slate-50 animate-pulse" style={{ minHeight: '300px' }}>
@@ -345,13 +395,54 @@ export default function AddNewBlogPostPage() {
                     <RichTextEditor
                       value={formData.body}
                       onChange={(value) => updateField('body', value)}
-                      placeholder="Write your blog post content here..."
+                      placeholder="Write the testimonial content here..."
                       minHeight={300}
                     />
                   </Suspense>
                 </FormField>
-
               </div>
+            </div>
+
+            {/* Customer Image */}
+            <div className="border-t border-slate-200 pt-6">
+              <h2 className="text-lg font-semibold text-slate-900 mb-4">Customer Image</h2>
+              <ImageUploader
+                value={formData.customer_image?.url || ''}
+                onChange={(url) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    customer_image: url ? { 
+                      url, 
+                      title: prev.customer_image?.title || '',
+                      width: prev.customer_image?.width,
+                      height: prev.customer_image?.height
+                    } : null
+                  }))
+                }}
+                altValue={formData.customer_image?.title || ''}
+                onAltChange={(title) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    customer_image: prev.customer_image 
+                      ? { ...prev.customer_image, title }
+                      : { url: '', title }
+                  }))
+                }}
+                titleValue={formData.customer_image?.title || ''}
+                onTitleChange={(title) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    customer_image: prev.customer_image 
+                      ? { ...prev.customer_image, title }
+                      : { url: '', title }
+                  }))
+                }}
+                label="Customer Photo"
+                hint="Upload a photo of the customer or enter a URL"
+                showPreview={true}
+                createThumbnail={false}
+                imageType="testimonial"
+              />
             </div>
 
             {/* Settings */}
@@ -413,13 +504,13 @@ export default function AddNewBlogPostPage() {
                     <label className="flex items-center gap-3 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={formData.is_promoted}
-                        onChange={(e) => updateField('is_promoted', e.target.checked)}
+                        checked={formData.is_featured}
+                        onChange={(e) => updateField('is_featured', e.target.checked)}
                         className="w-4 h-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500"
                       />
                       <div>
-                        <div className="font-medium text-slate-900">Promoted Post</div>
-                        <div className="text-xs text-slate-500">Show this post prominently on the website</div>
+                        <div className="font-medium text-slate-900">Featured Testimonial</div>
+                        <div className="text-xs text-slate-500">Show this testimonial prominently on the website</div>
                       </div>
                     </label>
 
@@ -432,7 +523,7 @@ export default function AddNewBlogPostPage() {
                       />
                       <div>
                         <div className="font-medium text-slate-900">Sticky</div>
-                        <div className="text-xs text-slate-500">Keep this post at the top of lists</div>
+                        <div className="text-xs text-slate-500">Keep this testimonial at the top of lists</div>
                       </div>
                     </label>
                   </div>
@@ -445,7 +536,7 @@ export default function AddNewBlogPostPage() {
         {/* Action Buttons */}
         <div className="mt-6 flex items-center justify-between bg-white rounded-xl shadow-sm border border-slate-200 p-4">
           <Link
-            href="/admin/blog"
+            href="/admin/testimonials"
             className="px-4 py-2 text-slate-600 hover:text-slate-800 font-medium transition-colors"
           >
             Cancel
@@ -469,7 +560,7 @@ export default function AddNewBlogPostPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  Save
+                  Save Testimonial
                 </>
               )}
             </button>
@@ -479,3 +570,4 @@ export default function AddNewBlogPostPage() {
     </div>
   )
 }
+

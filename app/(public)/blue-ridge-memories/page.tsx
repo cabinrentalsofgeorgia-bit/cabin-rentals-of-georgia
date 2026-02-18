@@ -52,15 +52,15 @@ async function BlueRidgeMemoriesContent() {
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="flex gap-4 mb-[25px]">
                   {/* Customer Image - Floated Left */}
-                  {testimonial.customer_image_url ? (
+                  {testimonial.customer_image?.url ? (
                     <div className="flex-shrink-0">
                       <div className="customer-image shadow-[0px_0px_8px_1px_#888] p-0.5">
                         <img
-                          src={testimonial.customer_image_url}
-                          alt={testimonial.customer_image_alt || testimonial.title || ''}
-                          title={testimonial.customer_image_title || undefined}
-                          width={48}
-                          height={48}
+                          src={testimonial.customer_image.url}
+                          alt={testimonial.customer_image.title || testimonial.title || ''}
+                          title={testimonial.customer_image.title || undefined}
+                          width={testimonial.customer_image.width || 48}
+                          height={testimonial.customer_image.height || 48}
                           className="block"
                         />
                       </div>
@@ -102,16 +102,12 @@ async function BlueRidgeMemoriesContent() {
                     )}
 
                     {/* Testimonial Body */}
-                    {testimonial.body ? (
+                    {testimonial.body && (
                       <ProcessedHTML
                         html={cleanHtmlContent(testimonial.body)}
                         className="text-[#533e27] italic memories-content"
                       />
-                    ) : testimonial.body_summary ? (
-                      <p className="text-[#533e27] italic">
-                        {stripHtmlTags(testimonial.body_summary)}
-                      </p>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               ))}

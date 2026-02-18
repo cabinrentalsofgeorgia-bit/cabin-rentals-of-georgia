@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { createActivity, ActivityCreateData } from '@/lib/api/activities'
+import { updateActivity, getAdminActivityById, ActivityUpdateData, Activity } from '@/lib/api/activities'
 import {
   getActivityTypeOptions,
   getAreaOptions,
@@ -134,53 +134,6 @@ function Select({
         </option>
       ))}
     </select>
-  )
-}
-
-// Multi-select checkbox group
-function CheckboxGroup({
-  options,
-  selected,
-  onChange,
-  columns = 2,
-}: {
-  options: Array<{ tid: number; name: string }>
-  selected: Array<{ tid: number; name: string }>
-  onChange: (selected: Array<{ tid: number; name: string }>) => void
-  columns?: number
-}) {
-  const handleToggle = (option: { tid: number; name: string }) => {
-    const isSelected = selected.some((s) => s.tid === option.tid)
-    if (isSelected) {
-      onChange(selected.filter((s) => s.tid !== option.tid))
-    } else {
-      onChange([...selected, option])
-    }
-  }
-
-  return (
-    <div className={`grid gap-2`} style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
-      {options.map((option) => {
-        const isChecked = selected.some((s) => s.tid === option.tid)
-        return (
-          <label
-            key={option.tid}
-            className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer transition-colors ${isChecked
-              ? 'bg-amber-50 border-amber-300 text-amber-900'
-              : 'bg-white border-slate-200 hover:border-slate-300'
-              }`}
-          >
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={() => handleToggle(option)}
-              className="w-4 h-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500"
-            />
-            <span className="text-sm">{option.name}</span>
-          </label>
-        )
-      })}
-    </div>
   )
 }
 
@@ -410,19 +363,29 @@ function generateSlug(title: string): string {
     .replace(/-+/g, '-')
 }
 
-// Get today's date in YYYY-MM-DD format
-function getTodayDate(): string {
-  const today = new Date()
-  const year = today.getFullYear()
-  const month = String(today.getMonth() + 1).padStart(2, '0')
-  const day = String(today.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
+// Format date for input field (YYYY-MM-DD)
+function formatDateForInput(dateString: string | null | undefined): string {
+  if (!dateString) return ''
+  try {
+    const date = new Date(dateString)
+    if (isNaN(date.getTime())) return ''
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  } catch {
+    return ''
+  }
 }
 
-export default function AddNewActivityPage() {
+export default function EditActivityPage() {
   const router = useRouter()
+  const params = useParams()
+  const activityId = params.id as string
+
   const [activeTab, setActiveTab] = useState<TabId>('basic')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
@@ -463,13 +426,13 @@ export default function AddNewActivityPage() {
     featured_image_title: '',
     video_urls: [] as string[],
     // Settings
-    published_at: getTodayDate(),
+    published_at: '',
     status: 'draft' as 'published' | 'draft' | 'archived',
     is_featured: false
   })
 
   // Auto-generate slug from title
-  const [autoSlug, setAutoSlug] = useState(true)
+  const [autoSlug, setAutoSlug] = useState(false) // Disabled by default for edit
 
   // Generate activity_slug in format: category/area/title-slug (area is optional)
   const generateActivitySlug = (category: string, area: string, titleSlug: string): string => {
@@ -506,30 +469,67 @@ export default function AddNewActivityPage() {
     }
   }, [formData.activity_type, formData.area, formData.slug])
 
-  // Load taxonomy options
+  // Load activity data and taxonomy options
   useEffect(() => {
-    async function loadOptions() {
+    async function loadData() {
       try {
-        const [activityTypes, areas, people, difficultyLevels, seasons] = await Promise.all([
+        setIsLoading(true)
+        setError(null)
+
+        // Load taxonomy options and activity data in parallel
+        const [activityTypes, areas, people, difficultyLevels, seasons, activity] = await Promise.all([
           getActivityTypeOptions().catch(() => []),
           getAreaOptions().catch(() => []),
           getPeopleOptions().catch(() => []),
           getDifficultyLevelOptions().catch(() => []),
           getSeasonOptions().catch(() => []),
+          getAdminActivityById(activityId),
         ])
+
         setActivityTypeOptions(activityTypes)
         setAreaOptions(areas)
         setPeopleOptions(people)
         setDifficultyLevelOptions(difficultyLevels)
         setSeasonOptions(seasons)
-      } catch (err) {
-        console.error('Failed to load taxonomy options:', err)
+
+        // Populate form with activity data
+        setFormData({
+          title: activity.title || '',
+          slug: activity.slug || '',
+          activity_slug: activity.activity_slug || '',
+          body: activity.body || '',
+          body_summary: activity.body_summary || '',
+          activity_type: activity.activity_type || '',
+          activity_type_tid: activity.activity_type_tid || undefined,
+          area: activity.area || '',
+          area_tid: activity.area_tid || undefined,
+          people: activity.people || '',
+          people_tid: activity.people_tid || undefined,
+          difficulty_level: activity.difficulty_level || '',
+          difficulty_level_tid: activity.difficulty_level_tid || undefined,
+          season: activity.season || '',
+          season_tid: activity.season_tid || undefined,
+          address: activity.address || '',
+          latitude: activity.latitude?.toString() || '',
+          longitude: activity.longitude?.toString() || '',
+          featured_image_url: activity.featured_image_url || '',
+          featured_image_alt: activity.featured_image_alt || '',
+          featured_image_title: activity.featured_image_title || '',
+          video_urls: activity.video_urls || [],
+          published_at: formatDateForInput(activity.published_at),
+          status: (activity.status as 'published' | 'draft' | 'archived') || 'draft',
+          is_featured: activity.is_featured || false
+        })
+      } catch (err: any) {
+        console.error('Failed to load activity:', err)
+        setError(err.response?.data?.detail || err.message || 'Failed to load activity')
       } finally {
+        setIsLoading(false)
         setLoadingOptions(false)
       }
     }
-    loadOptions()
-  }, [])
+    loadData()
+  }, [activityId])
 
   const updateField = <K extends keyof typeof formData>(field: K, value: typeof formData[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -635,7 +635,7 @@ export default function AddNewActivityPage() {
     setError(null)
 
     try {
-      const activityData: ActivityCreateData = {
+      const activityData: ActivityUpdateData = {
         title: formData.title.trim(),
         slug: formData.slug.trim() || undefined,
         activity_slug: formData.activity_slug.trim() || undefined,
@@ -663,15 +663,15 @@ export default function AddNewActivityPage() {
         is_featured: formData.is_featured
       }
 
-      const activity = await createActivity(activityData)
-      setSuccessMessage(`Activity "${activity.title}" created successfully!`)
+      const activity = await updateActivity(activityId, activityData)
+      setSuccessMessage(`Activity "${activity.title}" updated successfully!`)
 
       // Redirect after a short delay
       setTimeout(() => {
         router.push('/admin/activities')
       }, 1500)
     } catch (err: any) {
-      let errorMessage = 'Failed to create activity'
+      let errorMessage = 'Failed to update activity'
 
       if (err.response?.data?.detail) {
         const detail = err.response.data.detail
@@ -700,7 +700,7 @@ export default function AddNewActivityPage() {
     }
   }
 
-  // Tab content renderers
+  // Tab content renderers (same as new page)
   const renderBasicTab = () => (
     <div className="space-y-6">
       <FormField label="Activity Title" required>
@@ -1026,6 +1026,17 @@ export default function AddNewActivityPage() {
     settings: renderSettingsTab,
   }
 
+  if (isLoading) {
+    return (
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mb-4"></div>
+          <p className="text-slate-600">Loading activity...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-5xl mx-auto">
       {/* Success Message */}
@@ -1049,12 +1060,12 @@ export default function AddNewActivityPage() {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          <span className="text-slate-900">Add New</span>
+          <span className="text-slate-900">Edit</span>
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Add New Activity</h1>
-            <p className="text-slate-500 mt-1">Create a new activity or attraction listing</p>
+            <h1 className="text-2xl font-bold text-slate-900">Edit Activity</h1>
+            <p className="text-slate-500 mt-1">Update activity information and settings</p>
           </div>
         </div>
       </div>
@@ -1122,14 +1133,14 @@ export default function AddNewActivityPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Saving...
+                  Updating...
                 </>
               ) : (
                 <>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  Save
+                  Update Activity
                 </>
               )}
             </button>
@@ -1139,3 +1150,4 @@ export default function AddNewActivityPage() {
     </div>
   )
 }
+

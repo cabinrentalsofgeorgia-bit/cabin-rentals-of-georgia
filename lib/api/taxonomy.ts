@@ -11,6 +11,7 @@ export interface TaxonomyTerm {
   format: string | null
   weight: number
   page_title: string | null
+  video_url: string | null
 }
 
 export interface TaxonomyTermListResponse {
@@ -102,4 +103,56 @@ export async function getTermBySlug(
     }
   )
   return response.data
+}
+
+// Activity taxonomy vocabulary IDs (based on Drupal structure)
+export const ACTIVITY_VOCABULARY_IDS = {
+  ACTIVITY_TYPE: 10,
+  AREAS: 12, // Assuming areas have their own vocabulary
+  AGES: 11,
+  PEOPLE: 9,
+  DIFFICULTY_LEVEL: 7,
+  SEASON: 8,
+} as const
+
+/**
+ * Get activity type options
+ */
+export async function getActivityTypeOptions(): Promise<TaxonomyTerm[]> {
+  return getTermsByVocabulary(ACTIVITY_VOCABULARY_IDS.ACTIVITY_TYPE)
+}
+
+/**
+ * Get area options (locations for activities)
+ */
+export async function getAreaOptions(): Promise<TaxonomyTerm[]> {
+  return getTermsByVocabulary(ACTIVITY_VOCABULARY_IDS.AREAS)
+}
+
+/**
+ * Get age options
+ */
+export async function getAgeOptions(): Promise<TaxonomyTerm[]> {
+  return getTermsByVocabulary(ACTIVITY_VOCABULARY_IDS.AGES)
+}
+
+/**
+ * Get people/group size options
+ */
+export async function getPeopleOptions(): Promise<TaxonomyTerm[]> {
+  return getTermsByVocabulary(ACTIVITY_VOCABULARY_IDS.PEOPLE)
+}
+
+/**
+ * Get difficulty level options
+ */
+export async function getDifficultyLevelOptions(): Promise<TaxonomyTerm[]> {
+  return getTermsByVocabulary(ACTIVITY_VOCABULARY_IDS.DIFFICULTY_LEVEL)
+}
+
+/**
+ * Get season options
+ */
+export async function getSeasonOptions(): Promise<TaxonomyTerm[]> {
+  return getTermsByVocabulary(ACTIVITY_VOCABULARY_IDS.SEASON)
 }

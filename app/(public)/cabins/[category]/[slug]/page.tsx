@@ -4,6 +4,7 @@ import CabinListing from '@/components/cabin/CabinListing'
 import { getTermByCategorySlug } from '@/lib/api/taxonomy'
 import PageLoading from '@/components/ui/PageLoading'
 import ProcessedHTML from '@/components/content/ProcessedHTML'
+import YouTubeVideoEmbed from '@/components/cabin/YouTubeVideoEmbed'
 
 interface PageProps {
   params: {
@@ -59,7 +60,6 @@ async function CabinCategoryContent({ category, slug }: { category: string; slug
       // For property types (category='all'), use term name as category
       categoryFilter = term.name.toLowerCase().replace(/\s+/g, '-')
     }
-
     return (
       <div className="mb-[-1px] min-h-full mt-0 relative h-auto align-top block p-[20px]">
         <h1 className="text-4xl mb-0">{title}</h1>
@@ -67,7 +67,24 @@ async function CabinCategoryContent({ category, slug }: { category: string; slug
           html={term.description?.replaceAll("https://www.cabin-rentals-of-georgia.com", "") || 'No description available'}
           className="prose prose-lg mx-auto mb-0"
         />
-        
+
+        {/* Video Section */}
+        {term.video_url && (
+          <div className="text-[130%] mb-2 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat mt-0 p-[35px_0px_5px] text-[#533e27]">
+            <div className="px-[10px]">
+              <YouTubeVideoEmbed
+                url={term.video_url}
+                title={""}
+                width={560}
+                height={315}
+                className="mb-2"
+              />
+            </div>
+          </div>
+        )
+        }
+        <div className="text-[130%] mb-0 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat mt-0 p-[15px_0px_5px] text-[#533e27]">
+        </div>
         <CabinListing
           category={categoryFilter}
           amenity={amenityFilter}

@@ -32,11 +32,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       }
     }
 
-    const metaTitle = blog.meta_title || blog.title
-    const metaDescription = blog.meta_description || 
-      (blog.body_summary ? stripHtmlTags(blog.body_summary) : 
-       blog.body ? stripHtmlTags(blog.body).substring(0, 160) : 
-       `Read ${blog.title} on Cabin Rentals of Georgia`)
+    const metaTitle = blog.title
+    const metaDescription = blog.body 
+      ? stripHtmlTags(blog.body).substring(0, 160) 
+      : `Read ${blog.title} on Cabin Rentals of Georgia`
 
     return {
       title: `${metaTitle} | Cabin Rentals of Georgia`,
@@ -47,9 +46,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         type: 'article',
         publishedTime: blog.published_at || blog.created_at,
         modifiedTime: blog.updated_at || blog.created_at,
-        ...(blog.featured_image_url && {
-          images: [{ url: blog.featured_image_url }],
-        }),
       },
     }
   } catch (error) {
@@ -100,7 +96,7 @@ async function BlogPostContent({ params }: PageProps) {
   const { year, month, day, slug } = params
 
   try {
-    // Fetch blog by slug (ignoring date parts for lookup)
+    // Fetch blog by slug
     const blog = await getBlogBySlug(slug)
 
     // Check if blog exists and is published
@@ -129,17 +125,14 @@ async function BlogPostContent({ params }: PageProps) {
           {/* Blog header */}
           <header className="mb-8">
             <h1 className="text-4xl">{blog.title}</h1>
+            
+            {/* Author and date */}
+            <div className="mt-4 text-sm text-slate-600">
+              {blog.author_name && <span>By {blog.author_name}</span>}
+              {blog.author_name && formattedDate && <span className="mx-2">•</span>}
+              {formattedDate && <span>{formattedDate}</span>}
+            </div>
 
-            {/* Featured image */}
-            {blog.featured_image_url && (
-              <div className="mb-8">
-                <img
-                  src={blog.featured_image_url}
-                  alt={blog.title}
-                  className="w-full h-auto rounded-lg shadow-lg"
-                />
-              </div>
-            )}
           </header>
 
           {/* Blog body */}
@@ -153,17 +146,6 @@ async function BlogPostContent({ params }: PageProps) {
               <p className="text-gray-700">
                 No content available for this blog post.
               </p>
-            </div>
-          )}
-
-          {/* Blog summary/excerpt if available */}
-          {blog.body_summary && (
-            <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-              <h2 className="text-xl font-semibold mb-2">Summary</h2>
-              <ProcessedHTML
-                html={cleanHtmlContent(blog.body_summary)}
-                className="prose prose-sm"
-              />
             </div>
           )}
         </div>

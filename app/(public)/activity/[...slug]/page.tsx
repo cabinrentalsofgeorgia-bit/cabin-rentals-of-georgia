@@ -114,26 +114,6 @@ async function ActivityContent({ slug }: { slug: string[] }) {
           </div>
         </div>
 
-
-        {/* Gallery Images */}
-        {activity.gallery_images && activity.gallery_images.length > 0 && (
-          <div className="mb-8">
-            <h2 className="font-semibold text-[#7c2c00] mb-4">Gallery</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {activity.gallery_images.map((image: any, index: number) => (
-                <div key={index} className="relative w-full h-64 rounded-lg overflow-hidden">
-                  <Image
-                    src={image.url || ''}
-                    alt={image.alt || activity.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Location Map (if coordinates available) */}
         {activity.latitude && activity.longitude && (
           <div className="mt-8">

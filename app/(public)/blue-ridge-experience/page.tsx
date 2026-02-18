@@ -15,6 +15,7 @@ async function BlueRidgeExperienceContent() {
     const title = term.page_title || term.name
 
     const activities = await getAllActivities()
+    
     return (
       <div className="mb-[-1px] min-h-full mt-0 relative h-auto pb-[30px] align-top py-5 px-5 block">
         <h1 className="text-4xl mb-8">{title}</h1>

@@ -134,3 +134,40 @@ export async function getCalendarStates(): Promise<CalendarState[]> {
 
   return response.json()
 }
+
+export interface CabinAvailabilityMatrixItem {
+  cabin_id: string
+  cabin_title: string
+  cabin_slug: string
+  calendar_id: number | null
+  availability: Record<string, string> // date string -> css_class
+}
+
+export interface AvailabilityMatrixResponse {
+  year: number
+  month: number
+  cabins: CabinAvailabilityMatrixItem[]
+  states: CalendarState[]
+}
+
+/**
+ * Get availability matrix for all cabins for a specific month
+ */
+export async function getAvailabilityMatrix(
+  year: number,
+  month: number
+): Promise<AvailabilityMatrixResponse> {
+  const response = await fetch(
+    `${API_URL}/api/v1/calendar/availability-matrix/${year}/${month}`,
+    {
+      cache: 'no-store', // Don't cache availability data
+    }
+  )
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ detail: 'Unknown error' }))
+    throw new Error(error.detail || `Failed to fetch availability matrix: ${response.status}`)
+  }
+
+  return response.json()
+}

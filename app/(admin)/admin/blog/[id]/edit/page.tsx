@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { createBlog, BlogCreateData } from '@/lib/api/blogs'
+import { getBlogById, updateBlog, Blog, BlogUpdateData } from '@/lib/api/blogs'
+import PageLoading from '@/components/ui/PageLoading'
 
 // Lazy load the rich text editor to avoid SSR issues
 const RichTextEditor = lazy(() => import('@/components/admin/RichTextEditor'))
@@ -59,31 +60,6 @@ function Input({
   )
 }
 
-// Textarea component
-function Textarea({
-  value,
-  onChange,
-  placeholder,
-  rows = 4,
-  className = '',
-}: {
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
-  placeholder?: string
-  rows?: number
-  className?: string
-}) {
-  return (
-    <textarea
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      rows={rows}
-      className={`w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-shadow resize-none ${className}`}
-    />
-  )
-}
-
 // Generate slug from title
 function generateSlug(title: string): string {
   return title
@@ -94,20 +70,26 @@ function generateSlug(title: string): string {
     .trim()
 }
 
-// Get today's date in YYYY-MM-DD format
-function getTodayDate(): string {
-  const today = new Date()
-  const year = today.getFullYear()
-  const month = String(today.getMonth() + 1).padStart(2, '0')
-  const day = String(today.getDate()).padStart(2, '0')
+// Format date for date input (YYYY-MM-DD)
+function formatDateForInput(dateString: string | null): string {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
 
-export default function AddNewBlogPostPage() {
+export default function EditBlogPostPage() {
   const router = useRouter()
+  const params = useParams()
+  const blogId = params.id as string
+
+  const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [blog, setBlog] = useState<Blog | null>(null)
 
   // Form state
   const [formData, setFormData] = useState<{
@@ -122,14 +104,46 @@ export default function AddNewBlogPostPage() {
     title: '',
     slug: '',
     body: '',
-    published_at: getTodayDate(),
+    published_at: '',
     status: 'draft',
     is_promoted: false,
     is_sticky: false,
   })
 
   // Auto-generate slug from title
-  const [autoSlug, setAutoSlug] = useState(true)
+  const [autoSlug, setAutoSlug] = useState(false)
+
+  // Load blog data
+  useEffect(() => {
+    async function loadBlog() {
+      if (!blogId) return
+
+      try {
+        setLoading(true)
+        setError(null)
+        const blogData = await getBlogById(blogId)
+        setBlog(blogData)
+        
+        // Populate form with existing data
+        setFormData({
+          title: blogData.title || '',
+          slug: blogData.slug || '',
+          body: blogData.body || '',
+          published_at: formatDateForInput(blogData.published_at),
+          status: (blogData.status as 'published' | 'draft' | 'archived') || 'draft',
+          is_promoted: blogData.is_promoted || false,
+          is_sticky: blogData.is_sticky || false,
+        })
+      } catch (err: any) {
+        console.error('Error loading blog:', err)
+        setError(err.response?.data?.detail || err.message || 'Failed to load blog post')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadBlog()
+  }, [blogId])
 
   useEffect(() => {
     if (autoSlug && formData.title) {
@@ -143,6 +157,8 @@ export default function AddNewBlogPostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!blog) return
 
     // Validation
     if (!formData.title.trim()) {
@@ -158,11 +174,10 @@ export default function AddNewBlogPostPage() {
         setError('Unable to generate a valid slug from the title. Please enter a custom slug.')
         return
       }
-      // Update the form state with the generated slug
       setFormData((prev) => ({ ...prev, slug: finalSlug }))
     }
 
-    // Validate slug format (should only contain lowercase letters, numbers, and hyphens)
+    // Validate slug format
     if (!/^[a-z0-9-]+$/.test(finalSlug)) {
       setError('Slug can only contain lowercase letters, numbers, and hyphens.')
       return
@@ -172,7 +187,7 @@ export default function AddNewBlogPostPage() {
     setError(null)
 
     try {
-      const blogData: BlogCreateData = {
+      const blogData: BlogUpdateData = {
         title: formData.title.trim(),
         slug: finalSlug,
         body: formData.body.trim() || undefined,
@@ -182,22 +197,20 @@ export default function AddNewBlogPostPage() {
         is_sticky: formData.is_sticky,
       }
 
-      const blog = await createBlog(blogData)
-      setSuccessMessage(`Blog post "${blog.title}" created successfully!`)
+      const updatedBlog = await updateBlog(blogId, blogData)
+      setSuccessMessage(`Blog post "${updatedBlog.title}" updated successfully!`)
 
       // Redirect after a short delay
       setTimeout(() => {
         router.push('/admin/blog')
       }, 1500)
     } catch (err: any) {
-      let errorMessage = 'Failed to create blog post'
+      let errorMessage = 'Failed to update blog post'
       
       if (err.response?.data?.detail) {
         const detail = err.response.data.detail
         
-        // FastAPI validation errors return an array of error objects
         if (Array.isArray(detail)) {
-          // Format validation errors into readable messages
           errorMessage = detail
             .map((error: any) => {
               const field = error.loc && error.loc.length > 1 ? error.loc[error.loc.length - 1] : 'field'
@@ -217,6 +230,37 @@ export default function AddNewBlogPostPage() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-5xl mx-auto">
+        <PageLoading message="Loading blog post..." variant="container" />
+      </div>
+    )
+  }
+
+  if (!blog) {
+    return (
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+          <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h2 className="text-xl font-semibold text-red-900 mb-2">Blog Post Not Found</h2>
+          <p className="text-red-700 mb-6">{error || 'The blog post you are trying to edit does not exist.'}</p>
+          <Link
+            href="/admin/blog"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Blog List
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -242,12 +286,12 @@ export default function AddNewBlogPostPage() {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          <span className="text-slate-900">Add New</span>
+          <span className="text-slate-900">Edit Post</span>
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Add New Post</h1>
-            <p className="text-slate-500 mt-1">Create a new blog post or article</p>
+            <h1 className="text-2xl font-bold text-slate-900">Edit Post</h1>
+            <p className="text-slate-500 mt-1">Update blog post: {blog.title}</p>
           </div>
         </div>
       </div>
@@ -258,8 +302,8 @@ export default function AddNewBlogPostPage() {
           <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-red-800">{error}</p>
-          <button onClick={() => setError(null)} className="ml-auto text-red-500 hover:text-red-700">
+          <p className="text-red-800 flex-1">{error}</p>
+          <button onClick={() => setError(null)} className="text-red-500 hover:text-red-700">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -350,7 +394,6 @@ export default function AddNewBlogPostPage() {
                     />
                   </Suspense>
                 </FormField>
-
               </div>
             </div>
 
@@ -453,7 +496,7 @@ export default function AddNewBlogPostPage() {
           <div className="flex items-center gap-3">
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || loading}
               className="px-5 py-2.5 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700 transition-colors disabled:opacity-50 flex items-center gap-2"
             >
               {isSubmitting ? (
@@ -469,7 +512,7 @@ export default function AddNewBlogPostPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  Save
+                  Save Changes
                 </>
               )}
             </button>
@@ -479,3 +522,4 @@ export default function AddNewBlogPostPage() {
     </div>
   )
 }
+

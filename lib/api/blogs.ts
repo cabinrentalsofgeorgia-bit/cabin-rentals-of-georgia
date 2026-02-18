@@ -8,16 +8,13 @@ export interface Blog {
   title: string
   slug: string
   body: string
-  body_summary: string | null
+  author_name: string | null
   status: string
   is_promoted: boolean
   is_sticky: boolean
   created_at: string
   updated_at: string | null
   published_at: string | null
-  meta_title: string | null
-  meta_description: string | null
-  featured_image_url: string | null
 }
 
 export interface BlogListResponse {
@@ -62,6 +59,7 @@ export async function getBlogBySlug(slug: string): Promise<Blog> {
   return response.data
 }
 
+
 /**
  * Fetch featured blogs
  */
@@ -79,6 +77,56 @@ export async function getRecentBlogs(limit: number = 5): Promise<Blog[]> {
   const response = await apiClient.get<Blog[]>('/api/v1/blogs/recent', {
     params: { limit },
   })
+  return response.data
+}
+
+export interface BlogCreateData {
+  title: string
+  slug?: string
+  body?: string
+  author_name?: string
+  status?: 'published' | 'draft' | 'archived'
+  is_promoted?: boolean
+  is_sticky?: boolean
+  published_at?: string
+}
+
+export type BlogUpdateData = Partial<BlogCreateData>
+
+/**
+ * Create a new blog post
+ */
+export async function createBlog(data: BlogCreateData): Promise<Blog> {
+  const response = await apiClient.post<Blog>('/api/v1/admin/blogs', data)
+  return response.data
+}
+
+/**
+ * Update an existing blog post
+ */
+export async function updateBlog(blogId: string, data: BlogUpdateData): Promise<Blog> {
+  const response = await apiClient.put<Blog>(`/api/v1/admin/blogs/${blogId}`, data)
+  return response.data
+}
+
+/**
+ * Delete a blog post by ID
+ */
+export async function deleteBlog(blogId: string): Promise<{ message: string; id: string }> {
+  const response = await apiClient.delete<{ message: string; id: string }>(`/api/v1/admin/blogs/${blogId}`)
+  return response.data
+}
+
+/**
+ * Update a blog post's status
+ */
+export async function updateBlogStatus(
+  blogId: string,
+  newStatus: 'published' | 'draft' | 'archived'
+): Promise<{ message: string; id: string }> {
+  const response = await apiClient.patch<{ message: string; id: string }>(
+    `/api/v1/admin/blogs/${blogId}/status?new_status=${newStatus}`
+  )
   return response.data
 }
 

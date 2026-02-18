@@ -242,8 +242,8 @@ export default function Header() {
 
             {/* Phone Number and Facebook Button - Bottom */}
             <div className="flex items-center gap-[46px] max-[1010px]:gap-[46px] max-[1010px]:mt-[0px] ">
-              <div className="text-[#91b000] text-[17px] text-[17.6px] max-[1010px]:text-[105%] max-[1010px]:pt-[2px] max-[767px]:text-[17.28px] max-[767px]:-mr-[2px]">
-                Contact Us:{' '}
+              <div className="max-[450px]:flex max-[450px]:flex-col max-[450px]:text-center text-[#91b000] text-[17px] text-[17.6px] max-[1010px]:text-[105%] max-[1010px]:pt-[2px] max-[767px]:text-[17.28px] max-[767px]:-mr-[2px]">
+                <span>Contact Us:{' '}</span>
                 <Link
                   href="tel:7064322140"
                   className="no-underline max-[767px]:text-[#c0e901]"

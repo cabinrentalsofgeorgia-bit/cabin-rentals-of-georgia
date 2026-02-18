@@ -300,6 +300,22 @@ export default function HeroSlider() {
           }
         }
 
+        @media (max-width: 450px) {
+          .slide-captions {
+            left: 50%;
+            right: auto;
+            transform: translate(-50%, -50%);
+            max-width: calc(100% - 40px);
+            text-align: center;
+            margin-left: 0px!important;
+            margin-top: 40px!important;
+          }
+
+          .caption-title {
+            font-size: 21px!important;
+          }
+        }
+
         .caption-title {
           font-family: 'Fanwood Text',serif;
           font-size: 240%;

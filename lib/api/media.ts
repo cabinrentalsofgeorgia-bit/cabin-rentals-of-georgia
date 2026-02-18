@@ -15,7 +15,7 @@ export interface ImageUploadResponse {
 }
 
 export interface ImageUploadOptions {
-  image_type?: 'featured' | 'gallery'
+  image_type?: 'featured' | 'gallery' | 'testimonial' | 'activity' | 'blog'
   create_thumbnail?: boolean
   onUploadProgress?: (progress: number) => void
 }

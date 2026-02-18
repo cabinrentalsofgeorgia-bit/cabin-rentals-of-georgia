@@ -15,7 +15,7 @@ interface ImageUploaderProps {
   required?: boolean
   showPreview?: boolean
   createThumbnail?: boolean
-  imageType?: 'featured' | 'gallery'
+  imageType?: 'featured' | 'gallery' | 'testimonial' | 'activity'
 }
 
 export default function ImageUploader({
