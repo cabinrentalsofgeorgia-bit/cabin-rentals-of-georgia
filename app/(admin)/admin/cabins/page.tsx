@@ -550,7 +550,7 @@ export default function CabinsListPage() {
                         </div>
                         <div className="min-w-0">
                           <Link
-                            href={`/admin/cabins/${cabin.id}`}
+                            href={`/cabin/${cabin.cabin_slug}`}
                             className="font-medium text-slate-900 hover:text-amber-600 transition-colors block truncate"
                           >
                             {cabin.title}

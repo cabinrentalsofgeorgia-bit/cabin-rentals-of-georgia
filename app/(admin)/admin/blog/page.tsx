@@ -21,7 +21,7 @@ function StatusBadge({ status }: { status: string }) {
 
 function PromotedBadge({ isPromoted }: { isPromoted: boolean }) {
   if (!isPromoted) return null
-  
+
   return (
     <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 border border-amber-200">
       Promoted
@@ -56,7 +56,7 @@ function DeleteModal({
           </div>
         </div>
         <p className="text-slate-600 mb-6">
-          Are you sure you want to delete <span className="font-semibold">&quot;{blog.title}&quot;</span>? 
+          Are you sure you want to delete <span className="font-semibold">&quot;{blog.title}&quot;</span>?
           All associated data will be permanently removed.
         </p>
         <div className="flex gap-3 justify-end">
@@ -246,13 +246,13 @@ export default function AllBlogPostsPage() {
   const [data, setData] = useState<BlogListResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  
+
   // Filters
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [page, setPage] = useState(1)
   const [debouncedSearch, setDebouncedSearch] = useState('')
-  
+
   // Modals and actions
   const [blogToDelete, setBlogToDelete] = useState<Blog | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -276,15 +276,15 @@ export default function AllBlogPostsPage() {
         page,
         page_size: 10,
       }
-      
+
       if (statusFilter) {
         params.status = statusFilter
       }
-      
+
       if (debouncedSearch) {
         params.search = debouncedSearch
       }
-      
+
       const response = await getBlogs(params)
       setData(response)
     } catch (err: any) {
@@ -302,7 +302,7 @@ export default function AllBlogPostsPage() {
   // Handle delete
   const handleDelete = async () => {
     if (!blogToDelete) return
-    
+
     setIsDeleting(true)
     try {
       await deleteBlog(blogToDelete.id)
@@ -350,11 +350,10 @@ export default function AllBlogPostsPage() {
       {/* Action Message Toast */}
       {actionMessage && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg border animate-in slide-in-from-top-2 duration-300 ${
-            actionMessage.type === 'success'
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg border animate-in slide-in-from-top-2 duration-300 ${actionMessage.type === 'success'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : 'bg-red-50 border-red-200 text-red-800'
-          }`}
+            }`}
         >
           <div className="flex items-center gap-2">
             {actionMessage.type === 'success' ? (
@@ -532,15 +531,25 @@ export default function AllBlogPostsPage() {
                           </div>
                         </div>
                         <div className="min-w-0">
-                          <Link
-                            href={`/admin/blog/${blog.id}`}
-                            className="font-medium text-slate-900 hover:text-amber-600 transition-colors block truncate"
-                          >
-                            {blog.title}
-                          </Link>
-                          <p className="text-sm text-slate-500 truncate max-w-[200px]">
+                          {blog.slug && (
+                            <Link
+                              href={(() => {
+                                const date = new Date(blog.published_at || blog.created_at)
+                                const year = date.getFullYear()
+                                const month = String(date.getMonth() + 1).padStart(2, '0')
+                                const day = String(date.getDate()).padStart(2, '0')
+                                return `/blog/${year}/${month}/${day}/${blog.slug}`
+                              })()}
+                              target="_blank"
+                              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                              title="View on site"
+                            >
+                              {blog.title}
+                            </Link>
+                          )}
+                          {/* <p className="text-sm text-slate-500 truncate max-w-[200px]">
                             {blog.body?.substring(0, 50) || 'No content'}
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </td>
@@ -560,10 +569,10 @@ export default function AllBlogPostsPage() {
                     <td className="px-6 py-4 text-slate-600 font-mono text-sm">
                       {blog.updated_at
                         ? new Date(blog.updated_at).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })
                         : '—'}
                     </td>
                     <td className="px-6 py-4">
@@ -630,7 +639,7 @@ export default function AllBlogPostsPage() {
                 >
                   Previous
                 </button>
-                
+
                 {/* Page numbers */}
                 <div className="flex items-center gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -647,11 +656,10 @@ export default function AllBlogPostsPage() {
                           <button
                             onClick={() => setPage(p)}
                             disabled={loading}
-                            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                              p === page
+                            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${p === page
                                 ? 'bg-amber-600 text-white'
                                 : 'border border-slate-300 hover:bg-slate-50'
-                            }`}
+                              }`}
                           >
                             {p}
                           </button>

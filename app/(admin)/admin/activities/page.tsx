@@ -21,7 +21,7 @@ function StatusBadge({ status }: { status: string }) {
 
 function FeaturedBadge({ isFeatured }: { isFeatured: boolean }) {
   if (!isFeatured) return null
-  
+
   return (
     <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 border border-amber-200">
       Featured
@@ -56,7 +56,7 @@ function DeleteModal({
           </div>
         </div>
         <p className="text-slate-600 mb-6">
-          Are you sure you want to delete <span className="font-semibold">&quot;{activity.title}&quot;</span>? 
+          Are you sure you want to delete <span className="font-semibold">&quot;{activity.title}&quot;</span>?
           All associated data will be permanently removed.
         </p>
         <div className="flex gap-3 justify-end">
@@ -248,13 +248,13 @@ export default function AllActivitiesPage() {
   const [data, setData] = useState<ActivityListResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  
+
   // Filters
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [page, setPage] = useState(1)
   const [debouncedSearch, setDebouncedSearch] = useState('')
-  
+
   // Modals and actions
   const [activityToDelete, setActivityToDelete] = useState<Activity | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -278,15 +278,15 @@ export default function AllActivitiesPage() {
         page,
         page_size: 10,
       }
-      
+
       if (statusFilter) {
         params.status = statusFilter
       }
-      
+
       if (debouncedSearch) {
         params.search = debouncedSearch
       }
-      
+
       const response = await getAdminActivities(params)
       setData(response)
     } catch (err: any) {
@@ -304,7 +304,7 @@ export default function AllActivitiesPage() {
   // Handle delete
   const handleDelete = async () => {
     if (!activityToDelete) return
-    
+
     setIsDeleting(true)
     try {
       await deleteActivity(activityToDelete.id)
@@ -352,11 +352,10 @@ export default function AllActivitiesPage() {
       {/* Action Message Toast */}
       {actionMessage && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg border animate-in slide-in-from-top-2 duration-300 ${
-            actionMessage.type === 'success'
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg border animate-in slide-in-from-top-2 duration-300 ${actionMessage.type === 'success'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : 'bg-red-50 border-red-200 text-red-800'
-          }`}
+            }`}
         >
           <div className="flex items-center gap-2">
             {actionMessage.type === 'success' ? (
@@ -550,7 +549,7 @@ export default function AllActivitiesPage() {
                         </div>
                         <div className="min-w-0">
                           <Link
-                            href={`/admin/activities/${activity.id}`}
+                            href={`/activity/${activity.activity_slug}`}
                             className="font-medium text-slate-900 hover:text-amber-600 transition-colors block truncate"
                           >
                             {activity.title}
@@ -583,17 +582,17 @@ export default function AllActivitiesPage() {
                     <td className="px-6 py-4 text-slate-600 font-mono text-sm">
                       {activity.updated_at
                         ? new Date(activity.updated_at).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })
                         : '—'}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-1">
-                        {activity.slug && (
+                        {activity.activity_slug && (
                           <Link
-                            href={`/activity/${activity.slug}`}
+                            href={`/activity/${activity.activity_slug}`}
                             target="_blank"
                             className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
                             title="View on site"
@@ -647,7 +646,7 @@ export default function AllActivitiesPage() {
                 >
                   Previous
                 </button>
-                
+
                 {/* Page numbers */}
                 <div className="flex items-center gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -664,11 +663,10 @@ export default function AllActivitiesPage() {
                           <button
                             onClick={() => setPage(p)}
                             disabled={loading}
-                            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                              p === page
+                            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${p === page
                                 ? 'bg-amber-600 text-white'
                                 : 'border border-slate-300 hover:bg-slate-50'
-                            }`}
+                              }`}
                           >
                             {p}
                           </button>

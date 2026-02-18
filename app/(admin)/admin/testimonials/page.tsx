@@ -554,7 +554,8 @@ export default function TestimonialsListPage() {
                         </div>
                         <div className="min-w-0">
                           <Link
-                            href={`/admin/testimonials/${testimonial.id}`}
+                            // href={`/admin/testimonials/${testimonial.id}`}
+                            href={``}
                             className="font-medium text-slate-900 hover:text-amber-600 transition-colors block truncate"
                           >
                             {testimonial.title}
