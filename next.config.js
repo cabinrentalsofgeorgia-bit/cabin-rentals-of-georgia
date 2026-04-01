@@ -21,12 +21,29 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'maps.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'cabin-rentals-of-georgia.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.cabin-rentals-of-georgia.com',
+      },
       // Add custom R2 domain if provided
       ...(r2PublicUrl ? [{
         protocol: 'https',
         hostname: new URL(r2PublicUrl).hostname.replace(/^www\./, ''),
       }] : []),
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/cabins/above-it-all-lodge',
+        destination: '/availability',
+        permanent: true,
+      },
+    ]
   },
   async rewrites() {
     if (!r2PublicUrl) {
@@ -40,7 +57,7 @@ const nextConfig = {
       },
       {
         source: '/sites/default/files/:path*',
-        destination: `${r2PublicUrl}/images/:path*`,
+        destination: 'https://cabin-rentals-of-georgia.com/sites/default/files/:path*',
       },
     ]
   },
