@@ -122,8 +122,7 @@ export async function updateCabinStatus(
  * @returns Cabin data
  */
 export async function getCabinBySlug(slug: string): Promise<Cabin> {
-  const encodedSlug = encodeURIComponent(slug)
-  const response = await apiClient.get<Cabin>(`/api/storefront/catalog/cabins/${encodedSlug}`)
+  const response = await apiClient.get<Cabin>(`/api/storefront/catalog/cabins/${slug}`)
   return response.data
 }
 

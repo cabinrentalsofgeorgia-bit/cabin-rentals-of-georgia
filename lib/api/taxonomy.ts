@@ -84,9 +84,9 @@ export async function getTermByCategorySlug(
   slug: string
 ): Promise<TaxonomyTerm> {
   const response = await apiClient.get<TaxonomyTerm>(
-    `/api/v1/taxonomy/term/by-category-slug`,
+    `/api/storefront/catalog/taxonomy`,
     {
-      params: { category, slug },
+      params: { slug, category },
     }
   )
   return response.data
