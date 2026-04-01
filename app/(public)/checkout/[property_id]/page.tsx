@@ -35,11 +35,14 @@ interface CabinData {
   bedrooms: string | null
   bathrooms: number | null
   sleeps: number | null
+  property_type: Array<{ name: string }> | null
+  amenities: Array<{ name: string }> | null
   featured_image_url: string | null
   featured_image_alt: string | null
   featured_image_title?: string | null
   address: { city?: string; state?: string } | null
   today_rate: number | null
+  body: string | null
 }
 
 interface QuoteAddOnLine {
