@@ -41,6 +41,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'api.cabin-rentals-of-georgia.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'gallery.streamlinevrs.com',
+      },
       // Add custom R2 domain if provided
       ...(r2PublicUrl ? [{
         protocol: 'https',
