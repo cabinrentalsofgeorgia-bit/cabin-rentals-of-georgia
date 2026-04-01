@@ -248,7 +248,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
 
           {/* Right Side Content */}
           <div className='flex flex-col w-[38%] flex-shrink-0 -mt-[140px] max-[1010px]:w-[50%] max-[1010px]:-mt-[170px] max-[767px]:mt-0'>
-            <Link href={`/reservations/book/${cabin.id}`}>
+            <Link href={`/checkout/${cabin.id}?arrive=&depart=`}>
               <Image
                 src='/images/btn_instant_quote_small.png'
                 alt='Instant Quote'
@@ -257,7 +257,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
                 className='cursor-pointer p-[3px] object-contain mx-auto'
               />
             </Link>
-            <Link href={`/reservations/book/${cabin.id}`} className='text-[19px] text-center text-[#7c2c00] hover:text-[#b7714b] leading-[100%] cursor-pointer italic underline mt-[5px]'>Detailed Price</Link>
+            <Link href={`/checkout/${cabin.id}?arrive=&depart=`} className='text-[19px] text-center text-[#7c2c00] hover:text-[#b7714b] leading-[100%] cursor-pointer italic underline mt-[5px]'>Book Now</Link>
             <span className='text-[14px] mb-[10px] text-center'>Available to reserve online 24/7</span>
             <Image
               src={`https://maps.googleapis.com/maps/api/staticmap?center=${cabin.latitude},${cabin.longitude}&zoom=15&size=190x190&maptype=roadmap&markers=size:small%7Ccolor:red%7C${cabin.latitude},${cabin.longitude}&scale=2&format=png32&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyD0ozy1aDQV-n8bQBm3gMaaiyw499-zsug'}`}
