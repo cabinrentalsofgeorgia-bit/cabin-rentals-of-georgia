@@ -149,15 +149,23 @@ export default async function BlueRidgeMemoriesPage() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const term = await getTermBySlug(slug)
-  if (!term) {
+  try {
+    const term = await getTermBySlug(slug)
+    if (!term) {
+      return {
+        title: 'Blue Ridge Memories | Blue Ridge Memories',
+        description: 'Browse our complete collection of luxury cabin rentals in Blue Ridge, GA. From cozy 2-bedrooms to spacious 5-bedroom lodges, find your perfect mountain getaway.',
+      } as Metadata
+    }
+    return {
+      title: `${term.name} | Blue Ridge Memories`,
+      description: term.description,
+    } as Metadata
+  } catch (error) {
+    console.error('Error fetching Blue Ridge Memories metadata:', error)
     return {
       title: 'Blue Ridge Memories | Blue Ridge Memories',
       description: 'Browse our complete collection of luxury cabin rentals in Blue Ridge, GA. From cozy 2-bedrooms to spacious 5-bedroom lodges, find your perfect mountain getaway.',
     } as Metadata
   }
-  return {
-    title: `${term.name} | Blue Ridge Memories`,
-    description: term.description,
-  } as Metadata
 }

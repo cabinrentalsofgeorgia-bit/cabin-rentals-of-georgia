@@ -4,9 +4,17 @@ import Link from 'next/link'
 import { getAllCabins } from '@/lib/api/cabins'
 import CabinFilter from '@/components/cabin/CabinFilter'
 
+async function getHomepageCabins() {
+  try {
+    return await getAllCabins()
+  } catch (error) {
+    console.error('Error fetching homepage cabins:', error)
+    return []
+  }
+}
 
 export default async function Home() {
-  const cabins = await getAllCabins()
+  const cabins = await getHomepageCabins()
   return (
     <div className="mb-[-1px] min-h-full mt-0 relative h-auto pb-[30px] align-top py-5 px-5">
       <div className="mb-8">

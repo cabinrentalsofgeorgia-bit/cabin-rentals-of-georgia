@@ -98,15 +98,23 @@ export default async function BlueRidgeExperiencePage() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const term = await getTermBySlug(slug)
-  if (!term) {
+  try {
+    const term = await getTermBySlug(slug)
+    if (!term) {
+      return {
+        title: 'Blue Ridge Experience | Cabin Rentals of Georgia',
+        description: 'Browse our complete collection of luxury cabin rentals in Blue Ridge, GA. From cozy 2-bedrooms to spacious 5-bedroom lodges, find your perfect mountain getaway.',
+      } as Metadata
+    }
+    return {
+      title: `${term.name} Experience | Cabin Rentals of Georgia`,
+      description: term.description,
+    } as Metadata
+  } catch (error) {
+    console.error('Error fetching Blue Ridge Experience metadata:', error)
     return {
       title: 'Blue Ridge Experience | Cabin Rentals of Georgia',
       description: 'Browse our complete collection of luxury cabin rentals in Blue Ridge, GA. From cozy 2-bedrooms to spacious 5-bedroom lodges, find your perfect mountain getaway.',
     } as Metadata
   }
-  return {
-    title: `${term.name} Experience | Cabin Rentals of Georgia`,
-    description: term.description,
-  } as Metadata
 }

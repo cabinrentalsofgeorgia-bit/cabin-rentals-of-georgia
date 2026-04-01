@@ -20,13 +20,18 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
-        // Add auth token if available (only in browser)
         if (typeof window !== 'undefined') {
           const token = localStorage.getItem('token')
           if (token) {
             config.headers.Authorization = `Bearer ${token}`
           }
         }
+
+        if (process.env.CF_ACCESS_CLIENT_ID && process.env.CF_ACCESS_CLIENT_SECRET) {
+          config.headers['CF-Access-Client-Id'] = process.env.CF_ACCESS_CLIENT_ID
+          config.headers['CF-Access-Client-Secret'] = process.env.CF_ACCESS_CLIENT_SECRET
+        }
+
         return config
       },
       (error) => {
