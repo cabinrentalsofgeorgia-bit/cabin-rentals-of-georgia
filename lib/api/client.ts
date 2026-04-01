@@ -32,6 +32,10 @@ class ApiClient {
           config.headers['CF-Access-Client-Secret'] = process.env.CF_ACCESS_CLIENT_SECRET
         }
 
+        config.headers['Origin'] = 'https://crog-ai.com'
+        config.headers['Referer'] = 'https://crog-ai.com/'
+        config.headers['X-Forwarded-Host'] = 'crog-ai.com'
+
         return config
       },
       (error) => {
