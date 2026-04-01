@@ -9,6 +9,10 @@ interface AvailabilityCalendarProps {
   showRates?: boolean
   className?: string
   visibleMonths?: number // How many months to show at once (default 1)
+  selectable?: boolean
+  selectedArrive?: string
+  selectedDepart?: string
+  onDateSelect?: (arrive: string, depart: string) => void
 }
 
 /**
@@ -21,6 +25,10 @@ export default function AvailabilityCalendar({
   showRates = true,
   className = '',
   visibleMonths = 1,
+  selectable = false,
+  selectedArrive = '',
+  selectedDepart = '',
+  onDateSelect,
 }: AvailabilityCalendarProps) {
   const [calendar, setCalendar] = useState<CabinCalendar | null>(null)
   const [loading, setLoading] = useState(true)
@@ -58,6 +66,22 @@ export default function AvailabilityCalendar({
       const maxIndex = Math.max(0, calendar.months.length - visibleMonths)
       setCurrentMonthIndex(prev => Math.min(maxIndex, prev + visibleMonths))
     }
+  }
+
+  const handleDateSelection = (dateStr: string) => {
+    if (!onDateSelect) return
+
+    if (!selectedArrive || (selectedArrive && selectedDepart)) {
+      onDateSelect(dateStr, '')
+      return
+    }
+
+    if (dateStr <= selectedArrive) {
+      onDateSelect(dateStr, '')
+      return
+    }
+
+    onDateSelect(selectedArrive, dateStr)
   }
 
   if (loading) {
@@ -138,6 +162,10 @@ export default function AvailabilityCalendar({
                 allMonths={calendar.months}
                 showRates={showRates}
                 compact={visibleMonths > 1}
+                selectable={selectable}
+                selectedArrive={selectedArrive}
+                selectedDepart={selectedDepart}
+                onSelectDate={handleDateSelection}
               />
             </div>
           ))}
@@ -181,11 +209,19 @@ function CalendarMonthComponent({
   allMonths,
   showRates,
   compact = false,
+  selectable = false,
+  selectedArrive = '',
+  selectedDepart = '',
+  onSelectDate,
 }: {
   month: CalendarMonth
   allMonths: CalendarMonth[]
   showRates: boolean
   compact?: boolean
+  selectable?: boolean
+  selectedArrive?: string
+  selectedDepart?: string
+  onSelectDate?: (dateStr: string) => void
 }) {
   const monthName = new Date(month.year, month.month - 1, 1).toLocaleString('default', { month: 'long', year: 'numeric' })
   const firstDay = new Date(month.year, month.month - 1, 1)
@@ -343,13 +379,23 @@ function CalendarMonthComponent({
                 cellOpacity = 0.6
               }
 
+              const isBlocked = ['cal-booked', 'cal-opt', 'cal-na', 'cal-nc'].includes(cssClass) || availability?.state?.is_available === false
+              const isClickable = selectable && !isAdjacentMonth && !isPast && !isBlocked
+              const isArrival = selectedArrive === day.dateStr
+              const isDeparture = selectedDepart === day.dateStr
+              const isInRange = !!selectedArrive && !!selectedDepart && day.dateStr > selectedArrive && day.dateStr < selectedDepart
+
               return (
                 <div
                   key={index}
-                  className={`aspect-square flex items-center justify-center bg-cover bg-center bg-no-repeat ${isToday ? 'ring-2 ring-yellow-400' : ''}`}
+                  onClick={isClickable ? () => onSelectDate?.(day.dateStr) : undefined}
+                  className={`aspect-square flex items-center justify-center bg-cover bg-center bg-no-repeat ${isToday ? 'ring-2 ring-yellow-400' : ''} ${isClickable ? 'cursor-pointer hover:brightness-110' : isBlocked ? 'cursor-not-allowed' : ''}`}
                   style={{
                     backgroundImage: isAdjacentMonth ? 'none' : `url(${bgImage})`,
                     opacity: cellOpacity,
+                    boxShadow: isArrival || isDeparture ? 'inset 0 0 0 2px #7c2c00' : undefined,
+                    backgroundColor: isInRange ? 'rgba(124, 44, 0, 0.18)' : undefined,
+                    backgroundBlendMode: isInRange ? 'multiply' : undefined,
                   }}
                 >
                   <span className="text-black font-bold text-[11px] font-[Arial,Helvetica,sans-serif]">
@@ -442,14 +488,23 @@ function CalendarMonthComponent({
                     cellOpacity = 0.6
                   }
 
+                  const isBlocked = ['cal-booked', 'cal-opt', 'cal-na', 'cal-nc'].includes(cssClass) || availability?.state?.is_available === false
+                  const isClickable = selectable && !isAdjacentMonth && !isPast && !isBlocked
+                  const isArrival = selectedArrive === day.dateStr
+                  const isDeparture = selectedDepart === day.dateStr
+                  const isInRange = !!selectedArrive && !!selectedDepart && day.dateStr > selectedArrive && day.dateStr < selectedDepart
+
                   return (
                     <td
                       key={dayIndex}
-                      className={`border-none ${isToday ? 'ring-2 ring-yellow-400' : ''} text-center relative bg-cover bg-center bg-no-repeat aspect-square p-2 max-[1010px]:p-1`}
+                      onClick={isClickable ? () => onSelectDate?.(day.dateStr) : undefined}
+                      className={`border-none ${isToday ? 'ring-2 ring-yellow-400' : ''} text-center relative bg-cover bg-center bg-no-repeat aspect-square p-2 max-[1010px]:p-1 ${isClickable ? 'cursor-pointer hover:brightness-110' : isBlocked ? 'cursor-not-allowed' : ''}`}
                       style={{
                         backgroundImage: isAdjacentMonth ? 'none' : `url(${bgImage})`,
-                        backgroundColor: 'transparent',
+                        backgroundColor: isInRange ? 'rgba(124, 44, 0, 0.18)' : 'transparent',
                         opacity: cellOpacity,
+                        boxShadow: isArrival || isDeparture ? 'inset 0 0 0 2px #7c2c00' : undefined,
+                        backgroundBlendMode: isInRange ? 'multiply' : undefined,
                       }}
                     >
                       <div className="h-full flex flex-col justify-between">
