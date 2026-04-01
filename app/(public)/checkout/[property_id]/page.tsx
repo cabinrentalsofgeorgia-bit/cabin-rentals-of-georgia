@@ -72,7 +72,7 @@ interface QuoteResponse {
   total_cents: number
 }
 
-function PaymentSection({ clientSecret, onSubmitSuccess }: { clientSecret: string; onSubmitSuccess: () => void }) {
+function PaymentSection({ onSubmitSuccess }: { onSubmitSuccess: () => void }) {
   const stripe = useStripe()
   const elements = useElements()
   const [error, setError] = useState<string | null>(null)
