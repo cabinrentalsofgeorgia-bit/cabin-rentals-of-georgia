@@ -122,31 +122,16 @@ export async function updateCabinStatus(
  * @returns Cabin data
  */
 export async function getCabinBySlug(slug: string): Promise<Cabin> {
-  // URL encode the slug to handle special characters and slashes in path parameters
-  // FastAPI will automatically decode it back on the backend
   const encodedSlug = encodeURIComponent(slug)
-  
-  // First try by cabin_slug (original Drupal URL alias)
-  // This handles URLs like 'cherry-log/creekside-green' stored in cabin_slug field
-  try {
-    const response = await apiClient.get<Cabin>(`/api/v1/cabins/cabin-slug/${encodedSlug}`)
-    return response.data
-  } catch (error: any) {
-    // If not found by cabin_slug, try by slug field
-    // This handles URLs like 'happy-ours-lodge' stored in slug field
-    // if (error?.response?.status === 404) {
-    //   const response = await apiClient.get<Cabin>(`/api/v1/cabins/slug/${encodedSlug}`)
-    //   return response.data
-    // }
-    throw error
-  }
+  const response = await apiClient.get<Cabin>(`/api/storefront/catalog/cabins/${encodedSlug}`)
+  return response.data
 }
 
 /**
- * Fetch a single cabin by ID
+ * Fetch a single cabin by ID (or slug)
  */
 export async function getCabinById(id: string): Promise<Cabin> {
-  const response = await apiClient.get<Cabin>(`/api/v1/cabins/${id}`)
+  const response = await apiClient.get<Cabin>(`/api/storefront/catalog/cabins/${encodeURIComponent(id)}`)
   return response.data
 }
 
