@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import { getAllCabins } from '@/lib/api/cabins'
 import CabinFilter from '@/components/cabin/CabinFilter'
