@@ -18,7 +18,7 @@ export interface PropertyListParams {
  * Returns all matching cabins (no pagination)
  */
 export async function getProperties(params?: PropertyListParams): Promise<Property[]> {
-  const response = await apiClient.get<PropertyListResponse>('/api/v1/cabins/get-cabins-by-term-id', {
+  const response = await apiClient.get<PropertyListResponse>('/api/storefront/catalog/cabins', {
     params,
   })
   return response.data.properties

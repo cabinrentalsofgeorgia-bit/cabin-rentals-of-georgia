@@ -2,8 +2,9 @@
  * Calendar API functions
  */
 
-// Remove trailing slash from API URL to prevent double slashes
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/+$/, '')
+const DIRECT_API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/+$/, '')
+const IS_BROWSER = typeof window !== 'undefined'
+const API_URL = IS_BROWSER ? '/api/proxy' : DIRECT_API_URL
 
 export interface CabinAvailabilityCheck {
   cabin_id: string

@@ -3,7 +3,9 @@
  */
 import axios, { AxiosInstance, AxiosError } from 'axios'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const DIRECT_API_URL = process.env.NEXT_PUBLIC_API_URL
+const IS_BROWSER = typeof window !== 'undefined'
+const API_URL = IS_BROWSER ? '/api/proxy' : DIRECT_API_URL
 
 class ApiClient {
   private client: AxiosInstance
@@ -14,7 +16,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
-      timeout: 60000, // Increased to 60 seconds for calendar queries
+      timeout: 60000,
     })
 
     // Request interceptor
