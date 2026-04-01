@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { amenityIcons } from '@/lib/constants/amenity-icons'
 import AvailabilityCalendar from '@/components/cabin/AvailabilityCalendar'
 import BookingForm from '@/components/booking/BookingForm'
+import StreamlineBookingFrame from '@/components/booking/StreamlineBookingFrame'
 
 interface PageProps {
     params: {
@@ -117,15 +118,21 @@ export default async function BookingPage({ params }: PageProps) {
                 />
             </div>
 
-            <div className="w-full lg:w-[280px] flex-shrink-0">
-                <BookingForm
-                    cabinId={cabin.id}
-                    maxOccupancy={cabin.sleeps || 16}
-                    petFriendly={cabin.amenities?.some((a: any) =>
-                        a.name.toLowerCase().includes('pet')
-                    ) ?? false}
-                />
-            </div>
+            {cabin.streamline_id ? (
+                <div className="w-full mt-8">
+                    <StreamlineBookingFrame propertyId={cabin.streamline_id} />
+                </div>
+            ) : (
+                <div className="w-full lg:w-[280px] flex-shrink-0">
+                    <BookingForm
+                        cabinId={cabin.id}
+                        maxOccupancy={cabin.sleeps || 16}
+                        petFriendly={cabin.amenities?.some((a: any) =>
+                            a.name.toLowerCase().includes('pet')
+                        ) ?? false}
+                    />
+                </div>
+            )}
         </div>
     )
 }
