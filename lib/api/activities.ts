@@ -58,7 +58,7 @@ export interface ActivityListParams {
  * Fetch all activities without pagination and filtering
  */
 export async function getAllActivities(): Promise<Activity[]> {
-  const response = await apiClient.get<Activity[]>('/api/v1/activities/getAllActivities')
+  const response = await apiClient.get<Activity[]>('/api/storefront/catalog/activities')
   return response.data
 }
 

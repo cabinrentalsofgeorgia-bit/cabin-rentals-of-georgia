@@ -48,7 +48,7 @@ export interface TestimonialListParams {
  * Fetch all testimonials with optional filters
  */
 export async function getTestimonials(params?: TestimonialListParams): Promise<TestimonialListResponse> {
-  const response = await apiClient.get<TestimonialListResponse>('/api/v1/testimonials', {
+  const response = await apiClient.get<TestimonialListResponse>('/api/storefront/catalog/testimonials', {
     params,
   })
   return response.data

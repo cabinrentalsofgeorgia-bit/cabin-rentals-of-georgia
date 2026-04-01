@@ -162,7 +162,7 @@ export interface PropertyListParams {
 }
 
 export async function getAllCabins(): Promise<Property[]> {
-  const response = await apiClient.get<PropertyListResponse>('/api/v1/cabins/getAllCabins')
+  const response = await apiClient.get<PropertyListResponse>('/api/storefront/catalog/cabins')
   return response.data.properties
 }
 

@@ -97,7 +97,7 @@ export async function getTermBySlug(
   vid?: number
 ): Promise<TaxonomyTerm> {
   const response = await apiClient.get<TaxonomyTerm>(
-    `/api/v1/taxonomy/term/by-slug`,
+    `/api/storefront/catalog/taxonomy`,
     {
       params: { slug, ...(vid && { vid }) },
     }

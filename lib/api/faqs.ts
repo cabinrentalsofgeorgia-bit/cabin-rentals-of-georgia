@@ -41,7 +41,7 @@ export interface FAQListParams {
  * Fetch all FAQs with optional filters
  */
 export async function getFAQs(params?: FAQListParams): Promise<FAQListResponse> {
-  const response = await apiClient.get<FAQListResponse>('/api/v1/faqs', {
+  const response = await apiClient.get<FAQListResponse>('/api/storefront/catalog/faqs', {
     params,
   })
   return response.data
