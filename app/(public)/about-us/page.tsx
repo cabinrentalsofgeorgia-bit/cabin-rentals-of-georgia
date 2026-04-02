@@ -32,10 +32,10 @@ async function AboutUsContent() {
             {aboutUs.body ? (
               <ProcessedHTML
                 html={cleanHtmlContent(aboutUs.body)}
-                className="prose prose-lg mx-auto mb-8 block"
+                className="prose prose-legacy mx-auto mb-8 block"
               />
             ) : (
-              <div className="prose prose-lg mx-auto mb-8">
+              <div className="prose prose-legacy mx-auto mb-8">
                 <p className="text-lg text-gray-700 mb-6">
                   Welcome to Cabin Rentals of Georgia, your premier destination for luxury cabin rentals 
                   in the beautiful North Georgia mountains. We specialize in providing exceptional vacation 
@@ -48,7 +48,7 @@ async function AboutUsContent() {
           <>
             <h1 className="text-4xl font-bold mb-8">About Cabin Rentals of Georgia</h1>
             
-            <div className="prose prose-lg mx-auto mb-8">
+            <div className="prose prose-legacy mx-auto mb-8">
               <p className="text-lg text-gray-700 mb-6">
                 Welcome to Cabin Rentals of Georgia, your premier destination for luxury cabin rentals 
                 in the beautiful North Georgia mountains. We specialize in providing exceptional vacation 

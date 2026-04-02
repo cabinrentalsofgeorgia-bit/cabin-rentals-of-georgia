@@ -139,10 +139,10 @@ async function BlogPostContent({ params }: PageProps) {
           {blog.body ? (
             <ProcessedHTML
               html={stripLegacyHtml(blog.body)}
-              className="prose prose-lg max-w-none mb-8 block"
+              className="prose prose-legacy max-w-none mb-8 block"
             />
           ) : (
-            <div className="prose prose-lg max-w-none mb-8">
+            <div className="prose prose-legacy max-w-none mb-8">
               <p className="text-gray-700">
                 No content available for this blog post.
               </p>

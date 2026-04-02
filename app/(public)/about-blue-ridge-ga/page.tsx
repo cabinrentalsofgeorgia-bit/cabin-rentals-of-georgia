@@ -20,7 +20,7 @@ async function AboutBlueRidgeGAContent() {
         </h1>
         <ProcessedHTML
           html={cleanHtmlContent(body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-          className="prose prose-lg max-w-none text-[#533e27] mb-8 "
+          className="prose prose-legacy max-w-none text-[#533e27] mb-8 "
         />
       </div>
     )

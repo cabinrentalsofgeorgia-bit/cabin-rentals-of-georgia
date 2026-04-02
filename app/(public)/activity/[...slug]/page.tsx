@@ -96,7 +96,7 @@ async function ActivityContent({ slug }: { slug: string[] }) {
             {cleanBody && (
               <ProcessedHTML
                 html={cleanBody}
-                className="prose prose-lg max-w-none text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00]"
+                className="prose prose-legacy max-w-none"
               />
             )}
           </div>
@@ -106,7 +106,7 @@ async function ActivityContent({ slug }: { slug: string[] }) {
             {activity.address && (
               <ProcessedHTML
                 html={stripLegacyHtml(activity.address)}
-                className="prose prose-lg mx-auto mb-8 block"
+                className="prose prose-legacy mx-auto mb-8 block"
               />
             )}
           </div>

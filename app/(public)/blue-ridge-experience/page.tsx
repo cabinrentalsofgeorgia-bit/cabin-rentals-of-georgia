@@ -23,7 +23,7 @@ async function BlueRidgeExperienceContent() {
         <h1 className="text-4xl mb-8">{title}</h1>
         <ProcessedHTML
           html={term.description?.replaceAll("https://www.cabin-rentals-of-georgia.com", "") || 'No description available'}
-          className="prose prose-lg mx-auto mb-8 "
+          className="prose prose-legacy mx-auto mb-8 "
         />
         <div className="grid grid-cols-1 max-[767px]:grid-cols-1 md:grid-cols-2 gap-6">
           {activities.map((activity) => (

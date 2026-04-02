@@ -32,7 +32,7 @@ async function RentalPoliciesContent() {
             {policy.body ? (
               <ProcessedHTML
                 html={cleanHtmlContent(policy.body)}
-                className="prose prose-lg mx-auto mb-8 block"
+                className="prose prose-legacy mx-auto mb-8 block"
               />
             ) : (
               <div className="space-y-6">

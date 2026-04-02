@@ -55,7 +55,7 @@ async function ActivitiesContent({ slug }: { slug: string }) {
         <h1 >{title}</h1>
         <ProcessedHTML
           html={term.description?.replaceAll("https://www.cabin-rentals-of-georgia.com", "") || 'No description available'}
-          className="prose prose-lg mx-auto mb-8"
+          className="prose prose-legacy mx-auto mb-8"
         />
 
         {activitiesData.activities.length === 0 ? (

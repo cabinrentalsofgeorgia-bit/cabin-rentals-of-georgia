@@ -42,7 +42,7 @@ async function BlueRidgeMemoriesContent() {
         </h1>
         <ProcessedHTML
           html={term.description?.replaceAll("https://www.cabin-rentals-of-georgia.com", "") || 'No description available'}
-          className="prose prose-lg mx-auto mb-8 "
+          className="prose prose-legacy mx-auto mb-8 "
         />
         <div className="flex flex-col">
           {testimonials.length === 0 ? (

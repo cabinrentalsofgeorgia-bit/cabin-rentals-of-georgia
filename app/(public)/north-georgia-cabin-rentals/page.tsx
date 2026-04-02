@@ -23,7 +23,7 @@ async function NorthGeorgiaCabinRentalsContent() {
         {body ? (
           <ProcessedHTML
             html={cleanHtmlContent(body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-            className="prose prose-lg max-w-none text-[#533e27] mb-8"
+            className="prose prose-legacy max-w-none text-[#533e27] mb-8"
           />
         ) : (
           <div className="text-[#533e27] text-lg py-6">
