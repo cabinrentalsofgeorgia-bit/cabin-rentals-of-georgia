@@ -5,28 +5,28 @@ import { getActivityByActivitySlug } from '@/lib/api/activities'
 import PageLoading from '@/components/ui/PageLoading'
 import Image from 'next/image'
 import Link from 'next/link'
-import { cleanHtmlContent } from '@/lib/utils/html-utils'
+import { stripLegacyHtml, stripHtmlTags } from '@/lib/utils/html-utils'
 import ProcessedHTML from '@/components/content/ProcessedHTML'
 import SocialShare from '@/components/ui/SocialShare'
+import LikeSaveButton from '@/components/cabin/LikeSaveButton'
 
 interface PageProps {
   params: {
-    slug: string[] // This will capture all segments after /activity/
+    slug: string[]
   }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params
-  const slugString = slug.join('/') // Joins ['hiking', 'bell-mountain'] into 'hiking/bell-mountain'
+  const slugString = slug.join('/')
 
   try {
     const activity = await getActivityByActivitySlug(slugString)
+    const plainBody = stripHtmlTags(stripLegacyHtml(activity.body || ''))
 
     return {
       title: `${activity.title} | Activities | Cabin Rentals of Georgia`,
-      description: activity.body_summary
-        ? activity.body_summary.replace(/<[^>]*>/g, '').substring(0, 160)
-        : `Learn more about ${activity.title} in Blue Ridge, GA.`,
+      description: plainBody.substring(0, 160) || `Learn more about ${activity.title} in Blue Ridge, GA.`,
     }
   } catch (error) {
     return {
@@ -37,9 +37,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function ActivityContent({ slug }: { slug: string[] }) {
-  const slugString = slug.join('/') // Joins ['hiking', 'bell-mountain'] into 'hiking/bell-mountain'
+  const slugString = slug.join('/')
 
-  // Get the current URL for social sharing
   const headersList = await headers()
   const host = headersList.get('host') || 'www.cabin-rentals-of-georgia.com'
   const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
@@ -47,6 +46,7 @@ async function ActivityContent({ slug }: { slug: string[] }) {
 
   try {
     const activity = await getActivityByActivitySlug(slugString)
+    const cleanBody = stripLegacyHtml(activity.body || '')
 
     return (
       <div className="mb-[-1px] min-h-full mt-0 relative h-auto pb-[30px] align-top py-5 px-5 block">
@@ -66,55 +66,53 @@ async function ActivityContent({ slug }: { slug: string[] }) {
 
         {/* Header Section */}
         <div className="mb-1 bg-[url('/images/cabin_separator.png')] bg-[center_bottom] bg-no-repeat pb-[5px]">
-          {/* Title - Cursive brown font */}
-          <h1 className="italic text-[#7c2c00] !mb-[2px]">
-            {activity.title}
-          </h1>
-
-          {/* Family Fun and Location Text */}
-          <div className="flex flex-col italic text-[110%] leading-[120%]">
-            <span className="text-[#533e27]">Family Fun</span>
-            <span className="text-[#533e27]">Located in Blue Ridge</span>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="italic text-[#7c2c00] !mb-[2px]">
+                {activity.title}
+              </h1>
+              <div className="flex flex-col italic text-[110%] leading-[120%]">
+                {activity.activity_type && (
+                  <span className="text-[#533e27]">{activity.activity_type}</span>
+                )}
+                <span className="text-[#533e27]">Located in Blue Ridge</span>
+              </div>
+            </div>
+            <LikeSaveButton cabinId={activity.id} cabinTitle={activity.title} className="mt-[10px] max-[767px]:hidden" />
           </div>
 
-          {/* Social Media Buttons */}
           <SocialShare
             url={currentUrl}
             title={activity.title}
-            description={activity.body_summary ? activity.body_summary.replace(/<[^>]*>/g, '').substring(0, 160) : undefined}
+            description={stripHtmlTags(cleanBody).substring(0, 160) || undefined}
             image={activity.featured_image_url || undefined}
           />
         </div>
 
-        {/* <Link
-          href="/blue-ridge-experience"
-          className="text-[#7c2c00] underline hover:text-[#b7714b] mb-4 block"
-        >
-          View map of all activities
-        </Link> */}
         {/* Two-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-[62%_38%] gap-8 mb-8">
-          {/* Left Column - Description */}
+          {/* Left Column - Article Content */}
           <div>
-            {activity.body && (
+            {cleanBody && (
               <ProcessedHTML
-                html={cleanHtmlContent(activity.body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-                className="prose prose-lg max-w-none text-[#533e27]"
+                html={cleanBody}
+                className="prose prose-lg max-w-none text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00]"
               />
             )}
           </div>
 
+          {/* Right Column - Address/Info */}
           <div className="space-y-3 text-[#533e27]">
             {activity.address && (
               <ProcessedHTML
-                html={cleanHtmlContent(activity.address)}
+                html={stripLegacyHtml(activity.address)}
                 className="prose prose-lg mx-auto mb-8 block"
               />
             )}
           </div>
         </div>
 
-        {/* Location Map (if coordinates available) */}
+        {/* Location Map */}
         {activity.latitude && activity.longitude && (
           <div className="mt-8">
             <h2 className="font-semibold text-[#7c2c00] mb-4">Location</h2>
@@ -143,6 +141,39 @@ async function ActivityContent({ slug }: { slug: string[] }) {
             )}
           </div>
         )}
+
+        {/* Cross-sell / Specials */}
+        <div className="mb-8 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-[10px]">
+            <Link
+              href="/specials"
+              className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="p-[15px] bg-[#faf6ef]">
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Specials!</h4>
+                <p className="text-[#533e27] text-[13px]">Check out Special Offers on Blue Ridge Luxury Cabin Rentals</p>
+              </div>
+            </Link>
+            <Link
+              href="/blue-ridge-experience"
+              className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="p-[15px] bg-[#faf6ef]">
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">The Blue Ridge Experience</h4>
+                <p className="text-[#533e27] text-[13px]">Discover outdoor adventures, dining, and family fun in the North Georgia mountains</p>
+              </div>
+            </Link>
+            <Link
+              href="/blue-ridge-cabins"
+              className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="p-[15px] bg-[#faf6ef]">
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Browse All Cabins</h4>
+                <p className="text-[#533e27] text-[13px]">Find your perfect Blue Ridge mountain getaway</p>
+              </div>
+            </Link>
+          </div>
+        </div>
       </div>
     )
   } catch (error: any) {
@@ -175,4 +206,3 @@ export default async function ActivityPage({ params }: PageProps) {
     </Suspense>
   )
 }
-

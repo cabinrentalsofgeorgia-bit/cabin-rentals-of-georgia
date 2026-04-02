@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { Blog, getBlogBySlug } from '@/lib/api/blogs'
-import { cleanHtmlContent, stripHtmlTags } from '@/lib/utils/html-utils'
+import { stripLegacyHtml, stripHtmlTags } from '@/lib/utils/html-utils'
 import PageLoading from '@/components/ui/PageLoading'
 import Link from 'next/link'
 import ProcessedHTML from '@/components/content/ProcessedHTML'
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const metaTitle = blog.title
     const metaDescription = blog.body 
-      ? stripHtmlTags(blog.body).substring(0, 160) 
+      ? stripHtmlTags(stripLegacyHtml(blog.body)).substring(0, 160) 
       : `Read ${blog.title} on Cabin Rentals of Georgia`
 
     return {
@@ -138,7 +138,7 @@ async function BlogPostContent({ params }: PageProps) {
           {/* Blog body */}
           {blog.body ? (
             <ProcessedHTML
-              html={cleanHtmlContent(blog.body)}
+              html={stripLegacyHtml(blog.body)}
               className="prose prose-lg max-w-none mb-8 block"
             />
           ) : (
