@@ -45,31 +45,29 @@ interface CabinData {
   body: string | null
 }
 
-interface QuoteAddOnLine {
+interface LedgerLineItem {
   id: string
   name: string
   amount: number
-  pricing_model: string
+  is_taxable: boolean
+  type: 'rent' | 'fee' | 'addon' | 'tax' | 'deposit' | 'discount'
 }
 
-interface QuoteNightlyRate {
-  date: string
-  rate: number
+interface LedgerSummary {
+  taxable_subtotal: number
+  tax_amount: number
+  non_taxable_subtotal: number
+  grand_total: number
 }
 
 interface QuoteResponse {
+  property_id: string
   property_name: string
   nights: number
-  nightly_rates: QuoteNightlyRate[]
-  base_rent: number
-  cleaning_fee: number
-  addons: QuoteAddOnLine[]
-  addons_total: number
-  subtotal: number
-  tax_rate: number
-  tax_amount: number
-  total: number
-  total_cents: number
+  line_items: LedgerLineItem[]
+  summary: LedgerSummary
+  is_bookable: boolean
+  currency: string
 }
 
 function PaymentSection({ onSubmitSuccess }: { onSubmitSuccess: () => void }) {
@@ -248,7 +246,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
           children: form.children,
           pets: form.pets,
           selected_add_on_ids: selectedAddOnIds,
-          total_cents: quote.total_cents,
+          total_cents: Math.round(quote.summary.grand_total * 100),
           first_name: form.first_name,
           last_name: form.last_name,
           email: form.email,
@@ -382,28 +380,74 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
               <p className="text-[#533e27] italic text-sm">Calculating your getaway...</p>
             ) : quote ? (
               <div className="space-y-3 text-[#533e27] text-sm">
-                <div className="space-y-1">
-                  {quote.nightly_rates.map((item) => (
-                    <div key={item.date} className="flex justify-between">
-                      <span>{item.date}</span>
-                      <span>${item.rate.toFixed(2)}</span>
+                {/* Lodging & Fees */}
+                {(() => {
+                  const lodgingItems = quote.line_items.filter((i) => i.type === 'rent' || i.type === 'fee' || i.type === 'discount')
+                  return lodgingItems.length > 0 ? (
+                    <div className="space-y-1">
+                      <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Lodging &amp; Fees</p>
+                      {lodgingItems.map((item) => (
+                        <div key={item.id} className="flex justify-between">
+                          <span>{item.name}</span>
+                          <span className={item.amount < 0 ? 'text-green-700' : ''}>{item.amount < 0 ? '-' : ''}${Math.abs(item.amount).toFixed(2)}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
-                  <div className="flex justify-between"><span>Base Rent</span><span>${quote.base_rent.toFixed(2)}</span></div>
-                  <div className="flex justify-between"><span>Cleaning Fee</span><span>${quote.cleaning_fee.toFixed(2)}</span></div>
-                  {quote.addons.map((addon) => (
-                    <div key={addon.id} className="flex justify-between">
-                      <span>{addon.name}</span><span>${addon.amount.toFixed(2)}</span>
+                  ) : null
+                })()}
+
+                {/* Add-Ons */}
+                {(() => {
+                  const addonItems = quote.line_items.filter((i) => i.type === 'addon')
+                  return addonItems.length > 0 ? (
+                    <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
+                      <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Add-Ons</p>
+                      {addonItems.map((item) => (
+                        <div key={item.id} className="flex justify-between">
+                          <span>{item.name}</span>
+                          <span>${item.amount.toFixed(2)}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                  {quote.addons_total > 0 ? <div className="flex justify-between"><span>Add-Ons Total</span><span>${quote.addons_total.toFixed(2)}</span></div> : null}
-                  <div className="flex justify-between"><span>Tax ({Math.round(quote.tax_rate * 100)}%)</span><span>${quote.tax_amount.toFixed(2)}</span></div>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-[#d4c4a8] text-lg font-bold text-[#7c2c00]">
+                  ) : null
+                })()}
+
+                {/* Taxes */}
+                {(() => {
+                  const taxItems = quote.line_items.filter((i) => i.type === 'tax')
+                  return taxItems.length > 0 ? (
+                    <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
+                      <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Taxes</p>
+                      {taxItems.map((item) => (
+                        <div key={item.id} className="flex justify-between">
+                          <span>{item.name}</span>
+                          <span>${item.amount.toFixed(2)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null
+                })()}
+
+                {/* Security Deposits */}
+                {(() => {
+                  const depositItems = quote.line_items.filter((i) => i.type === 'deposit')
+                  return depositItems.length > 0 ? (
+                    <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
+                      <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Security Deposits</p>
+                      {depositItems.map((item) => (
+                        <div key={item.id} className="flex justify-between">
+                          <span>{item.name}</span>
+                          <span>${item.amount.toFixed(2)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null
+                })()}
+
+                {/* Grand Total */}
+                <div className="flex justify-between pt-2 border-t-2 border-[#d4c4a8] text-lg font-bold text-[#7c2c00]">
                   <span>Total</span>
-                  <span>${quote.total.toFixed(2)}</span>
+                  <span>${quote.summary.grand_total.toFixed(2)}</span>
                 </div>
               </div>
             ) : quoteError ? (
