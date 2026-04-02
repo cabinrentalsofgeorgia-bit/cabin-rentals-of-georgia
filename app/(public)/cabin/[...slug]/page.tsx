@@ -6,11 +6,14 @@ import { cleanHtmlContent, stripHtmlTags } from '@/lib/utils/html-utils'
 import PageLoading from '@/components/ui/PageLoading'
 import Image from 'next/image'
 import Link from 'next/link'
-import { amenityIcons } from '@/lib/constants/amenity-icons'
+import AmenityStrip from '@/components/cabin/AmenityStrip'
 import CabinGallery from '@/components/cabin/CabinGallery'
+import HeroImage from '@/components/cabin/HeroImage'
 import ProcessedHTML from '@/components/content/ProcessedHTML'
 import YouTubeVideoEmbed from '@/components/cabin/YouTubeVideoEmbed'
 import AvailabilityCalendar from '@/components/cabin/AvailabilityCalendar'
+import AmenityMatrix from '@/components/cabin/AmenityMatrix'
+import LikeSaveButton from '@/components/cabin/LikeSaveButton'
 
 interface PageProps {
   params: {
@@ -68,13 +71,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-// Create a component for the cabin body
 const CabinBody = ({ cabin, className }: { cabin: Cabin, className: string }) => {
   return (
     cabin.body && (
       <ProcessedHTML
         html={cleanHtmlContent(cabin.body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-        className={className}
+        className={`prose prose-stone max-w-none prose-p:text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00] prose-li:text-[#533e27] prose-strong:text-[#533e27] ${className}`}
       />
     )
   )
@@ -96,39 +98,22 @@ const PropertyFeatures = ({ cabin, className }: { cabin: Cabin, className: strin
 
 
 const RatesContent = ({ cabin }: { cabin: Cabin }) => {
+  if (!cabin.rates_description) return null
+  const html = cleanHtmlContent(cabin.rates_description)
+  const hasHtmlTags = /<[a-z][\s\S]*>/i.test(html)
   return (
     <div className='flex flex-col p-[30px_15px_20px_15px] bg-[url("/images/cabin_separator.png")] bg-[center_top] bg-no-repeat'>
       <span className='text-[130%]'>Rates</span>
-      <p className="text-[#533e27] text-[100%] max-[1010px]:text-[115%] leading-[100%]">
-        {(() => {
-          const text = cabin.rates_description;
-          // Split by double newline or look for the pattern where second paragraph starts
-          const parts = text?.split(/\n\n+/);
-          if (parts?.length && parts?.length >= 2) {
-            // If split by double newline, join with <br><br>
-            return (
-              <>
-                {parts?.[0]}
-                <br /><br />
-                {parts?.slice(1).join('\n\n')}
-              </>
-            );
-          }
-          // Fallback: try to split by "Please contact us" pattern
-          const contactIndex = text?.indexOf('Please contact us');
-          if (contactIndex && contactIndex > 0) {
-            return (
-              <>
-                {text?.substring(0, contactIndex).trim()}
-                <br /><br />
-                {text?.substring(contactIndex).trim()}
-              </>
-            );
-          }
-          // If no clear split, just render as is
-          return text?.trim();
-        })()}
-      </p>
+      {hasHtmlTags ? (
+        <ProcessedHTML
+          html={html}
+          className="prose prose-stone max-w-none prose-p:text-[#533e27] prose-a:text-[#7c2c00] text-[100%] max-[1010px]:text-[115%]"
+        />
+      ) : (
+        <p className="text-[#533e27] text-[100%] max-[1010px]:text-[115%] leading-[140%] whitespace-pre-line">
+          {cabin.rates_description.trim()}
+        </p>
+      )}
     </div>
   )
 }
@@ -153,23 +138,19 @@ async function CabinContent({ slug }: { slug: string[] }) {
       notFound()
     }
 
+    const galleryImages = cabin.gallery_images || []
+    const cabinInfo = `${cabin.bedrooms || ''}, ${cabin.bathrooms || ''}${cabin.sleeps ? ` ~ Sleeps ${cabin.sleeps}` : ''}`
+
     return (
       <div className="mb-[-1px] min-h-full mt-0 relative h-auto pb-[30px] align-top py-5 px-5 block">
         {/* Featured Image */}
         {cabin.featured_image_url && (
-          <div className="mb-1 relative text-white leading-[23px]">
-            <Image
-              src={cabin.featured_image_url.replace("/sites/default/files/", "/images/styles/cabin_featured_main2/public/")}
-              alt={cabin.featured_image_alt || cabin.title}
-              title={cabin.featured_image_title || undefined}
-              width={800}
-              height={600}
-              className="w-full h-auto p-[3px]"
-              priority
-              style={{ boxShadow: '0 0 10px #333' }}
-            />
-            <span className='absolute bottom-[10px] right-[20px] text-[140%]'>+<i>{cabin.gallery_images?.length}</i><br />Photos</span>
-          </div>
+          <HeroImage
+            src={cabin.featured_image_url}
+            alt={cabin.featured_image_alt || cabin.title}
+            title={cabin.featured_image_title || undefined}
+            photoCount={galleryImages.length}
+          />
         )}
 
         <div className='flex items-start justify-between pl-[20px] max-[767px]:justify-center'>
@@ -183,7 +164,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
               {cabin.address?.state}
             </span>
           </h1>
-          <button className="bg-[url('/images/icon_save_favorite5.png')] bg-center bg-no-repeat mt-[10px] w-[100px] h-[30px] text-white text-[110%] max-[767px]:hidden" />
+          <LikeSaveButton cabinId={cabin.id} cabinTitle={cabin.title} className="mt-[10px] max-[767px]:hidden" />
         </div>
 
         <div className='flex flex-col gap-[5px] p-[0px_0px_20px_20px] bg-[url("/images/cabin_separator.png")] bg-[center_bottom] bg-no-repeat max-[1010px]:w-[53%] max-[767px]:w-[100%] max-[767px]:text-center'>
@@ -217,19 +198,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
 
           {/* Amenities */}
           {cabin.amenities && cabin.amenities.length > 0 && (
-            <div className="flex flex-wrap gap-[5px] mt-[5px] items-center max-[767px]:justify-center">
-              {cabin.amenities.map((amenity: any, index: number) => (
-                <Image
-                  key={amenity.name}
-                  src={amenityIcons[amenity.name] || '/images/icon_internet_0.png'}
-                  alt={amenity.name}
-                  title={amenity.name}
-                  width={24}
-                  height={24}
-                  className='cursor-pointer'
-                />
-              ))}
-            </div>
+            <AmenityStrip amenities={cabin.amenities} />
           )}
         </div>
 
@@ -289,6 +258,16 @@ async function CabinContent({ slug }: { slug: string[] }) {
           />
         </div>
 
+        {/* Amenity Matrix */}
+        {cabin.amenity_matrix && Object.keys(cabin.amenity_matrix).length > 0 && (
+          <div className="mb-8">
+            <h3 className="text-[130%] mb-4 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat mt-0 p-[35px_0px_5px] text-[#533e27]">
+              Amenities & Features
+            </h3>
+            <AmenityMatrix matrix={cabin.amenity_matrix} />
+          </div>
+        )}
+
         {/* Availability Calendar */}
         <div className="mb-8">
           <h3 className="text-[130%] mb-4 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat mt-0 p-[35px_0px_5px] text-[#533e27]">
@@ -336,11 +315,11 @@ async function CabinContent({ slug }: { slug: string[] }) {
         )}
 
         {/* Gallery Images */}
-        {cabin.gallery_images && cabin.gallery_images.length > 0 && (
+        {galleryImages.length > 0 && (
           <CabinGallery
-            images={cabin.gallery_images}
+            images={galleryImages}
             cabinTitle={cabin.title}
-            cabinInfo={`${cabin.bedrooms || ''}, ${cabin.bathrooms || ''}${cabin.sleeps ? ` ~ Sleeps ${cabin.sleeps}` : ''}`}
+            cabinInfo={cabinInfo}
           />
         )}
       </div>
