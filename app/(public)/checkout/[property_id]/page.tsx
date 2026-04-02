@@ -127,10 +127,11 @@ function ReservationTotal({
             {quote.property_name} &middot; {quote.nights} {quote.nights === 1 ? 'night' : 'nights'}
           </div>
 
-          {/* Lodging & Fees */}
+          {/* Lodging & Fees — excludes tax-type fees like DOT Tax */}
           {(() => {
+            const isTaxLikeFee = (name: string) => /tax/i.test(name)
             const lodgingItems = quote.line_items.filter(
-              (i) => i.type === 'rent' || i.type === 'fee' || i.type === 'discount'
+              (i) => (i.type === 'rent' || i.type === 'fee' || i.type === 'discount') && !isTaxLikeFee(i.name)
             )
             return lodgingItems.length > 0 ? (
               <div className="space-y-1">
@@ -165,12 +166,16 @@ function ReservationTotal({
             ) : null
           })()}
 
-          {/* Taxes */}
+          {/* Taxes — includes type=tax AND tax-named fees (DOT Tax, etc.) */}
           {(() => {
-            const taxItems = quote.line_items.filter((i) => i.type === 'tax')
+            const isTaxLikeFee = (name: string) => /tax/i.test(name)
+            const taxItems = [
+              ...quote.line_items.filter((i) => i.type === 'tax'),
+              ...quote.line_items.filter((i) => i.type === 'fee' && isTaxLikeFee(i.name)),
+            ]
             return taxItems.length > 0 ? (
               <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
-                <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Taxes</p>
+                <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Taxes &amp; Assessments</p>
                 {taxItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name}</span>
@@ -198,6 +203,22 @@ function ReservationTotal({
               </div>
             ) : null
           })()}
+
+          {/* Subtotals */}
+          {quote.summary.taxable_subtotal > 0 && (
+            <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
+              <div className="flex justify-between text-[13px]">
+                <span>Subtotal</span>
+                <span>${quote.summary.taxable_subtotal.toFixed(2)}</span>
+              </div>
+              {quote.summary.tax_amount > 0 && (
+                <div className="flex justify-between text-[13px]">
+                  <span>Tax Total</span>
+                  <span>${quote.summary.tax_amount.toFixed(2)}</span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Grand Total */}
           <div className="flex justify-between pt-3 border-t-2 border-[#7c2c00] text-lg font-bold text-[#7c2c00]">
@@ -728,8 +749,90 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
         )}
       </div>
 
-      {/* Clean funnel footer — no distracting cross-sell or memories */}
-      <div className="mt-12 pt-6 border-t border-[#e8dcc8] text-center text-[#533e27] text-[13px] italic">
+      {/* Travelex Insurance + Terms */}
+      <div className="mt-10 max-w-4xl">
+        <div className="flex items-start gap-4 mb-5">
+          <Image
+            src="/images/travelex_logo.png"
+            alt="Travelex Insurance Services"
+            width={150}
+            height={40}
+            className="object-contain flex-shrink-0 mt-1"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+        </div>
+        <div className="text-[#533e27] italic text-[14px] leading-[160%]">
+          <p>
+            <span className="text-red-600">*</span> In today&apos;s changing travel environment,
+            it&apos;s important to protect your travel investment so you can relax and enjoy your
+            trip. Unforeseen events such as flight delays, baggage loss or even a sudden sickness or
+            injury could impact your travel plans. For your convenience, we offer Travelex Insurance
+            Services{' '}
+            <a
+              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#7c2c00] hover:text-[#b7714b]"
+            >
+              Travel Basic
+            </a>
+            ,{' '}
+            <a
+              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#7c2c00] hover:text-[#b7714b]"
+            >
+              Travel Select
+            </a>
+            , and{' '}
+            <a
+              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#7c2c00] hover:text-[#b7714b]"
+            >
+              Travel Med
+            </a>{' '}
+            protection plans to help protect you and your travel investment against the unexpected.
+          </p>
+          <p className="mt-3">
+            For more information on the available plans{' '}
+            <a
+              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#7c2c00] hover:text-[#b7714b]"
+            >
+              click here
+            </a>{' '}
+            or contact Travelex Insurance{' '}
+            <span className="font-bold not-italic">800-228-9792</span> and reference location
+            number <span className="font-bold not-italic">10-0454</span>.
+          </p>
+        </div>
+
+        {/* Terms & Conditions */}
+        <div className="mt-6 pt-4 border-t border-[#e8dcc8] text-[#533e27] text-[13px] italic leading-[150%]">
+          <p>
+            By completing this reservation, you agree to our{' '}
+            <a
+              href="/rental-policies"
+              className="text-[#7c2c00] underline hover:text-[#b7714b]"
+            >
+              Rental Policies &amp; Terms
+            </a>
+            , including cancellation policies, check-in/check-out procedures, and pet policies.
+            A rental agreement will be sent to the email address provided. All rates are subject
+            to applicable state, local, and DOT taxes as shown in the Reservation Total above.
+          </p>
+        </div>
+      </div>
+
+      {/* Contact footer */}
+      <div className="mt-8 pt-6 border-t border-[#e8dcc8] text-center text-[#533e27] text-[13px] italic">
         <p>
           Need help? Call us at{' '}
           <a href="tel:7064322140" className="text-[#7c2c00] underline hover:text-[#b7714b]">
