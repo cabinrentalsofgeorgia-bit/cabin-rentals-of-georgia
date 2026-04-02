@@ -12,9 +12,31 @@ const config: Config = {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            iframe: {
+              width: '100%',
+              aspectRatio: '16 / 9',
+              borderRadius: '0.5rem',
+              maxWidth: '100%',
+            },
+            video: {
+              width: '100%',
+              aspectRatio: '16 / 9',
+              borderRadius: '0.5rem',
+              maxWidth: '100%',
+            },
+            'object, embed': {
+              width: '100%',
+              maxWidth: '100%',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
 export default config
 

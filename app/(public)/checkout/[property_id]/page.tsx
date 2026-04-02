@@ -10,8 +10,7 @@ import Link from 'next/link'
 import BookingAddOns from '@/components/booking/BookingAddOns'
 import AvailabilityCalendar from '@/components/cabin/AvailabilityCalendar'
 
-const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-const stripePromise = STRIPE_PK ? loadStripe(STRIPE_PK) : null
+import type { Stripe } from '@stripe/stripe-js'
 
 const memories = [
   {
@@ -126,8 +125,10 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
   const [quoteLoading, setQuoteLoading] = useState(false)
   const [quoteError, setQuoteError] = useState<string | null>(null)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const [stripeInstance, setStripeInstance] = useState<Stripe | null>(null)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
+  const [promoCode, setPromoCode] = useState('')
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -145,6 +146,21 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
   const updateForm = (field: string, value: string | number) => {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
+
+  useEffect(() => {
+    async function initStripe() {
+      try {
+        const res = await fetch('/api/proxy/api/v1/checkout/stripe-key')
+        if (!res.ok) return
+        const data = await res.json()
+        if (data.publishable_key) {
+          const stripe = await loadStripe(data.publishable_key)
+          setStripeInstance(stripe)
+        }
+      } catch {}
+    }
+    initStripe()
+  }, [])
 
   useEffect(() => {
     fetch(`/api/proxy/api/storefront/catalog/cabins/${propertyId}`)
@@ -179,11 +195,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
 
   useEffect(() => {
     setClientSecret(null)
-  }, [arrive, depart, selectedAddOnIds, form.adults, form.children, form.pets])
-
-  useEffect(() => {
-    setClientSecret(null)
-  }, [arrive, depart, selectedAddOnIds, form.adults, form.children, form.pets])
+  }, [arrive, depart, selectedAddOnIds, promoCode, form.adults, form.children, form.pets])
 
   useEffect(() => {
     async function fetchQuote() {
@@ -206,6 +218,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
             children: form.children,
             pets: form.pets,
             selected_add_on_ids: selectedAddOnIds,
+            promo_code: promoCode,
           }),
         })
         if (!res.ok) {
@@ -213,6 +226,9 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
           throw new Error(err.detail || `HTTP ${res.status}`)
         }
         const data = await res.json()
+        if (!data.line_items || !data.summary) {
+          throw new Error('Invalid quote response from server')
+        }
         setQuote(data)
       } catch (error: any) {
         setQuoteError(error.message || 'Failed to calculate reservation total')
@@ -223,7 +239,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
     }
 
     fetchQuote()
-  }, [propertyId, arrive, depart, form.adults, form.children, form.pets, selectedAddOnIds, hasValidRange])
+  }, [propertyId, arrive, depart, form.adults, form.children, form.pets, selectedAddOnIds, promoCode, hasValidRange])
 
   const continueToPayment = async () => {
     if (!quote || !hasValidRange) return
@@ -246,6 +262,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
           children: form.children,
           pets: form.pets,
           selected_add_on_ids: selectedAddOnIds,
+          promo_code: promoCode,
           total_cents: Math.round(quote.summary.grand_total * 100),
           first_name: form.first_name,
           last_name: form.last_name,
@@ -271,7 +288,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
   }
 
   const inputClass = 'w-full px-3 py-2 border border-[#d4c4a8] rounded-[16px] bg-white text-[#533e27] focus:outline-none focus:border-[#7c2c00]'
-  const dateInputClass = "h-[29px] leading-[29px] border-none bg-[url('/images/bg_date_field.png')] bg-no-repeat bg-[right_center] text-base text-[#533e27] rounded-tl-[20px] rounded-bl-[20px] outline-none bg-transparent p-[1px_24px_1px_15px] w-[165px]" 
+  const dateInputClass = "w-[165px] px-3 py-2 border border-[#d4c4a8] rounded-[16px] bg-white text-[#533e27] text-base focus:outline-none focus:border-[#7c2c00]"
   const labelClass = 'block text-[#533e27] text-[13px] mb-1 italic'
 
   return (
@@ -325,21 +342,19 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
             ) : null}
           </div>
 
-          {cabin ? (
-            <AvailabilityCalendar
-              cabinId={cabin.id}
-              months={12}
-              showRates={true}
-              visibleMonths={3}
-              selectable={true}
-              selectedArrive={arrive}
-              selectedDepart={depart}
-              onDateSelect={(newArrive, newDepart) => {
-                setArrive(newArrive)
-                setDepart(newDepart)
-              }}
-            />
-          ) : null}
+          <AvailabilityCalendar
+            cabinId={propertyId}
+            months={12}
+            showRates={true}
+            visibleMonths={3}
+            selectable={true}
+            selectedArrive={arrive}
+            selectedDepart={depart}
+            onDateSelect={(newArrive, newDepart) => {
+              setArrive(newArrive)
+              setDepart(newDepart)
+            }}
+          />
 
           <div className="mt-5 rounded-xl border border-[#d4c4a8] bg-[#faf6ee] p-4">
             <h3 className="text-[130%] text-[#7c2c00] italic mb-4">Details of your Getaway</h3>
@@ -367,6 +382,17 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
             </div>
           </div>
 
+          <div className="mt-5 rounded-xl border border-[#d4c4a8] bg-[#faf6ee] p-4">
+            <h3 className="text-[130%] text-[#7c2c00] italic mb-3">Discount Code</h3>
+            <input
+              type="text"
+              placeholder="Enter promo code"
+              className={inputClass + ' max-w-[260px] uppercase'}
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+            />
+          </div>
+
           <div className="mt-8 rounded-xl border border-[#d4c4a8] bg-[#faf6ee] p-4">
             <h3 className="text-[130%] text-[#7c2c00] italic mb-4">Optional Add-Ons</h3>
             <BookingAddOns propertyId={propertyId} selectedIds={selectedAddOnIds} onSelectionChange={setSelectedAddOnIds} />
@@ -378,11 +404,11 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
             <h3 className="text-[130%] text-[#7c2c00] italic mb-3 pb-2 border-b border-[#d4c4a8]">Reservation Total</h3>
             {quoteLoading ? (
               <p className="text-[#533e27] italic text-sm">Calculating your getaway...</p>
-            ) : quote ? (
+            ) : quote?.line_items && quote?.summary ? (
               <div className="space-y-3 text-[#533e27] text-sm">
                 {/* Lodging & Fees */}
                 {(() => {
-                  const lodgingItems = quote.line_items.filter((i) => i.type === 'rent' || i.type === 'fee' || i.type === 'discount')
+                  const lodgingItems = (quote.line_items || []).filter((i) => i.type === 'rent' || i.type === 'fee' || i.type === 'discount')
                   return lodgingItems.length > 0 ? (
                     <div className="space-y-1">
                       <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Lodging &amp; Fees</p>
@@ -490,9 +516,16 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
         ) : (
           <div className="mt-8 max-w-xl">
             <h2 className="font-normal italic text-[170%] text-[#7c2c00] leading-[100%] mb-5">Secure Payment</h2>
-            <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
-              <PaymentSection onSubmitSuccess={() => router.push('/checkout/success')} />
-            </Elements>
+            {stripeInstance ? (
+              <Elements stripe={stripeInstance} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+                <PaymentSection onSubmitSuccess={() => {
+                  const piId = clientSecret?.split('_secret_')[0] || ''
+                  router.push(`/checkout/success?payment_intent=${piId}`)
+                }} />
+              </Elements>
+            ) : (
+              <p className="text-[#533e27] italic text-sm">Loading payment form...</p>
+            )}
           </div>
         )}
       </div>

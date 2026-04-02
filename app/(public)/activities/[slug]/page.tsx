@@ -78,7 +78,7 @@ async function ActivitiesContent({ slug }: { slug: string }) {
                     <>
                       <div className="relative">
                         <Image
-                          src={activity.featured_image_url.replace("/sites/default/files/", "/images/styles/activities_listing/public/")}
+                          src={activity.featured_image_url}
                           alt={activity.featured_image_alt || activity.title}
                           width={609}
                           height={390}

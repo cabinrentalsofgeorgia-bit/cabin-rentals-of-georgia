@@ -19,6 +19,7 @@ export interface Cabin {
   sleeps: number | null
   property_type: any[] | null
   amenities: any[] | null
+  amenity_matrix: Record<string, string[]> | null
   features: string[] | null
   featured_image_url: string | null
   featured_image_alt: string | null
@@ -55,6 +56,10 @@ export interface Cabin {
   updated_at: string | null
   published_at: string | null
   today_rate: number | null
+  reviews: Array<{
+    title: string
+    body: string
+  }> | null
 }
 
 // Admin API types

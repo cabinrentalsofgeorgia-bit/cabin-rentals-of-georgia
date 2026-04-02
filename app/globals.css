@@ -432,8 +432,13 @@ table#availability-matrix td.cal-out {
 
 /* Availability matrix page styles */
 .availability-matrix-page {
-  max-width: 100%;
+  max-width: 80rem;
   margin: 0 auto;
+}
+
+table#availability-matrix td div {
+  font-weight: 400;
+  font-size: 75%;
 }
 
 .availability-table-container {

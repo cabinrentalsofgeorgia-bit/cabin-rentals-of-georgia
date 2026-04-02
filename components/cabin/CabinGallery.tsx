@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import GalleryModal from './GalleryModal'
 
@@ -19,15 +20,33 @@ interface CabinGalleryProps {
 export default function CabinGallery({ images, cabinTitle, cabinInfo }: CabinGalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [portalEl, setPortalEl] = useState<HTMLElement | null>(null)
 
-  const openModal = (index: number) => {
+  useEffect(() => {
+    let el = document.getElementById('gallery-modal-root')
+    if (!el) {
+      el = document.createElement('div')
+      el.id = 'gallery-modal-root'
+      document.body.appendChild(el)
+    }
+    setPortalEl(el)
+  }, [])
+
+  const openModal = useCallback((index: number) => {
     setSelectedIndex(index)
     setIsModalOpen(true)
-  }
+  }, [])
 
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail
+      if (detail && typeof detail.index === 'number') {
+        openModal(detail.index)
+      }
+    }
+    window.addEventListener('cabin-gallery-open', handler)
+    return () => window.removeEventListener('cabin-gallery-open', handler)
+  }, [openModal])
 
   return (
     <>
@@ -38,17 +57,21 @@ export default function CabinGallery({ images, cabinTitle, cabinInfo }: CabinGal
             <div key={index} className="flex flex-col w-auto">
               <button
                 onClick={() => openModal(index)}
-                className="relative w-[275px] h-[180px] max-[1010px]:w-[200px] max-[1010px]:h-[130px] max-[767px]:w-full max-[767px]:max-w-[420px] max-[767px]:h-auto overflow-hidden text-left"
+                className="relative w-[275px] h-[180px] max-[1010px]:w-[200px] max-[1010px]:h-[130px] max-[767px]:w-full max-[767px]:max-w-[420px] max-[767px]:h-auto overflow-hidden text-left cursor-pointer transition-opacity hover:opacity-90"
                 style={{ boxShadow: '0 0 10px #333' }}
               >
                 <Image
-                  src={image.url.replace("/sites/default/files/", "/images/styles/cabin_photo_listing/public/") || ''}
+                  src={image.url || ''}
                   alt={image.alt || cabinTitle}
                   fill
-                  className="object-cover cursor-pointer max-[767px]:!static max-[767px]:!w-full max-[767px]:!h-auto p-[3px]"
+                  className="object-cover max-[767px]:!static max-[767px]:!w-full max-[767px]:!h-auto p-[3px]"
+                  sizes="(max-width: 767px) 420px, (max-width: 1010px) 200px, 275px"
                 />
               </button>
-              <h4 className="mt-[7px] text-[#7c2c00] hover:text-[#b7714b] cursor-pointer text-[16px] w-[275px] max-[1010px]:w-[200px] max-[767px]:w-full max-[767px]:max-w-[420px] leading-[100%]">
+              <h4
+                onClick={() => openModal(index)}
+                className="mt-[7px] text-[#7c2c00] hover:text-[#b7714b] cursor-pointer text-[16px] w-[275px] max-[1010px]:w-[200px] max-[767px]:w-full max-[767px]:max-w-[420px] leading-[100%]"
+              >
                 {image.title}
               </h4>
             </div>
@@ -56,14 +79,17 @@ export default function CabinGallery({ images, cabinTitle, cabinInfo }: CabinGal
         </div>
       </div>
 
-      <GalleryModal
-        images={images}
-        initialIndex={selectedIndex}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        cabinTitle={cabinTitle}
-        cabinInfo={cabinInfo}
-      />
+      {portalEl && createPortal(
+        <GalleryModal
+          images={images}
+          initialIndex={selectedIndex}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          cabinTitle={cabinTitle}
+          cabinInfo={cabinInfo}
+        />,
+        portalEl,
+      )}
     </>
   )
 }

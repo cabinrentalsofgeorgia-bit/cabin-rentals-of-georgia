@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 import CabinListing from '@/components/cabin/CabinListing'
 import { getTermByCategorySlug } from '@/lib/api/taxonomy'
+import { cleanHtmlContent } from '@/lib/utils/html-utils'
 import PageLoading from '@/components/ui/PageLoading'
 import ProcessedHTML from '@/components/content/ProcessedHTML'
 import YouTubeVideoEmbed from '@/components/cabin/YouTubeVideoEmbed'
@@ -60,13 +61,19 @@ async function CabinCategoryContent({ category, slug }: { category: string; slug
       // For property types (category='all'), use term name as category
       categoryFilter = term.name.toLowerCase().replace(/\s+/g, '-')
     }
+    const descriptionHtml = term.description
+      ? cleanHtmlContent(term.description.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))
+      : null
+
     return (
       <div className="mb-[-1px] min-h-full mt-0 relative h-auto align-top block p-[20px]">
-        <h1 className="text-4xl mb-0">{title}</h1>
-        <ProcessedHTML
-          html={term.description?.replaceAll("https://www.cabin-rentals-of-georgia.com", "") || 'No description available'}
-          className="prose prose-lg mx-auto mb-0"
-        />
+        <h1 className="font-normal italic text-[42px] max-[1010px]:text-[36px] text-[#7c2c00] leading-[100%] my-[15px] mx-0">{title}</h1>
+        {descriptionHtml && (
+          <ProcessedHTML
+            html={descriptionHtml}
+            className="prose prose-stone max-w-none mb-4 prose-p:text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00] prose-li:text-[#533e27] prose-strong:text-[#533e27] prose-img:rounded-lg prose-img:shadow-md"
+          />
+        )}
 
         {/* Video Section */}
         {term.video_url && (

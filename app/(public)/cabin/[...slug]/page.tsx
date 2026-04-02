@@ -14,26 +14,17 @@ import YouTubeVideoEmbed from '@/components/cabin/YouTubeVideoEmbed'
 import AvailabilityCalendar from '@/components/cabin/AvailabilityCalendar'
 import AmenityMatrix from '@/components/cabin/AmenityMatrix'
 import LikeSaveButton from '@/components/cabin/LikeSaveButton'
+import CabinReviews from '@/components/cabin/CabinReviews'
+import ReadMore from '@/components/ui/ReadMore'
 
 interface PageProps {
   params: {
-    slug: string[]  // Array of URL segments after /cabin
-    // Examples:
-    // /cabin/cherry-log/creekside-green -> slug = ['cherry-log', 'creekside-green']
-    // /cabin/happy-ours-lodge -> slug = ['happy-ours-lodge']
+    slug: string[]
   }
 }
 
-/**
- * Generate metadata for the cabin page
- * 
- * Handles URLs like:
- * - /cabin/cherry-log/creekside-green (sends 'cherry-log/creekside-green' to API)
- * - /cabin/happy-ours-lodge (sends 'happy-ours-lodge' to API)
- */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params
-  // Join slug segments with '/' to create the full slug path (everything after /cabin)
   const slugString = slug.join('/')
 
   try {
@@ -74,24 +65,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 const CabinBody = ({ cabin, className }: { cabin: Cabin, className: string }) => {
   return (
     cabin.body && (
-      <ProcessedHTML
-        html={cleanHtmlContent(cabin.body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-        className={`prose prose-stone max-w-none prose-p:text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00] prose-li:text-[#533e27] prose-strong:text-[#533e27] ${className}`}
-      />
+      <ReadMore collapsedHeight={320}>
+        <ProcessedHTML
+          html={cleanHtmlContent(cabin.body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
+          className={`prose prose-stone max-w-none prose-p:text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00] prose-li:text-[#533e27] prose-strong:text-[#533e27] ${className}`}
+        />
+      </ReadMore>
     )
   )
 }
 
-// Create a component for the property features
 const PropertyFeatures = ({ cabin, className }: { cabin: Cabin, className: string }) => {
+  if (!cabin.features || cabin.features.length === 0) return null
+
   return (
     <div className={className}>
       <h3 className="text-[20px] text-[#533e27] font-normal my-[15px] leading-[15px] mt-[30px]">Property Features</h3>
-      <ul className="!list-none space-y-2 text-[#533e27] !p-0">
-        {cabin.features?.map((feature, index) => (
-          <li key={index} className='pl-[30px] bg-[url("/images/bullet_star.png")] bg-[5px_4px] bg-no-repeat'>{feature}</li>
-        ))}
-      </ul>
+      <ReadMore collapsedHeight={200}>
+        <ul className="!list-none space-y-2 text-[#533e27] !p-0">
+          {cabin.features.map((feature, index) => (
+            <li key={index} className='pl-[30px] bg-[url("/images/bullet_star.png")] bg-[5px_4px] bg-no-repeat'>{feature}</li>
+          ))}
+        </ul>
+      </ReadMore>
     </div>
   )
 }
@@ -117,21 +113,11 @@ const RatesContent = ({ cabin }: { cabin: Cabin }) => {
     </div>
   )
 }
-/**
- * Cabin content component
- * 
- * Fetches cabin data using the slug path (everything after /cabin)
- * Examples:
- * - /cabin/cherry-log/creekside-green -> fetches with slug 'cherry-log/creekside-green'
- * - /cabin/happy-ours-lodge -> fetches with slug 'happy-ours-lodge'
- */
+
 async function CabinContent({ slug }: { slug: string[] }) {
-  // Join slug segments to create the full slug path to send to API
-  // This removes the '/cabin' prefix and sends only the slug part
   const slugString = slug.join('/')
 
   try {
-    // Fetch cabin data using the slug (tries cabin_slug first, then slug field)
     const cabin = await getCabinBySlug(slugString)
 
     if (!cabin || cabin.status !== 'published') {
@@ -155,7 +141,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
 
         <div className='flex items-start justify-between pl-[20px] max-[767px]:justify-center'>
           {/* Cabin Title */}
-          <h1 className="font-normal italic text-[42px] max-[1010px]:text-[36px] text-[#7c2c00] leading-[100%] my-[15px] mx-0 leading-[100%]">
+          <h1 className="font-normal italic text-[42px] max-[1010px]:text-[36px] text-[#7c2c00] leading-[100%] my-[15px] mx-0">
             {cabin.title}
             <br />
             <span className='text-[80%]'>
@@ -179,10 +165,10 @@ async function CabinContent({ slug }: { slug: string[] }) {
           {/* Property Details */}
           <div className="text-[#533e27] text-[21px] max-[1010px]:text-[17.28px] italic leading-[100%]">
             {cabin.bedrooms && (
-              <span>{cabin.bedrooms}, </span>
+              <span>{cabin.bedrooms} Bedroom, </span>
             )}
             {cabin.bathrooms && (
-              <span>{cabin.bathrooms}</span>
+              <span>{cabin.bathrooms} Bath</span>
             )}
             {cabin.sleeps && (
               <span> ~ Sleeps {cabin.sleeps}</span>
@@ -192,7 +178,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
           {/* Today's Rate */}
           <div className="text-[#533e27] text-[21px] max-[1010px]:text-[17.28px] italic leading-[100%]">
             {cabin.today_rate && (
-              <span>from ${Math.round(cabin.today_rate)} (view daily rates)</span>
+              <span>from ${Math.round(cabin.today_rate)}/night (view daily rates)</span>
             )}
           </div>
 
@@ -204,7 +190,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
 
         <div className='flex items-start justify-between max-[1010px]:justify-end max-[767px]:justify-center'>
           <div className='flex flex-col w-[62%] hidden min-[1010px]:block pl-[20px]'>
-            {/* Body Content */}
+            {/* Body Content with Read More */}
             <CabinBody
               cabin={cabin}
               className='min-[1010px]:pr-[15px]'
@@ -220,13 +206,13 @@ async function CabinContent({ slug }: { slug: string[] }) {
             <Link href={`/checkout/${cabin.id}?arrive=&depart=`}>
               <Image
                 src='/images/btn_instant_quote_small.png'
-                alt='Instant Quote'
+                alt='Get an Instant Quote'
                 width={196}
                 height={196}
                 className='cursor-pointer p-[3px] object-contain mx-auto'
               />
             </Link>
-            <Link href={`/checkout/${cabin.id}?arrive=&depart=`} className='text-[19px] text-center text-[#7c2c00] hover:text-[#b7714b] leading-[100%] cursor-pointer italic underline mt-[5px]'>Book Now</Link>
+            <Link href={`/checkout/${cabin.id}?arrive=&depart=`} className='text-[19px] text-center text-[#7c2c00] hover:text-[#b7714b] leading-[100%] cursor-pointer italic underline mt-[5px]'>Detailed Price</Link>
             <span className='text-[14px] mb-[10px] text-center'>Available to reserve online 24/7</span>
             <Image
               src={`https://maps.googleapis.com/maps/api/staticmap?center=${cabin.latitude},${cabin.longitude}&zoom=15&size=190x190&maptype=roadmap&markers=size:small%7Ccolor:red%7C${cabin.latitude},${cabin.longitude}&scale=2&format=png32&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyD0ozy1aDQV-n8bQBm3gMaaiyw499-zsug'}`}
@@ -238,7 +224,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
             />
             <Link href={`/cabin-map?cabin=${cabin.id}`} className='text-[14px] mb-[10px] text-center'>View larger map and nearby cabins</Link>
 
-            {/* Features */}
+            {/* Features on desktop sidebar */}
             <PropertyFeatures
               cabin={cabin}
               className='max-[1010px]:hidden'
@@ -273,6 +259,21 @@ async function CabinContent({ slug }: { slug: string[] }) {
           <h3 className="text-[130%] mb-4 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat mt-0 p-[35px_0px_5px] text-[#533e27]">
             Availability
           </h3>
+          <div className="flex items-center gap-3 mb-4">
+            <Link href={`/checkout/${cabin.id}?arrive=&depart=`}>
+              <Image
+                src='/images/btn_instant_quote_small.png'
+                alt='Get an Instant Quote'
+                width={120}
+                height={120}
+                className='cursor-pointer object-contain'
+              />
+            </Link>
+            <div className="flex flex-col">
+              <Link href={`/checkout/${cabin.id}?arrive=&depart=`} className='text-[16px] text-[#7c2c00] hover:text-[#b7714b] cursor-pointer italic underline'>Detailed Price</Link>
+              <span className='text-[13px] text-[#533e27]'>Available to reserve online 24/7</span>
+            </div>
+          </div>
           <AvailabilityCalendar
             cabinId={cabin.id}
             months={12}
@@ -280,7 +281,7 @@ async function CabinContent({ slug }: { slug: string[] }) {
           />
         </div>
 
-        {/* Daily rate - removed minimum_rate field */}
+        {/* Rates */}
         {cabin.rates_description && (
           <RatesContent cabin={cabin} />
         )}
@@ -291,7 +292,6 @@ async function CabinContent({ slug }: { slug: string[] }) {
             <h3 className="text-[130%] mb-4 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat mt-0 p-[35px_0px_5px] text-[#533e27]">Videos</h3>
             <div className="space-y-6 px-[10px]">
               {cabin.video.map((video: any, index: number) => {
-                // Use video_url if available, otherwise try embed_code
                 const videoUrl = video.video_url || video.embed_code || ''
 
                 if (!videoUrl) {
@@ -322,6 +322,44 @@ async function CabinContent({ slug }: { slug: string[] }) {
             cabinInfo={cabinInfo}
           />
         )}
+
+        {/* Guest Reviews / Memories */}
+        {cabin.reviews && cabin.reviews.length > 0 && (
+          <CabinReviews reviews={cabin.reviews} cabinTitle={cabin.title} />
+        )}
+
+        {/* Specials & Cross-sell */}
+        <div className="mb-8 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-[10px]">
+            <Link
+              href="/specials"
+              className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="p-[15px] bg-[#faf6ef]">
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Specials!</h4>
+                <p className="text-[#533e27] text-[13px]">Check out Special Offers on Blue Ridge Luxury Cabin Rentals</p>
+              </div>
+            </Link>
+            <Link
+              href="/blue-ridge-experience"
+              className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="p-[15px] bg-[#faf6ef]">
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">The Blue Ridge Experience</h4>
+                <p className="text-[#533e27] text-[13px]">Discover outdoor adventures, dining, and family fun in the North Georgia mountains</p>
+              </div>
+            </Link>
+            <Link
+              href="/blue-ridge-cabins?bedrooms=5"
+              className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="p-[15px] bg-[#faf6ef]">
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Planning a Large Group Event?</h4>
+                <p className="text-[#533e27] text-[13px]">Family reunions, corporate retreats, and group getaways in Blue Ridge, GA</p>
+              </div>
+            </Link>
+          </div>
+        </div>
       </div>
     )
   } catch (error: any) {
@@ -357,4 +395,3 @@ export default async function CabinPage({ params }: PageProps) {
     </Suspense>
   )
 }
-

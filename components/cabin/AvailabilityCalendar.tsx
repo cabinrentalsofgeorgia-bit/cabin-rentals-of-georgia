@@ -325,7 +325,7 @@ function CalendarMonthComponent({
             {dayNames.map(day => (
               <div
                 key={day}
-                className="text-center text-[#533e27] font-semibold text-[10px] py-1"
+                className="text-center text-[#533e27] font-normal text-[10px] py-1"
               >
                 {day}
               </div>
@@ -379,7 +379,7 @@ function CalendarMonthComponent({
                 cellOpacity = 0.6
               }
 
-              const isBlocked = ['cal-booked', 'cal-opt', 'cal-na', 'cal-nc'].includes(cssClass) || availability?.state?.is_available === false
+              const isBlocked = availability?.state?.is_available === false
               const isClickable = selectable && !isAdjacentMonth && !isPast && !isBlocked
               const isArrival = selectedArrive === day.dateStr
               const isDeparture = selectedDepart === day.dateStr
@@ -398,7 +398,7 @@ function CalendarMonthComponent({
                     backgroundBlendMode: isInRange ? 'multiply' : undefined,
                   }}
                 >
-                  <span className="text-black font-bold text-[11px] font-[Arial,Helvetica,sans-serif]">
+                  <span className="text-black font-normal text-[10px] font-[Arial,Helvetica,sans-serif]">
                     {day.date}
                   </span>
                 </div>
@@ -421,7 +421,7 @@ function CalendarMonthComponent({
               {dayNames.map(day => (
                 <th
                   key={day}
-                  className="text-center text-[#533e27] font-semibold bg-transparent p-2 text-sm"
+                  className="text-center text-[#533e27] font-normal bg-transparent p-2 text-xs"
                 >
                   {day}
                 </th>
@@ -488,7 +488,7 @@ function CalendarMonthComponent({
                     cellOpacity = 0.6
                   }
 
-                  const isBlocked = ['cal-booked', 'cal-opt', 'cal-na', 'cal-nc'].includes(cssClass) || availability?.state?.is_available === false
+                  const isBlocked = availability?.state?.is_available === false
                   const isClickable = selectable && !isAdjacentMonth && !isPast && !isBlocked
                   const isArrival = selectedArrive === day.dateStr
                   const isDeparture = selectedDepart === day.dateStr
@@ -508,7 +508,7 @@ function CalendarMonthComponent({
                       }}
                     >
                       <div className="h-full flex flex-col justify-between">
-                        <p className="text-black !font-bold font-[Arial,Helvetica,sans-serif] !m-0 text-[14px] text-right">
+                        <p className="text-black font-normal font-[Arial,Helvetica,sans-serif] !m-0 text-xs text-right">
                           {day.date}
                         </p>
                         {showRates && rate && (

@@ -128,7 +128,7 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
 
 
   return (
-    <div className="availability-matrix-page py-8 px-5">
+    <div className="availability-matrix-page py-8 px-5 max-w-7xl mx-auto">
       {/* Page Title */}
       <h1 className="text-[#7c2c00] text-[42px] max-[1010px]:text-[36px] font-normal italic leading-[100%] mb-4">
         Blue Ridge Cabin Rental Availability
@@ -225,12 +225,12 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
         <table id="availability-matrix" className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="header-cell text-left p-2 border-none text-[#533e27] font-semibold">
+              <th className="header-cell text-left p-2 border-none text-[#533e27] font-normal">
                 Cabin
               </th>
               <th
                 colSpan={daysInMonth}
-                className="text-center p-2 border-none text-[#533e27] font-semibold text-xl"
+                className="text-center p-2 border-none text-[#533e27] font-normal text-xl"
               >
                 {monthName}
               </th>
@@ -243,7 +243,7 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
                 return (
                   <th
                     key={date.day}
-                    className={`dow dotw${date.dayOfWeek} text-center p-1 border-none text-[#533e27] font-semibold text-sm ${
+                    className={`dow dotw${date.dayOfWeek} text-center p-1 border-none text-[#533e27] font-normal text-xs ${
                       isWeekend ? 'weekend' : ''
                     }`}
                   >
@@ -266,7 +266,7 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
                     <div className="w-[160px]">
                       <Link
                         href={cabinUrl}
-                        className="text-[#7c2c00] hover:underline font-semibold"
+                        className="text-[#7c2c00] hover:underline font-normal"
                       >
                         {cabin.cabin_title}
                       </Link>
@@ -281,7 +281,7 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
                         key={date.day}
                         className={`${cssClass} ${isWeekend ? 'weekend' : ''} dotw${date.dayOfWeek} text-center p-0 border border-[#7c2c00] align-middle`}
                       >
-                        <div className="w-[23px] h-[23px] leading-[23px] text-center text-[90%]">
+                        <div className="w-[23px] h-[23px] leading-[23px] text-center text-[75%] font-normal">
                           {date.day}
                         </div>
                       </td>

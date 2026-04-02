@@ -8,9 +8,24 @@ interface ProcessedHTMLProps {
   className?: string
 }
 
+const IFRAME_RESPONSIVE_CLASSES = [
+  '[&_iframe]:w-full',
+  '[&_iframe]:aspect-video',
+  '[&_iframe]:rounded-lg',
+  '[&_iframe]:max-w-full',
+  '[&_video]:w-full',
+  '[&_video]:aspect-video',
+  '[&_video]:rounded-lg',
+  '[&_video]:max-w-full',
+  '[&_object]:w-full',
+  '[&_object]:max-w-full',
+  '[&_embed]:w-full',
+  '[&_embed]:max-w-full',
+].join(' ')
+
 /**
- * Component that processes HTML content and converts internal links
- * to use Next.js client-side navigation (SPA behavior)
+ * Renders legacy HTML content with responsive iframe/video handling
+ * and converts internal links to Next.js client-side navigation.
  */
 export default function ProcessedHTML({ html, className = '' }: ProcessedHTMLProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -20,16 +35,13 @@ export default function ProcessedHTML({ html, className = '' }: ProcessedHTMLPro
   useEffect(() => {
     if (!containerRef.current) return
 
-    // Find all anchor tags in the container
     const anchors = containerRef.current.querySelectorAll('a[href]')
-
     const clickHandlers: Array<{ element: Element; handler: (e: Event) => void }> = []
 
     anchors.forEach((anchor) => {
       const href = anchor.getAttribute('href')
       if (!href) return
 
-      // Check if it's an internal link (same domain or relative path)
       const isInternalLink =
         href.startsWith('/') ||
         href.startsWith('#') ||
@@ -37,15 +49,12 @@ export default function ProcessedHTML({ html, className = '' }: ProcessedHTMLPro
         (!href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:'))
 
       if (isInternalLink) {
-        // Convert to relative path if it's a full URL
         let relativePath = href
         if (href.includes('cabin-rentals-of-georgia.com')) {
-          // Extract path from full URL
           try {
             const url = new URL(href.startsWith('http') ? href : `https://${href}`)
             relativePath = url.pathname + url.search + url.hash
           } catch {
-            // If URL parsing fails, try to extract path manually
             const match = href.match(/cabin-rentals-of-georgia\.com([^\s]*)/)
             if (match) {
               relativePath = match[1] || '/'
@@ -53,29 +62,22 @@ export default function ProcessedHTML({ html, className = '' }: ProcessedHTMLPro
           }
         }
 
-        // Skip hash-only links (anchor links)
         if (relativePath.startsWith('#')) {
           return
         }
 
-        // Create click handler for client-side navigation
         const handler = (e: Event) => {
           e.preventDefault()
           e.stopPropagation()
-          
-          // Use Next.js router for client-side navigation
           router.push(relativePath)
         }
 
         anchor.addEventListener('click', handler)
         clickHandlers.push({ element: anchor, handler })
-
-        // Add cursor pointer style and indicate it's clickable
         ;(anchor as HTMLElement).style.cursor = 'pointer'
       }
     })
 
-    // Cleanup function to remove event listeners
     return () => {
       clickHandlers.forEach(({ element, handler }) => {
         element.removeEventListener('click', handler)
@@ -86,7 +88,7 @@ export default function ProcessedHTML({ html, className = '' }: ProcessedHTMLPro
   return (
     <div
       ref={containerRef}
-      className={className}
+      className={`${IFRAME_RESPONSIVE_CLASSES} ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   )

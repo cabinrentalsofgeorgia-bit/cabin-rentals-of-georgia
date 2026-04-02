@@ -59,6 +59,11 @@ const nextConfig = {
         destination: '/availability',
         permanent: true,
       },
+      {
+        source: '/access-denied',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
   async rewrites() {
