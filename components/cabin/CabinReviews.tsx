@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface Review {
   title: string
@@ -10,6 +10,15 @@ interface Review {
 interface CabinReviewsProps {
   reviews: Review[]
   cabinTitle: string
+}
+
+function shuffleAndPick<T>(arr: T[], n: number): T[] {
+  const copy = [...arr]
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy.slice(0, n)
 }
 
 function ReviewCard({ review }: { review: Review }) {
@@ -39,7 +48,15 @@ function ReviewCard({ review }: { review: Review }) {
 }
 
 export default function CabinReviews({ reviews, cabinTitle }: CabinReviewsProps) {
-  if (!reviews || reviews.length === 0) return null
+  const [selected, setSelected] = useState<Review[]>([])
+
+  useEffect(() => {
+    if (reviews && reviews.length > 0) {
+      setSelected(shuffleAndPick(reviews, Math.min(2, reviews.length)))
+    }
+  }, [reviews])
+
+  if (selected.length === 0) return null
 
   return (
     <div className="mb-8">
@@ -48,7 +65,7 @@ export default function CabinReviews({ reviews, cabinTitle }: CabinReviewsProps)
         <span className="text-[#7c2c00] italic">{cabinTitle}</span>
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-[10px]">
-        {reviews.map((review, index) => (
+        {selected.map((review, index) => (
           <ReviewCard key={index} review={review} />
         ))}
       </div>

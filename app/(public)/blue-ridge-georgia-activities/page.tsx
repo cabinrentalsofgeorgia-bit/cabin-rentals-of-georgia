@@ -1,14 +1,15 @@
+export const dynamic = 'force-dynamic'
+
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { getPageBySlug } from '@/lib/api/pages'
 import PageLoading from '@/components/ui/PageLoading'
-import { cleanHtmlContent } from '@/lib/utils/html-utils'
+import { stripLegacyHtml } from '@/lib/utils/html-utils'
 import ProcessedHTML from '@/components/content/ProcessedHTML'
 
 const slug = 'blue-ridge-georgia-activities'
 
 async function BlueRidgeGeorgiaActivitiesContent() {
-  console.log("BlueRidgeGeorgiaActivitiesContent")
   try {
     const page = await getPageBySlug(slug)
     const title = page.title || 'Blue Ridge, Georgia Activities'
@@ -19,8 +20,8 @@ async function BlueRidgeGeorgiaActivitiesContent() {
           <em>{title}</em>
         </h1>
         <ProcessedHTML
-          html={cleanHtmlContent(body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-          className="prose prose-legacy max-w-none text-[#533e27] mb-8 "
+          html={stripLegacyHtml(body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
+          className="prose prose-legacy max-w-none text-[#533e27] mb-8"
         />
       </div>
     )

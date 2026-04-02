@@ -68,7 +68,7 @@ const CabinBody = ({ cabin, className }: { cabin: Cabin, className: string }) =>
       <ReadMore collapsedHeight={320}>
         <ProcessedHTML
           html={cleanHtmlContent(cabin.body.replaceAll("https://www.cabin-rentals-of-georgia.com", ""))}
-          className={`prose prose-stone max-w-none prose-p:text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00] prose-li:text-[#533e27] prose-strong:text-[#533e27] ${className}`}
+          className={`prose prose-legacy max-w-none ${className}`}
         />
       </ReadMore>
     )
@@ -103,7 +103,7 @@ const RatesContent = ({ cabin }: { cabin: Cabin }) => {
       {hasHtmlTags ? (
         <ProcessedHTML
           html={html}
-          className="prose prose-stone max-w-none prose-p:text-[#533e27] prose-a:text-[#7c2c00] text-[100%] max-[1010px]:text-[115%]"
+          className="prose prose-legacy max-w-none text-[100%] max-[1010px]:text-[115%]"
         />
       ) : (
         <p className="text-[#533e27] text-[100%] max-[1010px]:text-[115%] leading-[140%] whitespace-pre-line">
@@ -328,11 +328,11 @@ async function CabinContent({ slug }: { slug: string[] }) {
           <CabinReviews reviews={cabin.reviews} cabinTitle={cabin.title} />
         )}
 
-        {/* Specials & Cross-sell */}
+        {/* Cross-sell — legacy order: Specials, Large Groups, Activities */}
         <div className="mb-8 mt-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-[10px]">
             <Link
-              href="/specials"
+              href="/specials-discounts"
               className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="p-[15px] bg-[#faf6ef]">
@@ -341,21 +341,21 @@ async function CabinContent({ slug }: { slug: string[] }) {
               </div>
             </Link>
             <Link
-              href="/blue-ridge-experience"
+              href="/large-groups-family-reunions"
               className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="p-[15px] bg-[#faf6ef]">
-                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">The Blue Ridge Experience</h4>
-                <p className="text-[#533e27] text-[13px]">Discover outdoor adventures, dining, and family fun in the North Georgia mountains</p>
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Planning Your Large Group Event</h4>
+                <p className="text-[#533e27] text-[13px]">Family reunions, corporate retreats, and group getaways in Blue Ridge, GA</p>
               </div>
             </Link>
             <Link
-              href="/blue-ridge-cabins?bedrooms=5"
+              href="/blue-ridge-georgia-activities"
               className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="p-[15px] bg-[#faf6ef]">
-                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Planning a Large Group Event?</h4>
-                <p className="text-[#533e27] text-[13px]">Family reunions, corporate retreats, and group getaways in Blue Ridge, GA</p>
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Blue Ridge, Georgia Activities</h4>
+                <p className="text-[#533e27] text-[13px]">Discover outdoor adventures, dining, and family fun in the North Georgia mountains</p>
               </div>
             </Link>
           </div>

@@ -1,29 +1,19 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import RandomMemories from '@/components/shared/RandomMemories'
+import { apiClient } from '@/lib/api/client'
 
-const testimonials = [
-  {
-    cabin: 'High Hopes',
-    cabinHref: '/cabin/blue-ridge/high-hopes',
-    body: 'The Sandlot Crew, college friends for 42+ years, enjoyed our stay for fun, football, and relaxing! The cabin was perfect for us with the perfect accommodations. Hope to stay here again! Thank you for your hospitality!',
-    customerImage: '/images/testimonial_default.jpg',
-  },
-  {
-    cabin: 'Riverview Lodge',
-    cabinHref: '/cabin/blue-ridge/riverview-lodge',
-    body: 'Our stay in Blue Ridge was wonderful! It was really relaxing. The view was gorgeous! The cabin was quiet, spacious, and nice. The cabin was well stocked with all the must-haves! Thank you for all the accommodations!',
-    customerImage: '/images/testimonial_default.jpg',
-  },
-]
+interface SidebarReview {
+  cabin: string
+  cabinHref: string
+  body: string
+  customerImage: string
+}
 
 const callToActions = [
-  {
-    title: 'Christmas Cabin Rentals in Blue Ridge, GA',
-    href: '/christmas-new-years-cabin-rentals-blue-ridge-ga',
-    image: '/images/IMG_0416.jpeg',
-    alt: '',
-    titleAttr: '',
-  },
   {
     title: 'Specials!',
     href: '/specials-discounts',
@@ -48,6 +38,34 @@ const callToActions = [
 ]
 
 export default function SidebarContent() {
+  const [allReviews, setAllReviews] = useState<SidebarReview[]>([])
+
+  useEffect(() => {
+    async function fetchReviews() {
+      try {
+        const res = await apiClient.get<{ properties: any[] }>('/api/storefront/catalog/cabins')
+        const cabins = res.data.properties || []
+        const reviews: SidebarReview[] = []
+        for (const cabin of cabins) {
+          const cabinReviews = cabin.reviews || []
+          const slug = cabin.cabin_slug || cabin.slug || ''
+          for (const r of cabinReviews) {
+            reviews.push({
+              cabin: cabin.title,
+              cabinHref: `/cabin/${slug}`,
+              body: r.body || '',
+              customerImage: '/images/testimonial_default.jpg',
+            })
+          }
+        }
+        setAllReviews(reviews)
+      } catch {
+        // Silently fall back to empty — no memories shown
+      }
+    }
+    fetchReviews()
+  }, [])
+
   return (
     <div className="py-5 px-5">
       {/* Favorites Block */}
@@ -63,48 +81,10 @@ export default function SidebarContent() {
         </Link>
       </div>
 
-      {/* Testimonials Block */}
-      <div className="mb-6">
-        <h2 className="text-center pb-[25px] mb-[25px] bg-[url('/images/bg_block_header.png')] bg-[50%_100%] bg-no-repeat bg-bottom text-[#533e27] text-[170%] leading-[100%] font-normal italic">
-          The Memories
-        </h2>
-        <div>
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="mb-[25px]"
-            >
-              {/* Customer Image */}
-              <div className="float-left my-0.5 mx-[15px] mb-2.5 ml-1.5 p-0.5 shadow-[0px_0px_8px_1px_#888]">
-                <Image
-                  src={testimonial.customerImage}
-                  alt=""
-                  width={48}
-                  height={48}
-                />
-              </div>
+      {/* The Memories — randomly rotates 2 reviews per page load */}
+      <RandomMemories allReviews={allReviews} count={2} />
 
-              <div className="flex flex-col">
-                {/* Cabin Name */}
-                <div className="mb-1.5 leading-[120%] font-bold">
-                  <Link
-                    href={testimonial.cabinHref}
-                    className="text-[#7c2c00] underline hover:text-[#b7714b] font-bold"
-                  >
-                    {testimonial.cabin}
-                  </Link>
-                </div>
-                {/* Testimonial Body */}
-                <div className="italic text-[#533e27]">
-                  {testimonial.body}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Call to Action Blocks */}
+      {/* Cross-sell Blocks — legacy order: Specials, Large Groups, Activities */}
       <div>
         {callToActions.map((cta, index) => (
           <div
@@ -137,4 +117,3 @@ export default function SidebarContent() {
     </div>
   )
 }
-

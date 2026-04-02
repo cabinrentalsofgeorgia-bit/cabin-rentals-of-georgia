@@ -142,11 +142,11 @@ async function ActivityContent({ slug }: { slug: string[] }) {
           </div>
         )}
 
-        {/* Cross-sell / Specials */}
+        {/* Cross-sell — legacy order: Specials, Large Groups, Activities */}
         <div className="mb-8 mt-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-[10px]">
             <Link
-              href="/specials"
+              href="/specials-discounts"
               className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="p-[15px] bg-[#faf6ef]">
@@ -155,21 +155,21 @@ async function ActivityContent({ slug }: { slug: string[] }) {
               </div>
             </Link>
             <Link
-              href="/blue-ridge-experience"
+              href="/large-groups-family-reunions"
               className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="p-[15px] bg-[#faf6ef]">
-                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">The Blue Ridge Experience</h4>
-                <p className="text-[#533e27] text-[13px]">Discover outdoor adventures, dining, and family fun in the North Georgia mountains</p>
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Planning Your Large Group Event</h4>
+                <p className="text-[#533e27] text-[13px]">Family reunions, corporate retreats, and group getaways in Blue Ridge, GA</p>
               </div>
             </Link>
             <Link
-              href="/blue-ridge-cabins"
+              href="/blue-ridge-georgia-activities"
               className="block border border-[#e8dcc8] rounded-[6px] overflow-hidden hover:shadow-md transition-shadow"
             >
               <div className="p-[15px] bg-[#faf6ef]">
-                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Browse All Cabins</h4>
-                <p className="text-[#533e27] text-[13px]">Find your perfect Blue Ridge mountain getaway</p>
+                <h4 className="text-[#7c2c00] text-[16px] font-semibold mb-1">Blue Ridge, Georgia Activities</h4>
+                <p className="text-[#533e27] text-[13px]">Discover outdoor adventures, dining, and family fun in the North Georgia mountains</p>
               </div>
             </Link>
           </div>
