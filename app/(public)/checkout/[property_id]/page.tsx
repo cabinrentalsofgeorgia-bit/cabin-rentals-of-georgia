@@ -53,6 +53,10 @@ interface QuoteResponse {
   currency: string
 }
 
+/* ------------------------------------------------------------------ */
+/*  Stripe Payment Section                                            */
+/* ------------------------------------------------------------------ */
+
 function PaymentSection({ onSubmitSuccess }: { onSubmitSuccess: () => void }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -85,18 +89,22 @@ function PaymentSection({ onSubmitSuccess }: { onSubmitSuccess: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <PaymentElement />
-      {error ? <p className="text-red-600 italic text-sm">{error}</p> : null}
+      {error ? <p className="text-red-600 italic text-[15px]">{error}</p> : null}
       <button
         type="submit"
         disabled={loading || !stripe || !elements}
-        className="mt-2 w-full py-3 bg-[url('/images/bg_search_repeat.png')] bg-repeat-x rounded-[20px] text-white text-[140%] italic cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
-        style={{ boxShadow: '0 2px 4px rgba(0,0,0,.3)' }}
+        className="mt-2 w-full py-3 bg-[url('/images/bg_search_repeat.png')] bg-repeat-x rounded-[20px] text-white text-[22.4px] italic cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{ fontFamily: '"Fanwood Text", serif', boxShadow: '0 2px 4px rgba(0,0,0,.3)' }}
       >
         {loading ? 'Processing...' : 'Complete Reservation'}
       </button>
     </form>
   )
 }
+
+/* ------------------------------------------------------------------ */
+/*  Reservation Total (sticky sidebar)                                */
+/* ------------------------------------------------------------------ */
 
 function ReservationTotal({
   quote,
@@ -109,27 +117,32 @@ function ReservationTotal({
   quoteError: string | null
   hasValidRange: boolean
 }) {
+  const isTaxLikeFee = (name: string) => /tax/i.test(name)
+
   return (
-    <div className="sticky top-4 rounded-xl border border-[#d4c4a8] bg-[#f7f1e7] p-5 shadow-sm">
-      <h3 className="text-[130%] text-[#7c2c00] italic mb-3 pb-2 border-b border-[#d4c4a8]">
+    <div className="rounded-xl border border-[#e8dcc8] bg-[#faf6ef] p-5 shadow-sm">
+      <h3
+        className="text-[20.8px] text-[#7c2c00] italic mb-3 pb-2 border-b border-[#e8dcc8]"
+        style={{ fontFamily: '"Fanwood Text", serif', lineHeight: '20.8px' }}
+      >
         Reservation Total
       </h3>
 
       {quoteLoading ? (
         <div className="flex items-center gap-2 py-4">
           <div className="w-4 h-4 border-2 border-[#7c2c00] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#533e27] italic text-sm">Calculating your getaway...</p>
+          <p className="text-[#533e27] italic text-[15px]" style={{ fontFamily: '"Fanwood Text", serif' }}>
+            Calculating your getaway...
+          </p>
         </div>
       ) : quote?.line_items && quote?.summary ? (
-        <div className="space-y-3 text-[#533e27] text-sm">
-          {/* Stay summary */}
-          <div className="text-[13px] italic pb-2 border-b border-[#d4c4a8]/60">
+        <div className="space-y-3 text-[#533e27] text-[15px]" style={{ fontFamily: '"Fanwood Text", serif' }}>
+          <div className="text-[14px] italic pb-2 border-b border-[#e8dcc8]/60">
             {quote.property_name} &middot; {quote.nights} {quote.nights === 1 ? 'night' : 'nights'}
           </div>
 
-          {/* Lodging & Fees — excludes tax-type fees like DOT Tax */}
+          {/* Lodging & Fees */}
           {(() => {
-            const isTaxLikeFee = (name: string) => /tax/i.test(name)
             const lodgingItems = quote.line_items.filter(
               (i) => (i.type === 'rent' || i.type === 'fee' || i.type === 'discount') && !isTaxLikeFee(i.name)
             )
@@ -154,7 +167,7 @@ function ReservationTotal({
           {(() => {
             const addonItems = quote.line_items.filter((i) => i.type === 'addon')
             return addonItems.length > 0 ? (
-              <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
+              <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
                 <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Add-Ons</p>
                 {addonItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
@@ -166,16 +179,17 @@ function ReservationTotal({
             ) : null
           })()}
 
-          {/* Taxes — includes type=tax AND tax-named fees (DOT Tax, etc.) */}
+          {/* Taxes & Assessments */}
           {(() => {
-            const isTaxLikeFee = (name: string) => /tax/i.test(name)
             const taxItems = [
               ...quote.line_items.filter((i) => i.type === 'tax'),
               ...quote.line_items.filter((i) => i.type === 'fee' && isTaxLikeFee(i.name)),
             ]
             return taxItems.length > 0 ? (
-              <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
-                <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Taxes &amp; Assessments</p>
+              <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
+                <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">
+                  Taxes &amp; Assessments
+                </p>
                 {taxItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name}</span>
@@ -190,7 +204,7 @@ function ReservationTotal({
           {(() => {
             const depositItems = quote.line_items.filter((i) => i.type === 'deposit')
             return depositItems.length > 0 ? (
-              <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
+              <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
                 <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">
                   Security Deposits
                 </p>
@@ -206,13 +220,13 @@ function ReservationTotal({
 
           {/* Subtotals */}
           {quote.summary.taxable_subtotal > 0 && (
-            <div className="border-t border-[#d4c4a8] pt-2 space-y-1">
-              <div className="flex justify-between text-[13px]">
+            <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
+              <div className="flex justify-between text-[14px]">
                 <span>Subtotal</span>
                 <span>${quote.summary.taxable_subtotal.toFixed(2)}</span>
               </div>
               {quote.summary.tax_amount > 0 && (
-                <div className="flex justify-between text-[13px]">
+                <div className="flex justify-between text-[14px]">
                   <span>Tax Total</span>
                   <span>${quote.summary.tax_amount.toFixed(2)}</span>
                 </div>
@@ -221,30 +235,32 @@ function ReservationTotal({
           )}
 
           {/* Grand Total */}
-          <div className="flex justify-between pt-3 border-t-2 border-[#7c2c00] text-lg font-bold text-[#7c2c00]">
+          <div className="flex justify-between pt-3 border-t-2 border-[#7c2c00] text-[18px] font-bold text-[#7c2c00]">
             <span>Total</span>
             <span>${quote.summary.grand_total.toFixed(2)}</span>
           </div>
 
           {!quote.is_bookable && (
-            <p className="text-red-600 italic text-[12px] mt-2">
+            <p className="text-red-600 italic text-[13px] mt-2">
               This property is not available for the selected dates.
             </p>
           )}
         </div>
       ) : quoteError ? (
         <div className="py-3">
-          <p className="text-red-600 italic text-sm">{quoteError}</p>
-          <p className="text-[#533e27] italic text-[12px] mt-2">
+          <p className="text-red-600 italic text-[15px]" style={{ fontFamily: '"Fanwood Text", serif' }}>
+            {quoteError}
+          </p>
+          <p className="text-[#533e27] italic text-[13px] mt-2" style={{ fontFamily: '"Fanwood Text", serif' }}>
             Please adjust your dates or contact us at (706) 432-2140.
           </p>
         </div>
       ) : (
-        <div className="py-4 text-center">
-          <p className="text-[#533e27] italic text-sm mb-2">
+        <div className="py-4 text-center" style={{ fontFamily: '"Fanwood Text", serif' }}>
+          <p className="text-[#533e27] italic text-[15px] mb-2">
             Select your arrival and departure dates to see pricing.
           </p>
-          <p className="text-[#7c2c00] text-[12px]">
+          <p className="text-[#7c2c00] text-[13px]">
             Click two dates on the calendar or use the date inputs below.
           </p>
         </div>
@@ -252,6 +268,97 @@ function ReservationTotal({
     </div>
   )
 }
+
+/* ------------------------------------------------------------------ */
+/*  Travelex Insurance Section                                        */
+/* ------------------------------------------------------------------ */
+
+function TravelexSection() {
+  return (
+    <div className="mt-8 pt-6 border-t border-[#e8dcc8]">
+      <div className="flex items-start gap-4 mb-4">
+        <Image
+          src="/images/travelex_logo.png"
+          alt="Travelex Insurance Services"
+          width={145}
+          height={38}
+          className="object-contain flex-shrink-0 mt-1"
+          onError={(e) => { e.currentTarget.style.display = 'none' }}
+        />
+      </div>
+      <div className="text-[#533e27] italic text-[15.2px] leading-[160%]" style={{ fontFamily: '"Fanwood Text", serif' }}>
+        <p>
+          <span className="text-red-600">*</span> In today&apos;s changing travel environment,
+          it&apos;s important to protect your travel investment so you can relax and enjoy your
+          trip. Unforeseen events such as flight delays, baggage loss or even a sudden sickness or
+          injury could impact your travel plans. For your convenience, we offer Travelex Insurance
+          Services{' '}
+          <a
+            href="https://partner.travelexinsurance.com/docs/tis/retail-products/travel-basic-flyer-std-no-rates_tbb-0623_final_06012023.pdf?sfvrsn=60ee9ca4_5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[#7c2c00] hover:text-[#b7714b]"
+          >
+            Travel Basic
+          </a>
+          ,{' '}
+          <a
+            href="https://partner.travelexinsurance.com/docs/tis/retail-products/travel-select-flyer-std-no-rates_tsb-0623_final_06012023.pdf?sfvrsn=b8ee9ca4_3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[#7c2c00] hover:text-[#b7714b]"
+          >
+            Travel Select
+          </a>
+          , and{' '}
+          <a
+            href="https://partner.travelexinsurance.com/docs/tis/specialty-risk-products/post-departure-plan-flyer-std-final-4.22.22.pdf?sfvrsn=70ba9fa4_3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[#7c2c00] hover:text-[#b7714b]"
+          >
+            Travel Med
+          </a>{' '}
+          protection plans to help protect you and your travel investment against the unexpected.
+        </p>
+        <p className="mt-3">
+          For more information on the available plans{' '}
+          <a
+            href="https://www.travelexinsurance.com/highlights"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[#7c2c00] hover:text-[#b7714b]"
+          >
+            click here
+          </a>{' '}
+          or contact Travelex Insurance{' '}
+          <span className="font-bold not-italic">800-228-9792</span> and reference location
+          number <span className="font-bold not-italic">10-0454</span>.
+        </p>
+      </div>
+
+      {/* Terms & Conditions */}
+      <div
+        className="mt-6 pt-4 border-t border-[#e8dcc8] text-[#533e27] text-[14px] italic leading-[150%]"
+        style={{ fontFamily: '"Fanwood Text", serif' }}
+      >
+        <p>
+          By completing this reservation, you agree to our{' '}
+          <a href="/rental-policies" className="text-[#7c2c00] underline hover:text-[#b7714b]">
+            Rental Policies &amp; Terms
+          </a>
+          , including cancellation policies, check-in/check-out procedures, and pet policies.
+          A rental agreement will be sent to the email address provided. All rates are subject
+          to applicable state, local, and DOT taxes as shown in the Reservation Total above.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Main Checkout Content                                             */
+/* ------------------------------------------------------------------ */
 
 function CheckoutInner({ propertyId }: { propertyId: string }) {
   const searchParams = useSearchParams()
@@ -277,6 +384,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
     adults: 2,
     children: 0,
     pets: 0,
+    pets_detail: '',
     address: '',
     city: '',
     state: '',
@@ -433,81 +541,99 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
     }
   }
 
+  /*
+   * Legacy form styles extracted via Playwright:
+   *   label: Fanwood Text 16px, italic, #533e27
+   *   input: Fanwood Text 16px, 28px height, border #594634
+   */
+  const labelClass =
+    'block text-[#533e27] text-[16px] italic mb-1'
   const inputBase =
-    'w-full px-3 py-2.5 border rounded-[6px] bg-white text-[#533e27] text-[15px] focus:outline-none transition-colors'
+    'w-full px-[15px] py-[4px] border bg-transparent text-[#533e27] text-[16px] focus:outline-none transition-colors'
   const inputClass = (field?: string) =>
-    `${inputBase} ${field && formErrors[field] ? 'border-red-400 bg-red-50' : 'border-[#d4c4a8] focus:border-[#7c2c00]'}`
+    `${inputBase} ${field && formErrors[field] ? 'border-red-400 bg-red-50' : 'border-[#594634] focus:border-[#7c2c00]'}`
   const dateInputClass =
-    'w-[165px] px-3 py-2.5 border border-[#d4c4a8] rounded-[6px] bg-white text-[#533e27] text-base focus:outline-none focus:border-[#7c2c00]'
-  const labelClass = 'block text-[#533e27] text-[13px] mb-1 italic'
+    'w-[165px] px-[15px] py-[4px] border border-[#594634] bg-transparent text-[#533e27] text-[16px] focus:outline-none focus:border-[#7c2c00]'
+  const selectClass =
+    'px-2 py-[4px] border border-[#594634] bg-transparent text-[#533e27] text-[16px] focus:outline-none focus:border-[#7c2c00]'
 
   const isGuestFormComplete =
     form.first_name.trim() && form.last_name.trim() && form.email.trim() && form.phone.trim()
 
+  const fontLegacy: React.CSSProperties = { fontFamily: '"Fanwood Text", serif' }
+
   return (
-    <div className="py-5 px-5">
-      <h1 className="font-normal italic text-[42px] max-[1010px]:text-[36px] text-[#7c2c00] leading-[100%] my-[15px] mx-0">
-        Book Your Getaway{cabin ? ` — ${cabin.title}` : ''}
+    <div className="max-w-[972px] mx-auto px-[20px] py-[15px]" style={fontLegacy}>
+      {/* ── Page Title ── */}
+      <h1
+        className="font-normal italic text-[35.2px] text-[#7c2c00] my-[15px]"
+        style={{ ...fontLegacy, lineHeight: '35.2px' }}
+      >
+        Book Your Getaway{cabin ? ` - ${cabin.title}` : ''}
       </h1>
 
-      {/* Cabin Summary Header */}
-      {cabin ? (
-        <div className="flex flex-col md:flex-row gap-6 mb-8 pb-6 bg-[url('/images/cabin_separator.png')] bg-[center_bottom] bg-no-repeat">
-          <div className="flex-1">
-            <h2 className="text-[24px] text-[#7c2c00] italic mb-1">{cabin.title}</h2>
-            {cabin.address?.city || cabin.address?.state ? (
-              <p className="text-[#7c2c00] italic text-[16px] mb-2">
-                {cabin.address?.city}
-                {cabin.address?.city && cabin.address?.state ? ', ' : ''}
-                {cabin.address?.state}
-              </p>
-            ) : null}
-            <p className="text-[#533e27] italic text-[15px] mb-1">
-              {cabin.property_type?.length ? cabin.property_type.map((pt) => pt.name).join(', ') : ''}
-            </p>
-            <p className="text-[#533e27] italic text-[15px] mb-2">
-              {cabin.bedrooms ? `${cabin.bedrooms} Bedroom, ` : ''}
-              {cabin.bathrooms ? `${cabin.bathrooms} Bath` : ''}
-              {cabin.sleeps ? ` ~ Sleeps ${cabin.sleeps}` : ''}
-            </p>
-            {cabin.today_rate ? (
-              <p className="text-[#533e27] italic text-[15px]">
-                from ${Math.round(cabin.today_rate)}/night
-              </p>
-            ) : null}
-          </div>
-          {cabin.featured_image_url ? (
-            <div className="w-full md:w-[280px] flex-shrink-0">
-              <Image
-                src={cabin.featured_image_url}
-                alt={cabin.featured_image_alt || cabin.title}
-                width={280}
-                height={180}
-                className="w-full h-auto rounded shadow-md object-cover"
-                style={{ boxShadow: '0 0 10px #333' }}
-              />
+      {/* ══════════════════════════════════════════════════════════════
+          TWO-COLUMN LAYOUT  (legacy: content 609px | sidebar 319px)
+          ══════════════════════════════════════════════════════════════ */}
+      <div className="flex flex-col lg:flex-row gap-0">
+        {/* ── LEFT COLUMN (content) ── */}
+        <div className="flex-1 min-w-0 lg:pr-[20px]">
+
+          {/* Cabin Summary — matches legacy .main-image + property info */}
+          {cabin ? (
+            <div className="mb-6 pb-4 border-b border-[#e8dcc8]">
+              <div className="flex flex-col sm:flex-row gap-5">
+                {cabin.featured_image_url ? (
+                  <div className="w-full sm:w-[260px] flex-shrink-0">
+                    <Image
+                      src={cabin.featured_image_url}
+                      alt={cabin.featured_image_alt || cabin.title}
+                      width={260}
+                      height={170}
+                      className="w-full h-auto object-cover"
+                      style={{ padding: '3px', boxShadow: '0px 0px 10px #333' }}
+                    />
+                  </div>
+                ) : null}
+                <div>
+                  <h2
+                    className="text-[27.2px] text-[#7c2c00] italic mb-1"
+                    style={{ ...fontLegacy, lineHeight: '27.2px' }}
+                  >
+                    {cabin.title}
+                  </h2>
+                  {cabin.address?.city || cabin.address?.state ? (
+                    <p className="text-[#533e27] italic text-[16px] mb-2">
+                      {cabin.address?.city}
+                      {cabin.address?.city && cabin.address?.state ? ', ' : ''}
+                      {cabin.address?.state}
+                    </p>
+                  ) : null}
+                  <p className="text-[#533e27] text-[16px] mb-1">
+                    {cabin.property_type?.length
+                      ? cabin.property_type.map((pt) => pt.name).join(', ')
+                      : ''}
+                  </p>
+                  <p className="text-[#533e27] text-[16px] mb-2">
+                    {cabin.bedrooms ? `${cabin.bedrooms} Bedroom, ` : ''}
+                    {cabin.bathrooms ? `${cabin.bathrooms} Bath` : ''}
+                    {cabin.sleeps ? ` ~ Sleeps ${cabin.sleeps}` : ''}
+                  </p>
+                  {cabin.today_rate ? (
+                    <p className="text-[#533e27] italic text-[16px]">
+                      from ${Math.round(cabin.today_rate)}/night
+                    </p>
+                  ) : null}
+                </div>
+              </div>
             </div>
           ) : null}
-        </div>
-      ) : null}
 
-      {/* Two-column layout: Left = form controls, Right = sticky total */}
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left column — calendar, details, add-ons */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[130%] text-[#533e27] italic">Availability</h2>
-            {!hasValidRange ? (
-              <p className="text-[#7c2c00] italic text-sm text-right">
-                Select your dates on the calendar below to begin your reservation.
-              </p>
-            ) : null}
-          </div>
-
+          {/* ── Calendar ── */}
           <AvailabilityCalendar
             cabinId={propertyId}
             months={12}
-            showRates={true}
+            showRates={false}
             visibleMonths={3}
             selectable={true}
             selectedArrive={arrive}
@@ -518,335 +644,317 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
             }}
           />
 
-          {/* Getaway Details */}
-          <div className="mt-5 rounded-xl border border-[#d4c4a8] bg-[#faf6ee] p-4">
-            <h3 className="text-[130%] text-[#7c2c00] italic mb-4">Details of your Getaway</h3>
-            <div className="flex flex-wrap gap-4 items-end">
+          {/* ══════════════════════════════════════════════════════════
+              DETAILS OF YOUR GETAWAY — matches legacy form exactly
+              ══════════════════════════════════════════════════════════ */}
+          <div className="mt-6">
+            <h2
+              className="text-[27.2px] text-[#7c2c00] italic mb-4"
+              style={{ ...fontLegacy, lineHeight: '27.2px' }}
+            >
+              Details of your Getaway
+            </h2>
+
+            {/* Arrival / Departure */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className={labelClass}>Arrival</label>
+                <label className={labelClass} style={fontLegacy}>Arrival *</label>
                 <input
                   type="date"
                   className={dateInputClass}
+                  style={fontLegacy}
                   value={arrive}
                   onChange={(e) => setArrive(e.target.value)}
                 />
               </div>
               <div>
-                <label className={labelClass}>Departure</label>
+                <label className={labelClass} style={fontLegacy}>Departure *</label>
                 <input
                   type="date"
                   className={dateInputClass}
+                  style={fontLegacy}
                   value={depart}
                   min={arrive}
                   onChange={(e) => setDepart(e.target.value)}
                 />
               </div>
+            </div>
+
+            {/* Adults / Children / Pets */}
+            <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
-                <label className={labelClass}>Adults</label>
-                <input
-                  type="number"
-                  min={1}
-                  max={24}
-                  className={inputBase + ' w-[80px] border-[#d4c4a8] focus:border-[#7c2c00]'}
+                <label className={labelClass} style={fontLegacy}>Adults *</label>
+                <select
+                  className={selectClass}
+                  style={fontLegacy}
                   value={form.adults}
                   onChange={(e) => updateForm('adults', Number(e.target.value) || 1)}
-                />
+                >
+                  {Array.from({ length: 24 }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
               </div>
               <div>
-                <label className={labelClass}>Children</label>
-                <input
-                  type="number"
-                  min={0}
-                  max={24}
-                  className={inputBase + ' w-[90px] border-[#d4c4a8] focus:border-[#7c2c00]'}
+                <label className={labelClass} style={fontLegacy}>Children</label>
+                <select
+                  className={selectClass}
+                  style={fontLegacy}
                   value={form.children}
                   onChange={(e) => updateForm('children', Number(e.target.value) || 0)}
+                >
+                  {Array.from({ length: 25 }, (_, i) => i).map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={labelClass} style={fontLegacy}>Pets</label>
+                <select
+                  className={selectClass}
+                  style={fontLegacy}
+                  value={form.pets}
+                  onChange={(e) => updateForm('pets', Number(e.target.value) || 0)}
+                >
+                  {Array.from({ length: 11 }, (_, i) => i).map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Pet detail — shown only when pets > 0 */}
+            {form.pets > 0 && (
+              <div className="mb-4">
+                <label className={labelClass} style={fontLegacy}>
+                  Enter breed and weight of your pet(s)
+                </label>
+                <input
+                  type="text"
+                  className={inputClass()}
+                  style={fontLegacy}
+                  placeholder="e.g., Golden Retriever, 65 lbs"
+                  value={form.pets_detail}
+                  onChange={(e) => updateForm('pets_detail', e.target.value)}
+                />
+              </div>
+            )}
+
+            {/* Discount Coupon Code */}
+            <div className="mb-4">
+              <label className={labelClass} style={fontLegacy}>Discount Coupon Code</label>
+              <input
+                type="text"
+                className={inputClass() + ' max-w-[300px] uppercase'}
+                style={fontLegacy}
+                placeholder="Enter code"
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+              />
+            </div>
+
+            {/* Optional Add-Ons — legacy shows as checkboxes with price in label */}
+            <div className="mt-6 mb-6">
+              <BookingAddOns
+                propertyId={propertyId}
+                selectedIds={selectedAddOnIds}
+                onSelectionChange={setSelectedAddOnIds}
+              />
+            </div>
+          </div>
+
+          {/* ── Guest Information ── */}
+          <div className="mt-6 pt-6 border-t border-[#e8dcc8]">
+            <h2
+              className="text-[27.2px] text-[#7c2c00] italic mb-4"
+              style={{ ...fontLegacy, lineHeight: '27.2px' }}
+            >
+              Guest Information
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass} style={fontLegacy}>First Name *</label>
+                <input
+                  className={inputClass('first_name')}
+                  style={fontLegacy}
+                  required
+                  placeholder="First Name"
+                  value={form.first_name}
+                  onChange={(e) => updateForm('first_name', e.target.value)}
                 />
               </div>
               <div>
-                <label className={labelClass}>Pets</label>
+                <label className={labelClass} style={fontLegacy}>Last Name *</label>
                 <input
-                  type="number"
-                  min={0}
-                  max={10}
-                  className={inputBase + ' w-[80px] border-[#d4c4a8] focus:border-[#7c2c00]'}
-                  value={form.pets}
-                  onChange={(e) => updateForm('pets', Number(e.target.value) || 0)}
+                  className={inputClass('last_name')}
+                  style={fontLegacy}
+                  required
+                  placeholder="Last Name"
+                  value={form.last_name}
+                  onChange={(e) => updateForm('last_name', e.target.value)}
                 />
               </div>
-            </div>
-          </div>
-
-          {/* Promo Code */}
-          <div className="mt-5 rounded-xl border border-[#d4c4a8] bg-[#faf6ee] p-4">
-            <h3 className="text-[130%] text-[#7c2c00] italic mb-3">Discount Code</h3>
-            <input
-              type="text"
-              placeholder="Enter promo code"
-              className={inputBase + ' max-w-[260px] uppercase border-[#d4c4a8] focus:border-[#7c2c00]'}
-              value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-            />
-          </div>
-
-          {/* Optional Add-Ons */}
-          <div className="mt-8 rounded-xl border border-[#d4c4a8] bg-[#faf6ee] p-4">
-            <h3 className="text-[130%] text-[#7c2c00] italic mb-4">Optional Add-Ons</h3>
-            <BookingAddOns
-              propertyId={propertyId}
-              selectedIds={selectedAddOnIds}
-              onSelectionChange={setSelectedAddOnIds}
-            />
-          </div>
-        </div>
-
-        {/* Right column — sticky Reservation Total */}
-        <div className="w-full lg:w-[340px] flex-shrink-0">
-          <ReservationTotal
-            quote={quote}
-            quoteLoading={quoteLoading}
-            quoteError={quoteError}
-            hasValidRange={hasValidRange}
-          />
-        </div>
-      </div>
-
-      {/* Guest Information */}
-      <div className="mt-10 bg-[url('/images/cabin_separator.png')] bg-[center_top] bg-no-repeat pt-8">
-        <h2 className="font-normal italic text-[170%] text-[#7c2c00] leading-[100%] mb-5">
-          Guest Information
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
-          <div>
-            <label className={labelClass}>First Name *</label>
-            <input
-              className={inputClass('first_name')}
-              required
-              placeholder="First Name"
-              value={form.first_name}
-              onChange={(e) => updateForm('first_name', e.target.value)}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Last Name *</label>
-            <input
-              className={inputClass('last_name')}
-              required
-              placeholder="Last Name"
-              value={form.last_name}
-              onChange={(e) => updateForm('last_name', e.target.value)}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Email *</label>
-            <input
-              type="email"
-              className={inputClass('email')}
-              required
-              placeholder="email@example.com"
-              value={form.email}
-              onChange={(e) => updateForm('email', e.target.value)}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Phone *</label>
-            <input
-              type="tel"
-              className={inputClass('phone')}
-              required
-              placeholder="(555) 123-4567"
-              value={form.phone}
-              onChange={(e) => updateForm('phone', e.target.value)}
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label className={labelClass}>Address</label>
-            <input
-              className={inputClass()}
-              placeholder="Street address"
-              value={form.address}
-              onChange={(e) => updateForm('address', e.target.value)}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>City</label>
-            <input
-              className={inputClass()}
-              placeholder="City"
-              value={form.city}
-              onChange={(e) => updateForm('city', e.target.value)}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className={labelClass}>State</label>
-              <input
-                className={inputClass()}
-                placeholder="GA"
-                value={form.state}
-                onChange={(e) => updateForm('state', e.target.value)}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Zip</label>
-              <input
-                className={inputClass()}
-                placeholder="30513"
-                value={form.zip_code}
-                onChange={(e) => updateForm('zip_code', e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Continue to Payment / Stripe Payment */}
-        {!clientSecret ? (
-          <div className="mt-6 max-w-4xl">
-            {checkoutError ? (
-              <p className="mb-3 text-red-600 italic text-sm">{checkoutError}</p>
-            ) : null}
-            <button
-              type="button"
-              onClick={continueToPayment}
-              disabled={!quote || !quote.is_bookable || checkoutLoading || !isGuestFormComplete}
-              className="w-full md:w-auto px-10 py-3.5 bg-[url('/images/bg_search_repeat.png')] bg-repeat-x rounded-[20px] text-white text-[140%] italic cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ boxShadow: '0 2px 4px rgba(0,0,0,.3)' }}
-            >
-              {checkoutLoading ? 'Preparing Secure Payment...' : 'Continue to Payment →'}
-            </button>
-            {!quote && hasValidRange && !quoteLoading ? (
-              <p className="mt-3 text-[#533e27] italic text-[13px]">
-                Please wait while we calculate your reservation total.
-              </p>
-            ) : null}
-            {!hasValidRange ? (
-              <p className="mt-3 text-[#7c2c00] italic text-[13px]">
-                Please select your arrival and departure dates above.
-              </p>
-            ) : null}
-          </div>
-        ) : (
-          <div className="mt-8 max-w-xl">
-            <h2 className="font-normal italic text-[170%] text-[#7c2c00] leading-[100%] mb-5">
-              Secure Payment
-            </h2>
-            {stripeInstance ? (
-              <Elements
-                stripe={stripeInstance}
-                options={{ clientSecret, appearance: { theme: 'stripe' } }}
-              >
-                <PaymentSection
-                  onSubmitSuccess={() => {
-                    const piId = clientSecret?.split('_secret_')[0] || ''
-                    router.push(`/checkout/success?payment_intent=${piId}`)
-                  }}
+              <div>
+                <label className={labelClass} style={fontLegacy}>Email *</label>
+                <input
+                  type="email"
+                  className={inputClass('email')}
+                  style={fontLegacy}
+                  required
+                  placeholder="email@example.com"
+                  value={form.email}
+                  onChange={(e) => updateForm('email', e.target.value)}
                 />
-              </Elements>
+              </div>
+              <div>
+                <label className={labelClass} style={fontLegacy}>Phone *</label>
+                <input
+                  type="tel"
+                  className={inputClass('phone')}
+                  style={fontLegacy}
+                  required
+                  placeholder="(555) 123-4567"
+                  value={form.phone}
+                  onChange={(e) => updateForm('phone', e.target.value)}
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className={labelClass} style={fontLegacy}>Address</label>
+                <input
+                  className={inputClass()}
+                  style={fontLegacy}
+                  placeholder="Street address"
+                  value={form.address}
+                  onChange={(e) => updateForm('address', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelClass} style={fontLegacy}>City</label>
+                <input
+                  className={inputClass()}
+                  style={fontLegacy}
+                  placeholder="City"
+                  value={form.city}
+                  onChange={(e) => updateForm('city', e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelClass} style={fontLegacy}>State</label>
+                  <input
+                    className={inputClass()}
+                    style={fontLegacy}
+                    placeholder="GA"
+                    value={form.state}
+                    onChange={(e) => updateForm('state', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass} style={fontLegacy}>Zip</label>
+                  <input
+                    className={inputClass()}
+                    style={fontLegacy}
+                    placeholder="30513"
+                    value={form.zip_code}
+                    onChange={(e) => updateForm('zip_code', e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Continue to Payment / Stripe Payment */}
+            {!clientSecret ? (
+              <div className="mt-6">
+                {checkoutError ? (
+                  <p className="mb-3 text-red-600 italic text-[15px]" style={fontLegacy}>
+                    {checkoutError}
+                  </p>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={continueToPayment}
+                  disabled={!quote || !quote.is_bookable || checkoutLoading || !isGuestFormComplete}
+                  className="w-full sm:w-auto px-10 py-3 bg-[url('/images/bg_search_repeat.png')] bg-repeat-x rounded-[20px] text-white text-[22.4px] italic cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ ...fontLegacy, boxShadow: '0 2px 4px rgba(0,0,0,.3)' }}
+                >
+                  {checkoutLoading ? 'Preparing Secure Payment...' : 'Continue to Payment →'}
+                </button>
+                {!quote && hasValidRange && !quoteLoading ? (
+                  <p className="mt-3 text-[#533e27] italic text-[14px]" style={fontLegacy}>
+                    Please wait while we calculate your reservation total.
+                  </p>
+                ) : null}
+                {!hasValidRange ? (
+                  <p className="mt-3 text-[#7c2c00] italic text-[14px]" style={fontLegacy}>
+                    Please select your arrival and departure dates above.
+                  </p>
+                ) : null}
+              </div>
             ) : (
-              <p className="text-[#533e27] italic text-sm">Loading payment form...</p>
+              <div className="mt-8 max-w-xl">
+                <h2
+                  className="text-[27.2px] text-[#7c2c00] italic mb-4"
+                  style={{ ...fontLegacy, lineHeight: '27.2px' }}
+                >
+                  Secure Payment
+                </h2>
+                {stripeInstance ? (
+                  <Elements
+                    stripe={stripeInstance}
+                    options={{ clientSecret, appearance: { theme: 'stripe' } }}
+                  >
+                    <PaymentSection
+                      onSubmitSuccess={() => {
+                        const piId = clientSecret?.split('_secret_')[0] || ''
+                        router.push(`/checkout/success?payment_intent=${piId}`)
+                      }}
+                    />
+                  </Elements>
+                ) : (
+                  <p className="text-[#533e27] italic text-[15px]" style={fontLegacy}>
+                    Loading payment form...
+                  </p>
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* Travelex Insurance + Terms */}
-      <div className="mt-10 max-w-4xl">
-        <div className="flex items-start gap-4 mb-5">
-          <Image
-            src="/images/travelex_logo.png"
-            alt="Travelex Insurance Services"
-            width={150}
-            height={40}
-            className="object-contain flex-shrink-0 mt-1"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none'
-            }}
-          />
-        </div>
-        <div className="text-[#533e27] italic text-[14px] leading-[160%]">
-          <p>
-            <span className="text-red-600">*</span> In today&apos;s changing travel environment,
-            it&apos;s important to protect your travel investment so you can relax and enjoy your
-            trip. Unforeseen events such as flight delays, baggage loss or even a sudden sickness or
-            injury could impact your travel plans. For your convenience, we offer Travelex Insurance
-            Services{' '}
-            <a
-              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-[#7c2c00] hover:text-[#b7714b]"
-            >
-              Travel Basic
-            </a>
-            ,{' '}
-            <a
-              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-[#7c2c00] hover:text-[#b7714b]"
-            >
-              Travel Select
-            </a>
-            , and{' '}
-            <a
-              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-[#7c2c00] hover:text-[#b7714b]"
-            >
-              Travel Med
-            </a>{' '}
-            protection plans to help protect you and your travel investment against the unexpected.
-          </p>
-          <p className="mt-3">
-            For more information on the available plans{' '}
-            <a
-              href="https://www.travelexinsurance.com/index.aspx?location=10-0454&go=background/background.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-[#7c2c00] hover:text-[#b7714b]"
-            >
-              click here
-            </a>{' '}
-            or contact Travelex Insurance{' '}
-            <span className="font-bold not-italic">800-228-9792</span> and reference location
-            number <span className="font-bold not-italic">10-0454</span>.
-          </p>
-        </div>
+          {/* ── Travelex + Terms ── */}
+          <TravelexSection />
 
-        {/* Terms & Conditions */}
-        <div className="mt-6 pt-4 border-t border-[#e8dcc8] text-[#533e27] text-[13px] italic leading-[150%]">
-          <p>
-            By completing this reservation, you agree to our{' '}
-            <a
-              href="/rental-policies"
-              className="text-[#7c2c00] underline hover:text-[#b7714b]"
-            >
-              Rental Policies &amp; Terms
-            </a>
-            , including cancellation policies, check-in/check-out procedures, and pet policies.
-            A rental agreement will be sent to the email address provided. All rates are subject
-            to applicable state, local, and DOT taxes as shown in the Reservation Total above.
-          </p>
-        </div>
-      </div>
-
-      {/* Contact footer */}
-      <div className="mt-8 pt-6 border-t border-[#e8dcc8] text-center text-[#533e27] text-[13px] italic">
-        <p>
-          Need help? Call us at{' '}
-          <a href="tel:7064322140" className="text-[#7c2c00] underline hover:text-[#b7714b]">
-            (706) 432-2140
-          </a>{' '}
-          or email{' '}
-          <a
-            href="mailto:info@cabin-rentals-of-georgia.com"
-            className="text-[#7c2c00] underline hover:text-[#b7714b]"
+          {/* ── Contact footer ── */}
+          <div
+            className="mt-8 pt-6 border-t border-[#e8dcc8] text-center text-[#533e27] text-[14px] italic"
+            style={fontLegacy}
           >
-            info@cabin-rentals-of-georgia.com
-          </a>
-        </p>
-        <p className="mt-2">Available to reserve online 24/7</p>
+            <p>
+              Need help? Call us at{' '}
+              <a href="tel:7064322140" className="text-[#7c2c00] underline hover:text-[#b7714b]">
+                (706) 432-2140
+              </a>{' '}
+              or email{' '}
+              <a
+                href="mailto:info@cabin-rentals-of-georgia.com"
+                className="text-[#7c2c00] underline hover:text-[#b7714b]"
+              >
+                info@cabin-rentals-of-georgia.com
+              </a>
+            </p>
+            <p className="mt-2">Available to reserve online 24/7</p>
+          </div>
+        </div>
+
+        {/* ── RIGHT COLUMN (sidebar — 319px) ── */}
+        <div className="w-full lg:w-[319px] flex-shrink-0 lg:pl-[1px] mt-8 lg:mt-0">
+          <div className="sticky top-4 space-y-6">
+            <ReservationTotal
+              quote={quote}
+              quoteLoading={quoteLoading}
+              quoteError={quoteError}
+              hasValidRange={hasValidRange}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -856,7 +964,12 @@ export default function CheckoutPage({ params }: { params: { property_id: string
   return (
     <Suspense
       fallback={
-        <div className="py-10 px-5 text-center text-[#533e27] italic">Loading checkout...</div>
+        <div
+          className="py-10 px-5 text-center text-[#533e27] italic text-[16px]"
+          style={{ fontFamily: '"Fanwood Text", serif' }}
+        >
+          Loading checkout...
+        </div>
       }
     >
       <CheckoutInner propertyId={params.property_id} />

@@ -1,5 +1,5 @@
 # Cabin Rentals of Georgia — AI Agent Rules
-# Last updated: 2026-04-02 (Level 49: CSS Sniper)
+# Last updated: 2026-04-02 (Level 55: Checkout DOM Clone)
 
 ## Project Identity
 
@@ -131,9 +131,69 @@ replace these legacy blocks — they are NEVER rendered from HTML.
 
 ---
 
+## Checkout / Booking Page Protocol
+
+The checkout page at `app/(public)/checkout/[property_id]/page.tsx`
+is a 1:1 clone of the legacy Drupal booking page at
+`/reservations/book/{nid}`, extracted via Playwright in Level 55.
+
+### Layout (extracted via `clone_checkout_dom.py`)
+
+```
+Max width:         972px (centered)
+Content column:    609px (left)
+Sidebar column:    319px (right, sticky Reservation Total)
+Font:              "Fanwood Text", serif — 16px / 20.8px line-height
+```
+
+### Booking Form Tokens (extracted via getComputedStyle)
+
+```
+Form labels:       16px, italic, #533e27, "Fanwood Text"
+Form inputs:       16px, border #594634, bg transparent, height 28px
+Submit button:     22.4px, italic, "Fanwood Text", white text, rounded-[20px]
+Travelex text:     15.2px, italic, #533e27
+Section headings:  27.2px, italic, #7c2c00 (h2)
+```
+
+### Legacy Booking Page Section Order
+
+```
+1. h1 — "Book Your Getaway - {Cabin Name}"
+2. Two-column layout
+   LEFT:
+     a. Cabin image (box-shadow: 0 0 10px #333) + title + location
+     b. Availability calendar (no rates)
+     c. "Details of your Getaway" (h2)
+        - Arrival / Departure (date pickers)
+        - Adults / Children / Pets (select dropdowns)
+        - Pet breed/weight (text, conditional)
+        - Discount Coupon Code (text)
+        - Add-ons (checkboxes)
+     d. Guest Information (h2)
+     e. Continue to Payment → Stripe
+     f. Travelex Insurance + Terms
+     g. Contact footer
+   RIGHT:
+     a. Reservation Total (sticky)
+```
+
+### Travelex Links (REAL URLs from legacy)
+
+```
+Travel Basic:  https://partner.travelexinsurance.com/docs/tis/retail-products/travel-basic-flyer-std-no-rates_tbb-0623_final_06012023.pdf?sfvrsn=60ee9ca4_5
+Travel Select: https://partner.travelexinsurance.com/docs/tis/retail-products/travel-select-flyer-std-no-rates_tsb-0623_final_06012023.pdf?sfvrsn=b8ee9ca4_3
+Travel Med:    https://partner.travelexinsurance.com/docs/tis/specialty-risk-products/post-departure-plan-flyer-std-final-4.22.22.pdf?sfvrsn=70ba9fa4_3
+More Info:     https://www.travelexinsurance.com/highlights
+Location:      10-0454
+Phone:         800-228-9792
+```
+
+---
+
 ## Deployment
 
 - Hosted on Vercel (project: `frontend-next`)
-- Deploy command: `vercel --prod --yes`
+- Deploy command: `vercel --prod --yes --force`
 - Build: `next build` (Turbopack in dev)
 - Domain: `frontend-next-topaz.vercel.app`

@@ -1,0 +1,2548 @@
+{
+  "meta": {
+    "source": "https://www.cabin-rentals-of-georgia.com/cabin/blue-ridge/above-the-timberline",
+    "booking_url": "/reservations/book/2454",
+    "extracted_at": "2026-04-02T23:45:14.914320+00:00",
+    "viewport": "1280x900",
+    "post_submit_url": "https://www.cabin-rentals-of-georgia.com/reservations/book/2454"
+  },
+  "cabin_page_layout": {
+    "url": "https://www.cabin-rentals-of-georgia.com/cabin/blue-ridge/above-the-timberline",
+    "page_title": "Above the Timberline | Blue Ridge Luxury Cabins | Cabin Rentals of Georgia",
+    "sections": [
+      {
+        "index": 1,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-nav-bar",
+        "text": "Blue Ridge CabinsBlue Ridge Luxury CabinsFamily Reunion CabinsCorporate Retreat CabinsCabins With Hot TubsCabins With Game RoomsMotorcycle Friendly CabinsPet Friendly CabinsMountain View CabinsCreek &",
+        "y_position": 0,
+        "rect": {
+          "top": 0,
+          "left": 0,
+          "width": 1280,
+          "height": 0
+        }
+      },
+      {
+        "index": 4,
+        "tag": "div",
+        "id": "block-crog-menu-crog-secondary-menu",
+        "classes": "block block-crog-menu",
+        "text": "FAQBlogPoliciesAbout UsProperty Management",
+        "y_position": 6,
+        "rect": {
+          "top": 6,
+          "left": 903,
+          "width": 365,
+          "height": 24
+        }
+      },
+      {
+        "index": 3,
+        "tag": "div",
+        "id": "block-crog-menu-crog-main-menu",
+        "classes": "block block-crog-menu",
+        "text": "Blue Ridge CabinsBlue Ridge Luxury CabinsFamily Reunion CabinsCorporate Retreat CabinsCabins With Hot TubsCabins With Game RoomsMotorcycle Friendly CabinsPet Friendly CabinsMountain View CabinsCreek &",
+        "y_position": 22,
+        "rect": {
+          "top": 22,
+          "left": 12,
+          "width": 427,
+          "height": 29
+        }
+      },
+      {
+        "index": 5,
+        "tag": "div",
+        "id": "block-crog-content-crog-phone-number",
+        "classes": "block block-crog-content",
+        "text": "Contact Us: 706-432-2140",
+        "y_position": 30,
+        "rect": {
+          "top": 30,
+          "left": 1077,
+          "width": 187,
+          "height": 21
+        }
+      },
+      {
+        "index": 6,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-search-bar",
+        "text": "Search Available CabinsManage Your Property With Us Arrival   Departure  MasterCalendarPropertyManagement",
+        "y_position": 266,
+        "rect": {
+          "top": 266,
+          "left": 135,
+          "width": 1010,
+          "height": 136
+        }
+      },
+      {
+        "index": 8,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Search Available Cabins",
+        "y_position": 289,
+        "rect": {
+          "top": 289,
+          "left": 170,
+          "width": 277,
+          "height": 30
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "30px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "30px",
+          "color": "rgb(255, 255, 255)",
+          "marginTop": "23px",
+          "marginBottom": "21px",
+          "textAlign": "left"
+        }
+      },
+      {
+        "index": 9,
+        "tag": "form",
+        "id": "crog-search-cabins-form",
+        "classes": "",
+        "text": "Manage Your Property With Us Arrival   Departure  MasterCalendarPropertyManagement",
+        "y_position": 340,
+        "rect": {
+          "top": 340,
+          "left": 170,
+          "width": 940,
+          "height": 3
+        }
+      },
+      {
+        "index": 11,
+        "tag": "table",
+        "id": "",
+        "classes": "",
+        "text": "1234>PreviousNextCozy Conversational Living w/ Wood-burning Fireplace79SaveAbove The Timberline4 Bedroom, 3.5 Bath ~ Sleeps 8 +36Photos +36PhotosAbove The TimberlineBlue Ridge, GABlue Ridge Luxury, Pe",
+        "y_position": 392,
+        "rect": {
+          "top": 392,
+          "left": 154,
+          "width": 972,
+          "height": 8148
+        }
+      },
+      {
+        "index": 49,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-sidebar-right",
+        "text": "The Memories fromAbove The Timberline Four Generations at our Blue Ridge Cabin Fun times in the mountains! We enjoyed our stay in this gorgeous cabin. We played games, we laughed, we ate! Our group co",
+        "y_position": 413,
+        "rect": {
+          "top": 413,
+          "left": 826,
+          "width": 279,
+          "height": 1730
+        }
+      },
+      {
+        "index": 16,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-content",
+        "text": "+36Photos +36PhotosAbove The TimberlineBlue Ridge, GABlue Ridge Luxury, Pet Friendly, Mountain View4 Bedroom, 3.5 Bath ~ Sleeps 8from $325/night (view daily rates)Like\ndocument.getElementById(\"FB-shar",
+        "y_position": 423,
+        "rect": {
+          "top": 423,
+          "left": 175,
+          "width": 609,
+          "height": 8067
+        }
+      },
+      {
+        "index": 51,
+        "tag": "div",
+        "id": "block-views-testimonials-block",
+        "classes": "block block-views",
+        "text": "The Memories fromAbove The Timberline Four Generations at our Blue Ridge Cabin Fun times in the mountains! We enjoyed our stay in this gorgeous cabin. We played games, we laughed, we ate! Our group co",
+        "y_position": 479,
+        "rect": {
+          "top": 479,
+          "left": 826,
+          "width": 279,
+          "height": 619
+        }
+      },
+      {
+        "index": 53,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "The Memories fromAbove The Timberline",
+        "y_position": 479,
+        "rect": {
+          "top": 479,
+          "left": 826,
+          "width": 279,
+          "height": 78
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "22.576px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 18,
+        "tag": "h1",
+        "id": "page-title",
+        "classes": "title",
+        "text": "Above The TimberlineBlue Ridge, GA",
+        "y_position": 828,
+        "rect": {
+          "top": 828,
+          "left": 195,
+          "width": 510,
+          "height": 84
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "42.24px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "42.24px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "12px",
+          "marginBottom": "5px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 19,
+        "tag": "form",
+        "id": "crog-favorites-icon-form-2454",
+        "classes": "favorites-form",
+        "text": "",
+        "y_position": 831,
+        "rect": {
+          "top": 831,
+          "left": 713,
+          "width": 36,
+          "height": 38
+        }
+      },
+      {
+        "index": 54,
+        "tag": "div",
+        "id": "block-views-calls-to-action-block",
+        "classes": "block block-views",
+        "text": "Specials! The Blue Ridge Experience Planning Your Large Group Event in Blue Ridge, GA Family Friendly Cabins in Blue Ridge, GA",
+        "y_position": 1098,
+        "rect": {
+          "top": 1098,
+          "left": 826,
+          "width": 279,
+          "height": 1045
+        }
+      },
+      {
+        "index": 56,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Specials!",
+        "y_position": 1130,
+        "rect": {
+          "top": 1130,
+          "left": 826,
+          "width": 279,
+          "height": 48
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "5px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 20,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Blue Ridge Mountain Views in a Lodge-Style Cabin",
+        "y_position": 1245,
+        "rect": {
+          "top": 1245,
+          "left": 190,
+          "width": 348,
+          "height": 54
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "22.576px",
+          "marginBottom": "22.576px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 28,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "Property Features",
+        "y_position": 1338,
+        "rect": {
+          "top": 1338,
+          "left": 568,
+          "width": 202,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "20.8px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "15px",
+          "marginBottom": "15px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 57,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "The Blue Ridge Experience",
+        "y_position": 1371,
+        "rect": {
+          "top": 1371,
+          "left": 826,
+          "width": 279,
+          "height": 48
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "5px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 21,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Nearby Outdoor Activities and Things to Do in the Aska Adventure Area",
+        "y_position": 1553,
+        "rect": {
+          "top": 1553,
+          "left": 190,
+          "width": 348,
+          "height": 82
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "22.576px",
+          "marginBottom": "22.576px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 58,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Planning Your Large Group Event in Blue Ridge, GA",
+        "y_position": 1612,
+        "rect": {
+          "top": 1612,
+          "left": 826,
+          "width": 279,
+          "height": 103
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "5px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 59,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Family Friendly Cabins in Blue Ridge, GA",
+        "y_position": 1907,
+        "rect": {
+          "top": 1907,
+          "left": 826,
+          "width": 279,
+          "height": 75
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "5px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 22,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Evening Entertainment in Your Luxury Blue Ridge Cabin",
+        "y_position": 1985,
+        "rect": {
+          "top": 1985,
+          "left": 190,
+          "width": 348,
+          "height": 54
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "22.576px",
+          "marginBottom": "22.576px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 29,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "Availability",
+        "y_position": 2506,
+        "rect": {
+          "top": 2506,
+          "left": 175,
+          "width": 609,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "20.8px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "15px",
+          "marginBottom": "5px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 30,
+        "tag": "div",
+        "id": "",
+        "classes": "field field-name-field-availability field-type-availability-calendar field-label-hidden",
+        "text": "April 2026SunMonTueWedThuFriSat29303112$3253$3454$3455$3256$3257$3258$3259$32510$34511$34512$32513$32514$32515$32516$32517$34518$34519$32520$32521$32522$32523$32524$32525$32526$32527$32528$32529$32530",
+        "y_position": 2628,
+        "rect": {
+          "top": 2628,
+          "left": 175,
+          "width": 609,
+          "height": 622
+        }
+      },
+      {
+        "index": 31,
+        "tag": "table",
+        "id": "",
+        "classes": "",
+        "text": "April 2026SunMonTueWedThuFriSat29303112$3253$3454$3455$3256$3257$3258$3259$32510$34511$34512$32513$32514$32515$32516$32517$34518$34519$32520$32521$32522$32523$32524$32525$32526$32527$32528$32529$32530",
+        "y_position": 2628,
+        "rect": {
+          "top": 2628,
+          "left": 178,
+          "width": 597,
+          "height": 582
+        }
+      },
+      {
+        "index": 43,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "Rates",
+        "y_position": 3310,
+        "rect": {
+          "top": 3310,
+          "left": 190,
+          "width": 579,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "20.8px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "15px",
+          "marginBottom": "15px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 44,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "Videos",
+        "y_position": 3547,
+        "rect": {
+          "top": 3547,
+          "left": 175,
+          "width": 609,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "20.8px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "20.8px",
+          "marginBottom": "20.8px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 45,
+        "tag": "div",
+        "id": "",
+        "classes": "field field-name-field-video field-type-video-embed-field field-label-hidden",
+        "text": "",
+        "y_position": 3589,
+        "rect": {
+          "top": 3589,
+          "left": 175,
+          "width": 609,
+          "height": 344
+        }
+      },
+      {
+        "index": 46,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "Photos (click for larger image)",
+        "y_position": 3993,
+        "rect": {
+          "top": 3993,
+          "left": 175,
+          "width": 609,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "20.8px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "15px",
+          "marginBottom": "5px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 47,
+        "tag": "div",
+        "id": "",
+        "classes": "view view-cabin-images view-id-cabin_images view-display-id-block view-dom-id-8520be13f6106fcdfdf174f80f786db2",
+        "text": "Cozy Conversational Living w/ Wood-burning FireplaceBlue Ridge Mountain Views in Luxe LivingA Cozy and Inviting Blue Ridge Mountain GetawayComfortable Coziness in a Screened-in Porch w/ Wood-Burning F",
+        "y_position": 4026,
+        "rect": {
+          "top": 4026,
+          "left": 175,
+          "width": 609,
+          "height": 0
+        }
+      },
+      {
+        "index": 60,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-footer-social",
+        "text": "Connect with UsFacebookInstagramTwitterPinterestYouTube",
+        "y_position": 8573,
+        "rect": {
+          "top": 8573,
+          "left": 173,
+          "width": 243,
+          "height": 325
+        }
+      },
+      {
+        "index": 62,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Connect with Us",
+        "y_position": 8573,
+        "rect": {
+          "top": 8573,
+          "left": 173,
+          "width": 243,
+          "height": 67
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "25.6px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "25.6px",
+          "color": "rgb(254, 254, 254)",
+          "marginTop": "0px",
+          "marginBottom": "0px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 65,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "4 Bedroom Cabins in Blue Ridge, GA",
+        "y_position": 8577,
+        "rect": {
+          "top": 8577,
+          "left": 416,
+          "width": 390,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "19.2px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "4px",
+          "marginBottom": "4px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 67,
+        "tag": "div",
+        "id": "block-crog-content-crog-footer-contact",
+        "classes": "block block-crog-content",
+        "text": "Cabin Rentals of Georgia, L.L.C. Main: 706-432-2140 86 Huntington Way Blue Ridge, Georgia 30513Owner LoginPrivacy PolicyNorth Georgia Cabin RentalsBlue Ridge Cabin Rentals",
+        "y_position": 8685,
+        "rect": {
+          "top": 8685,
+          "left": 847,
+          "width": 260,
+          "height": 224
+        }
+      },
+      {
+        "index": 68,
+        "tag": "form",
+        "id": "back-button-check-form",
+        "classes": "",
+        "text": "",
+        "y_position": 8970,
+        "rect": {
+          "top": 8970,
+          "left": 0,
+          "width": 1280,
+          "height": 0
+        }
+      }
+    ],
+    "forms": [
+      {
+        "id": "crog-search-cabins-form",
+        "action": "https://www.cabin-rentals-of-georgia.com/cabin/blue-ridge/above-the-timberline",
+        "method": "post",
+        "classes": "",
+        "y_position": 340,
+        "fields": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "arrival[date]",
+            "id": "edit-arrival-datepicker-popup-0",
+            "label": "Arrival",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", Times, serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "20px 0px 0px 20px",
+              "padding": "1px 2px 1px 15px",
+              "height": "29px",
+              "width": "145px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "departure[date]",
+            "id": "edit-departure-datepicker-popup-0",
+            "label": "Departure",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", Times, serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "20px 0px 0px 20px",
+              "padding": "1px 2px 1px 15px",
+              "height": "29px",
+              "width": "145px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "submit",
+            "name": "op",
+            "id": "edit-submit",
+            "label": "",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "22.4px",
+              "fontFamily": "\"Fanwood Text\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "20px",
+              "padding": "1px 6px 1px 6px",
+              "height": "31px",
+              "width": "110px"
+            }
+          }
+        ]
+      },
+      {
+        "id": "crog-favorites-icon-form-2454",
+        "action": "https://www.cabin-rentals-of-georgia.com/cabin/blue-ridge/above-the-timberline",
+        "method": "post",
+        "classes": "favorites-form",
+        "y_position": 831,
+        "fields": []
+      },
+      {
+        "id": "back-button-check-form",
+        "action": "https://www.cabin-rentals-of-georgia.com/cabin/blue-ridge/above-the-timberline",
+        "method": "get",
+        "classes": "",
+        "y_position": 8970,
+        "fields": []
+      }
+    ],
+    "computed_styles": {
+      "content_column": {
+        "selector": ".region-content",
+        "width": "609.234px",
+        "maxWidth": "none",
+        "float": "none",
+        "display": "block",
+        "padding": "0px 0px 0px 0px"
+      },
+      "sidebar_column": {
+        "selector": ".column.sidebar",
+        "width": "318.766px",
+        "maxWidth": "none",
+        "float": "none",
+        "display": "table-cell",
+        "padding": "1px 1px 30px 1px"
+      },
+      "page_container": {
+        "width": "972px",
+        "maxWidth": "none",
+        "margin": "0px 0px 0px 0px",
+        "padding": "0px 0px 0px 0px",
+        "backgroundColor": "rgba(0, 0, 0, 0)"
+      },
+      "body": {
+        "fontFamily": "\"Fanwood Text\", serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgb(83, 62, 39)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "lineHeight": "20.8px"
+      },
+      "form_label": {
+        "fontFamily": "\"Fanwood Text\", serif",
+        "fontSize": "19.2px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "color": "rgb(83, 62, 39)",
+        "lineHeight": "32px"
+      }
+    },
+    "travelex": null,
+    "terms": null,
+    "all_text_sections": [
+      {
+        "y_position": 856,
+        "tag": "p",
+        "text": "Fun times in the mountains! We enjoyed our stay in this gorgeous cabin. We played games, we laughed, we ate! Our group consisted of four generations: 1 great-grandmother, 2 daughters, 3 grand-daughters, 4 great grandchildren. Thanks for the memories! ~ Alabama",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1092,
+        "tag": "p",
+        "text": "Our family came up for fall break from school and it was the perfect getaway for us and our 2 girls. The views from the porch are amazing and we enjoyed the pool table and games. Others must check out Fall Branch Falls, Amicalola Falls, Appalachian Trail Rides, and Shaka Alpaca Farm! The trail ride ",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1119,
+        "tag": "p",
+        "text": "Experience one of the best Blue Ridge luxury cabin rentals\u00a0in the heart of the Aska Adventure Area!\u00a0Taking its name from a Five for Fighting song of the same name,\u00a0you can \u201calmost touch the stars hanging over you\u201d at Above the Timberline.",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1322,
+        "tag": "p",
+        "text": "This four-bedroom lodge-style cabin offers the perfect blend of cozy ambience and spacious living, making it ideal for a North Georgia romantic getaway or family vacation. With King bedrooms on each of the three floors, Above the Timberline ensures that everyone experience the pinnacle of comfort. S",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1657,
+        "tag": "p",
+        "text": "Because of its supreme location in the Aska Adventure Area, you are close to hiking trails in the mountains and kayak and tube rentals on the Toccoa River, which runs parallel to Aska Road. In this locale, you are in close proximity to waterfall hikes, rainbow trout fishing, and gem mining for the k",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 2062,
+        "tag": "p",
+        "text": "After a day filled with adventure, the cabin\u2019s well-stocked kitchen and open floor plan invite you to create and share meals with breathtaking panoramic mountain views as your backdrop. Whether dining indoors, al fresco, or enjoying wine by the outdoor wood-burning fireplace, each moment here is a m",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 2265,
+        "tag": "p",
+        "text": "Head downstairs to the terrace level for a memorable experience in this luxury game room. Above the Timberline holds so many options for a fun-filled evening!",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 2628,
+        "tag": "div",
+        "text": "April 2026SunMonTueWedThuFriSat29303112$3253$3454$3455$3256$3257$3258$3259$32510$34511$34512$32513$32514$32515$32516$32517$34518$34519$32520$32521$32522$32523$32524$32525$32526$32527$32528$32529$32530$3251$3502$350May 2026SunMonTueWedThuFriSat26$32527$32528$32529$32530$3251$3502$3503$3504$3505$3506$",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 3346,
+        "tag": "p",
+        "text": "Rates for cabin rentals are based on per night for up to four guests. Add $25 per person, per night above four guests. A cleaning fee will be added, based on the number of guests. All cabin rentals prices and minimum stays are subject to change at anytime even if not posted on site.Please contact us",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 8573,
+        "tag": "p",
+        "text": "Proudly serving Blue Ridge for almost 20 years!",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "15.2px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 8796,
+        "tag": "p",
+        "text": "Owner LoginPrivacy Policy",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "17.28px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 8852,
+        "tag": "p",
+        "text": "North Georgia Cabin RentalsBlue Ridge Cabin Rentals",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "17.28px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      }
+    ]
+  },
+  "booking_page_layout": {
+    "url": "https://www.cabin-rentals-of-georgia.com/reservations/book/2454",
+    "page_title": "Book Your Getaway - Above The Timberline | Cabin Rentals of Georgia",
+    "sections": [
+      {
+        "index": 1,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-nav-bar",
+        "text": "Blue Ridge CabinsBlue Ridge Luxury CabinsFamily Reunion CabinsCorporate Retreat CabinsCabins With Hot TubsCabins With Game RoomsMotorcycle Friendly CabinsPet Friendly CabinsMountain View CabinsCreek &",
+        "y_position": 0,
+        "rect": {
+          "top": 0,
+          "left": 0,
+          "width": 1280,
+          "height": 0
+        }
+      },
+      {
+        "index": 4,
+        "tag": "div",
+        "id": "block-crog-menu-crog-secondary-menu",
+        "classes": "block block-crog-menu",
+        "text": "FAQBlogPoliciesAbout UsProperty Management",
+        "y_position": 6,
+        "rect": {
+          "top": 6,
+          "left": 903,
+          "width": 365,
+          "height": 24
+        }
+      },
+      {
+        "index": 3,
+        "tag": "div",
+        "id": "block-crog-menu-crog-main-menu",
+        "classes": "block block-crog-menu",
+        "text": "Blue Ridge CabinsBlue Ridge Luxury CabinsFamily Reunion CabinsCorporate Retreat CabinsCabins With Hot TubsCabins With Game RoomsMotorcycle Friendly CabinsPet Friendly CabinsMountain View CabinsCreek &",
+        "y_position": 22,
+        "rect": {
+          "top": 22,
+          "left": 12,
+          "width": 427,
+          "height": 29
+        }
+      },
+      {
+        "index": 5,
+        "tag": "div",
+        "id": "block-crog-content-crog-phone-number",
+        "classes": "block block-crog-content",
+        "text": "Contact Us: 706-432-2140",
+        "y_position": 30,
+        "rect": {
+          "top": 30,
+          "left": 1077,
+          "width": 187,
+          "height": 21
+        }
+      },
+      {
+        "index": 6,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-search-bar",
+        "text": "Search Available CabinsManage Your Property With Us Arrival   Departure  MasterCalendarPropertyManagement",
+        "y_position": 266,
+        "rect": {
+          "top": 266,
+          "left": 135,
+          "width": 1010,
+          "height": 136
+        }
+      },
+      {
+        "index": 8,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Search Available Cabins",
+        "y_position": 289,
+        "rect": {
+          "top": 289,
+          "left": 170,
+          "width": 277,
+          "height": 30
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "30px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "30px",
+          "color": "rgb(255, 255, 255)",
+          "marginTop": "23px",
+          "marginBottom": "21px",
+          "textAlign": "left"
+        }
+      },
+      {
+        "index": 9,
+        "tag": "form",
+        "id": "crog-search-cabins-form",
+        "classes": "",
+        "text": "Manage Your Property With Us Arrival   Departure  MasterCalendarPropertyManagement",
+        "y_position": 340,
+        "rect": {
+          "top": 340,
+          "left": 170,
+          "width": 940,
+          "height": 3
+        }
+      },
+      {
+        "index": 11,
+        "tag": "table",
+        "id": "",
+        "classes": "",
+        "text": "Book Your Getaway - Above The Timberline\n.main-image img {\npadding: 3px;\nbox-shadow: 0px 0px 10px #333;\n}\nAbove The TimberlineBlue Ridge, GABlue Ridge Luxury, Pet Friendly, Mountain View4 Bedroom, 3.5",
+        "y_position": 392,
+        "rect": {
+          "top": 392,
+          "left": 154,
+          "width": 972,
+          "height": 1574
+        }
+      },
+      {
+        "index": 31,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-sidebar-right",
+        "text": "The Memories fromAbove The Timberline Enjoy the Memories You Will Make Here! Girls Weekend for Dawn's Fabulous 50th Birthday!! We enjoyed the great views, hot tub, hiking, shopping, eating, and laughs",
+        "y_position": 413,
+        "rect": {
+          "top": 413,
+          "left": 826,
+          "width": 279,
+          "height": 804
+        }
+      },
+      {
+        "index": 12,
+        "tag": "h1",
+        "id": "page-title",
+        "classes": "title",
+        "text": "Book Your Getaway - Above The Timberline",
+        "y_position": 428,
+        "rect": {
+          "top": 428,
+          "left": 175,
+          "width": 609,
+          "height": 35
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "35.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "35.2px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "15px",
+          "marginBottom": "15px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 13,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-content",
+        "text": ".main-image img {\npadding: 3px;\nbox-shadow: 0px 0px 10px #333;\n}\nAbove The TimberlineBlue Ridge, GABlue Ridge Luxury, Pet Friendly, Mountain View4 Bedroom, 3.5 Bath ~ Sleeps 8April 2026SunMonTueWedThu",
+        "y_position": 478,
+        "rect": {
+          "top": 478,
+          "left": 175,
+          "width": 609,
+          "height": 498
+        }
+      },
+      {
+        "index": 33,
+        "tag": "div",
+        "id": "block-views-testimonials-block",
+        "classes": "block block-views",
+        "text": "The Memories fromAbove The Timberline Enjoy the Memories You Will Make Here! Girls Weekend for Dawn's Fabulous 50th Birthday!! We enjoyed the great views, hot tub, hiking, shopping, eating, and laughs",
+        "y_position": 479,
+        "rect": {
+          "top": 479,
+          "left": 826,
+          "width": 279,
+          "height": 664
+        }
+      },
+      {
+        "index": 35,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "The Memories fromAbove The Timberline",
+        "y_position": 479,
+        "rect": {
+          "top": 479,
+          "left": 826,
+          "width": 279,
+          "height": 78
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "22.576px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 15,
+        "tag": "h2",
+        "id": "page-title",
+        "classes": "title",
+        "text": "Above The TimberlineBlue Ridge, GA",
+        "y_position": 501,
+        "rect": {
+          "top": 501,
+          "left": 175,
+          "width": 609,
+          "height": 57
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "24.96px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.456px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "3px",
+          "marginBottom": "3px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 16,
+        "tag": "div",
+        "id": "",
+        "classes": "field field-name-field-availability field-type-availability-calendar field-label-hidden",
+        "text": "April 2026SunMonTueWedThuFriSat29303112345678910111213141516171819202122232425262728293012May 2026SunMonTueWedThuFriSat262728293012345678910111213141516171819202122232425262728293031123456June 2026Sun",
+        "y_position": 697,
+        "rect": {
+          "top": 697,
+          "left": 175,
+          "width": 609,
+          "height": 259
+        }
+      },
+      {
+        "index": 17,
+        "tag": "table",
+        "id": "",
+        "classes": "",
+        "text": "April 2026SunMonTueWedThuFriSat29303112345678910111213141516171819202122232425262728293012",
+        "y_position": 697,
+        "rect": {
+          "top": 697,
+          "left": 178,
+          "width": 198,
+          "height": 219
+        }
+      },
+      {
+        "index": 29,
+        "tag": "form",
+        "id": "crog-reservations-book-form",
+        "classes": "crog-reservations",
+        "text": "Details of your Getaway Arrival * Date *  E.g., 2026-04-02 Departure * Date *  E.g., 2026-04-02 Adults * 0123456789101112131415164 Children  0123456780 Pets  0120 Enter breed and weight of your pet(s)",
+        "y_position": 976,
+        "rect": {
+          "top": 976,
+          "left": 175,
+          "width": 609,
+          "height": 0
+        }
+      },
+      {
+        "index": 30,
+        "tag": "h2",
+        "id": "",
+        "classes": "table-header",
+        "text": "Details of your Getaway",
+        "y_position": 988,
+        "rect": {
+          "top": 988,
+          "left": 175,
+          "width": 317,
+          "height": 27
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(124, 44, 0)",
+          "marginTop": "12px",
+          "marginBottom": "12px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 36,
+        "tag": "div",
+        "id": "block-views-testimonials-block-1",
+        "classes": "block block-views",
+        "text": "The MemoriesHigh HopesThanks for a wonderful cabin! We enjoyed the views and cabin very much. We explored the nearby sights during our stay like Fall Branch Falls, the Lily Pad Village, and the Swingi",
+        "y_position": 1165,
+        "rect": {
+          "top": 1165,
+          "left": 826,
+          "width": 279,
+          "height": 51
+        }
+      },
+      {
+        "index": 37,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "The Memories",
+        "y_position": 1165,
+        "rect": {
+          "top": 1165,
+          "left": 826,
+          "width": 279,
+          "height": 51
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "27.2px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "27.2px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "22.576px",
+          "marginBottom": "22.576px",
+          "textAlign": "center"
+        }
+      },
+      {
+        "index": 38,
+        "tag": "div",
+        "id": "",
+        "classes": "view view-testimonials view-id-testimonials view-display-id-block_1 view-dom-id-5274af6a8f374d90b5b74a1ee77abc25",
+        "text": "High HopesThanks for a wonderful cabin! We enjoyed the views and cabin very much. We explored the nearby sights during our stay like Fall Branch Falls, the Lily Pad Village, and the Swinging Bridge! T",
+        "y_position": 1239,
+        "rect": {
+          "top": 1239,
+          "left": 826,
+          "width": 279,
+          "height": 0
+        }
+      },
+      {
+        "index": 39,
+        "tag": "div",
+        "id": "",
+        "classes": "region region-footer-social",
+        "text": "Connect with UsFacebookInstagramTwitterPinterestYouTube",
+        "y_position": 1999,
+        "rect": {
+          "top": 1999,
+          "left": 173,
+          "width": 243,
+          "height": 325
+        }
+      },
+      {
+        "index": 41,
+        "tag": "h2",
+        "id": "",
+        "classes": "",
+        "text": "Connect with Us",
+        "y_position": 1999,
+        "rect": {
+          "top": 1999,
+          "left": 173,
+          "width": 243,
+          "height": 67
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "25.6px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "lineHeight": "25.6px",
+          "color": "rgb(254, 254, 254)",
+          "marginTop": "0px",
+          "marginBottom": "0px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 44,
+        "tag": "h3",
+        "id": "",
+        "classes": "",
+        "text": "North Georgia Cabins in Blue Ridge, GA",
+        "y_position": 2003,
+        "rect": {
+          "top": 2003,
+          "left": 416,
+          "width": 390,
+          "height": 21
+        },
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "19.2px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "20.8px",
+          "color": "rgb(83, 62, 39)",
+          "marginTop": "4px",
+          "marginBottom": "4px",
+          "textAlign": "start"
+        }
+      },
+      {
+        "index": 46,
+        "tag": "div",
+        "id": "block-crog-content-crog-footer-contact",
+        "classes": "block block-crog-content",
+        "text": "Cabin Rentals of Georgia, L.L.C. Main: 706-432-2140 86 Huntington Way Blue Ridge, Georgia 30513Owner LoginPrivacy PolicyNorth Georgia Cabin RentalsBlue Ridge Cabin Rentals",
+        "y_position": 2111,
+        "rect": {
+          "top": 2111,
+          "left": 847,
+          "width": 260,
+          "height": 224
+        }
+      },
+      {
+        "index": 47,
+        "tag": "form",
+        "id": "back-button-check-form",
+        "classes": "",
+        "text": "",
+        "y_position": 2396,
+        "rect": {
+          "top": 2396,
+          "left": 0,
+          "width": 1280,
+          "height": 0
+        }
+      }
+    ],
+    "forms": [
+      {
+        "id": "crog-search-cabins-form",
+        "action": "https://www.cabin-rentals-of-georgia.com/reservations/book/2454",
+        "method": "post",
+        "classes": "",
+        "y_position": 340,
+        "fields": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "arrival[date]",
+            "id": "edit-arrival-datepicker-popup-0",
+            "label": "Arrival",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", Times, serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "20px 0px 0px 20px",
+              "padding": "1px 2px 1px 15px",
+              "height": "29px",
+              "width": "145px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "departure[date]",
+            "id": "edit-departure-datepicker-popup-0",
+            "label": "Departure",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", Times, serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "20px 0px 0px 20px",
+              "padding": "1px 2px 1px 15px",
+              "height": "29px",
+              "width": "145px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "submit",
+            "name": "op",
+            "id": "edit-submit--2",
+            "label": "",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "22.4px",
+              "fontFamily": "\"Fanwood Text\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "20px",
+              "padding": "1px 6px 1px 6px",
+              "height": "31px",
+              "width": "110px"
+            }
+          }
+        ]
+      },
+      {
+        "id": "crog-reservations-book-form",
+        "action": "https://www.cabin-rentals-of-georgia.com/reservations/book/2454",
+        "method": "post",
+        "classes": "crog-reservations",
+        "y_position": 976,
+        "fields": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "startdate[date]",
+            "id": "edit-startdate-datepicker-popup-0",
+            "label": "Arrival *",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(89, 70, 52)",
+              "borderWidth": "2px",
+              "borderRadius": "16px",
+              "padding": "0px 12px 0px 12px",
+              "height": "28px",
+              "width": "132px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "enddate[date]",
+            "id": "edit-enddate-datepicker-popup-0",
+            "label": "Departure *",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(89, 70, 52)",
+              "borderWidth": "2px",
+              "borderRadius": "16px",
+              "padding": "0px 12px 0px 12px",
+              "height": "28px",
+              "width": "132px"
+            }
+          },
+          {
+            "tag": "select",
+            "type": "select-one",
+            "name": "adults",
+            "id": "edit-adults",
+            "label": "Adults *",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgb(239, 239, 239)",
+              "borderColor": "rgb(118, 118, 118)",
+              "borderWidth": "1px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "auto",
+              "width": "auto"
+            }
+          },
+          {
+            "tag": "select",
+            "type": "select-one",
+            "name": "children",
+            "id": "edit-children",
+            "label": "Children",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgb(239, 239, 239)",
+              "borderColor": "rgb(118, 118, 118)",
+              "borderWidth": "1px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "auto",
+              "width": "auto"
+            }
+          },
+          {
+            "tag": "select",
+            "type": "select-one",
+            "name": "pets",
+            "id": "edit-pets",
+            "label": "Pets",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgb(239, 239, 239)",
+              "borderColor": "rgb(118, 118, 118)",
+              "borderWidth": "1px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "auto",
+              "width": "auto"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "pets_detail",
+            "id": "edit-pets-detail",
+            "label": "Enter breed and weight of your pet(s)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(89, 70, 52)",
+              "borderWidth": "2px",
+              "borderRadius": "16px",
+              "padding": "0px 12px 0px 12px",
+              "height": "28px",
+              "width": "100%"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "discount",
+            "id": "edit-discount",
+            "label": "Discount Coupon Code",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "16px",
+              "fontFamily": "Georgia, \"Times New Roman\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(89, 70, 52)",
+              "borderWidth": "2px",
+              "borderRadius": "16px",
+              "padding": "0px 12px 0px 12px",
+              "height": "28px",
+              "width": "233.156px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option39477",
+            "id": "edit-option39477",
+            "label": "1 Hour Early Check-In Fee ($50.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option39476",
+            "id": "edit-option39476",
+            "label": "1 Hour Late Check-Out Fee ($50.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option80991",
+            "id": "edit-option80991",
+            "label": "2 Hour Early Check-In Fee ($100.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option81000",
+            "id": "edit-option81000",
+            "label": "2 Hour Late Check-Out Fee ($100.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option40170",
+            "id": "edit-option40170",
+            "label": "Firewood 1/2 Face Cord ($165.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option178511",
+            "id": "edit-option178511",
+            "label": "Firewood 1/4 Face Cord ($135.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option202451",
+            "id": "edit-option202451",
+            "label": "Full Day Guided Private Water Trophy Fishing for 1 Person ($425.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "option202449",
+            "id": "edit-option202449",
+            "label": "\u00bd day Guided Private Water Trophy Fishing for 1 Person\u00a0 ($250.00)",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "13.3333px",
+              "fontFamily": "Arial",
+              "color": "rgb(0, 0, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(0, 0, 0)",
+              "borderWidth": "0px",
+              "borderRadius": "0px",
+              "padding": "0px 0px 0px 0px",
+              "height": "13px",
+              "width": "13px"
+            }
+          },
+          {
+            "tag": "input",
+            "type": "submit",
+            "name": "op",
+            "id": "edit-submit",
+            "label": "",
+            "placeholder": "",
+            "required": false,
+            "css": {
+              "fontSize": "24px",
+              "fontFamily": "\"Fanwood Text\", serif",
+              "color": "rgb(255, 255, 255)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "0px",
+              "borderRadius": "16px",
+              "padding": "0px 22px 0px 22px",
+              "height": "32px",
+              "width": "169px"
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-button-check-form",
+        "action": "https://www.cabin-rentals-of-georgia.com/reservations/book/2454",
+        "method": "get",
+        "classes": "",
+        "y_position": 2396,
+        "fields": []
+      }
+    ],
+    "computed_styles": {
+      "content_column": {
+        "selector": ".region-content",
+        "width": "609.234px",
+        "maxWidth": "none",
+        "float": "none",
+        "display": "block",
+        "padding": "0px 0px 0px 0px"
+      },
+      "sidebar_column": {
+        "selector": ".column.sidebar",
+        "width": "318.766px",
+        "maxWidth": "none",
+        "float": "none",
+        "display": "table-cell",
+        "padding": "1px 1px 30px 1px"
+      },
+      "page_container": {
+        "width": "972px",
+        "maxWidth": "none",
+        "margin": "0px 0px 0px 0px",
+        "padding": "0px 0px 0px 0px",
+        "backgroundColor": "rgba(0, 0, 0, 0)"
+      },
+      "body": {
+        "fontFamily": "\"Fanwood Text\", serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgb(83, 62, 39)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "lineHeight": "20.8px"
+      },
+      "form_label": {
+        "fontFamily": "\"Fanwood Text\", serif",
+        "fontSize": "19.2px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "color": "rgb(83, 62, 39)",
+        "lineHeight": "32px"
+      }
+    },
+    "travelex": {
+      "images": [
+        {
+          "src": "https://www.cabin-rentals-of-georgia.com/sites/all/themes/crog/images/Travelex_logo.png",
+          "alt": "Insurance Quote",
+          "width": 145,
+          "height": 38
+        },
+        {
+          "src": "https://www.cabin-rentals-of-georgia.com/sites/all/themes/crog/images/Travelex_quoteButton.png",
+          "alt": "Insurance Quote",
+          "width": 480,
+          "height": 123
+        }
+      ],
+      "links": [
+        {
+          "href": "https://partner.travelexinsurance.com/docs/tis/retail-products/travel-basic-flyer-std-no-rates_tbb-0623_final_06012023.pdf?sfvrsn=60ee9ca4_5",
+          "text": "Travel Basic"
+        },
+        {
+          "href": "https://partner.travelexinsurance.com/docs/tis/retail-products/travel-select-flyer-std-no-rates_tsb-0623_final_06012023.pdf?sfvrsn=b8ee9ca4_3",
+          "text": "Travel Select"
+        },
+        {
+          "href": "https://partner.travelexinsurance.com/docs/tis/specialty-risk-products/post-departure-plan-flyer-std-final-4.22.22.pdf?sfvrsn=70ba9fa4_3",
+          "text": "Travel Med"
+        },
+        {
+          "href": "https://www.travelexinsurance.com/highlights",
+          "text": "click here"
+        },
+        {
+          "href": "https://www.travelexinsurance.com/",
+          "text": ""
+        },
+        {
+          "href": "https://partner.travelexinsurance.com/docs/tis/retail-products/travel-basic-flyer-std-no-rates_tbb-0623_final_06012023.pdf?sfvrsn=60ee9ca4_5",
+          "text": "Travel Basic"
+        },
+        {
+          "href": "https://partner.travelexinsurance.com/docs/tis/retail-products/travel-select-flyer-std-no-rates_tsb-0623_final_06012023.pdf?sfvrsn=b8ee9ca4_3",
+          "text": "Travel Select"
+        },
+        {
+          "href": "https://partner.travelexinsurance.com/docs/tis/specialty-risk-products/post-departure-plan-flyer-std-final-4.22.22.pdf?sfvrsn=70ba9fa4_3",
+          "text": "Travel Med"
+        },
+        {
+          "href": "https://www.travelexinsurance.com/highlights",
+          "text": "click here"
+        }
+      ],
+      "surrounding_text": "In today\u2019s changing travel environment, it's important to protect your travel investment so you can relax and enjoy your trip. Unforeseen events such as flight delays, baggage loss or even a sudden sickness or injury could impact your travel plans. For your convenience, we offer Travelex Insurance Services Travel Basic, Travel Select, and Travel Med protection plans to help protect you and your travel investment against the unexpected.For more information on the available plans click here or contact Travelex Insurance 800-228-9792 and reference location number 10-0454.",
+      "css": {
+        "fontFamily": "\"Fanwood Text\", serif",
+        "fontSize": "14.4px",
+        "fontStyle": "italic",
+        "color": "rgb(83, 62, 39)",
+        "lineHeight": "14.4px"
+      }
+    },
+    "terms": null,
+    "all_text_sections": [
+      {
+        "y_position": 697,
+        "tag": "div",
+        "text": "April 2026SunMonTueWedThuFriSat29303112345678910111213141516171819202122232425262728293012May 2026SunMonTueWedThuFriSat262728293012345678910111213141516171819202122232425262728293031123456June 2026SunMonTueWedThuFriSat311234567891011121314151617181920212223242526272829301234July 2026SunMonTueWedThuF",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 856,
+        "tag": "p",
+        "text": "Girls Weekend for Dawn's Fabulous 50th Birthday!! We enjoyed the great views, hot tub, hiking, shopping, eating, and laughs. Friends from different times of life came together to celebrate a wonderful friend. Thank you for everything! Enjoy the memories you will make here!",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1137,
+        "tag": "p",
+        "text": "We had the absolute best cabin vacation in Blue Ridge this year! We loved the hikes and hot tub! The view is so beautiful and cool. We sat and ate out on the deck and had a fire in the firepit. We hiked to so many beautiful places. Saw lots of waterfalls and enjoyed our rainy movie day. The pool tab",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1435,
+        "tag": "p",
+        "text": "Thanks for a wonderful cabin! We enjoyed the views and cabin very much. We explored the nearby sights during our stay like Fall Branch Falls, the Lily Pad Village, and the Swinging Bridge! Thanks!",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1673,
+        "tag": "p",
+        "text": "Our family came up for fall break from school and it was the perfect getaway for us and our 2 girls. The views from the porch are amazing and we enjoyed the pool table and games. Others must check out Fall Branch Falls, Amicalola Falls, Appalachian Trail Rides, and Shaka Alpaca Farm! The trail ride ",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1749,
+        "tag": "p",
+        "text": "In today\u2019s changing travel environment, it's important to protect your travel investment so you can relax and enjoy your trip. Unforeseen events such as flight delays, baggage loss or even a sudden sickness or injury could impact your travel plans. For your convenience, we offer Travelex Insurance S",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "15.2px",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1886,
+        "tag": "p",
+        "text": "For more information on the available plans click here or contact Travelex Insurance 800-228-9792 and reference location number 10-0454.",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "15.2px",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 1999,
+        "tag": "p",
+        "text": "Proudly serving Blue Ridge for almost 20 years!",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "15.2px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 2222,
+        "tag": "p",
+        "text": "Owner LoginPrivacy Policy",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "17.28px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      },
+      {
+        "y_position": 2278,
+        "tag": "p",
+        "text": "North Georgia Cabin RentalsBlue Ridge Cabin Rentals",
+        "css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "17.28px",
+          "fontStyle": "normal",
+          "color": "rgb(83, 62, 39)",
+          "fontWeight": "400"
+        }
+      }
+    ]
+  },
+  "post_date_submit_layout": null,
+  "reservation_form_detail": {
+    "form_id": "crog-reservations-book-form",
+    "form_action": "https://www.cabin-rentals-of-georgia.com/reservations/book/2454",
+    "form_method": "post",
+    "total_fields": 17,
+    "visible_fields": 14,
+    "fields": [
+      {
+        "label": "Arrival *",
+        "input_name": "startdate[date]",
+        "input_type": "text",
+        "input_id": "edit-startdate-datepicker-popup-0",
+        "required": true,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "16px",
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(89, 70, 52)",
+          "borderRadius": "16px",
+          "padding": "0px 12px 0px 12px",
+          "height": "28px",
+          "width": "132px"
+        }
+      },
+      {
+        "label": "Date *",
+        "input_name": "startdate[date]",
+        "input_type": "text",
+        "input_id": "edit-startdate-datepicker-popup-0",
+        "required": true,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "16px",
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(89, 70, 52)",
+          "borderRadius": "16px",
+          "padding": "0px 12px 0px 12px",
+          "height": "28px",
+          "width": "132px"
+        }
+      },
+      {
+        "label": "Departure *",
+        "input_name": "enddate[date]",
+        "input_type": "text",
+        "input_id": "edit-enddate-datepicker-popup-0",
+        "required": true,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "16px",
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(89, 70, 52)",
+          "borderRadius": "16px",
+          "padding": "0px 12px 0px 12px",
+          "height": "28px",
+          "width": "132px"
+        }
+      },
+      {
+        "label": "Date *",
+        "input_name": "enddate[date]",
+        "input_type": "text",
+        "input_id": "edit-enddate-datepicker-popup-0",
+        "required": true,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "16px",
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(89, 70, 52)",
+          "borderRadius": "16px",
+          "padding": "0px 12px 0px 12px",
+          "height": "28px",
+          "width": "132px"
+        }
+      },
+      {
+        "label": "Adults *",
+        "input_name": "adults",
+        "input_type": "select-one",
+        "input_id": "edit-adults",
+        "required": true,
+        "visible": false,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(239, 239, 239)",
+          "borderColor": "rgb(118, 118, 118)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "auto",
+          "width": "auto"
+        }
+      },
+      {
+        "label": "Children",
+        "input_name": "children",
+        "input_type": "select-one",
+        "input_id": "edit-children",
+        "required": false,
+        "visible": false,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(239, 239, 239)",
+          "borderColor": "rgb(118, 118, 118)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "auto",
+          "width": "auto"
+        }
+      },
+      {
+        "label": "Pets",
+        "input_name": "pets",
+        "input_type": "select-one",
+        "input_id": "edit-pets",
+        "required": false,
+        "visible": false,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(239, 239, 239)",
+          "borderColor": "rgb(118, 118, 118)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "auto",
+          "width": "auto"
+        }
+      },
+      {
+        "label": "Enter breed and weight of your pet(s)",
+        "input_name": "pets_detail",
+        "input_type": "text",
+        "input_id": "edit-pets-detail",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "16px",
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(89, 70, 52)",
+          "borderRadius": "16px",
+          "padding": "0px 12px 0px 12px",
+          "height": "28px",
+          "width": "100%"
+        }
+      },
+      {
+        "label": "Discount Coupon Code",
+        "input_name": "discount",
+        "input_type": "text",
+        "input_id": "edit-discount",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "16px",
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "color": "rgb(255, 255, 255)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(89, 70, 52)",
+          "borderRadius": "16px",
+          "padding": "0px 12px 0px 12px",
+          "height": "28px",
+          "width": "233.156px"
+        }
+      },
+      {
+        "label": "1 Hour Early Check-In Fee ($50.00)",
+        "input_name": "option39477",
+        "input_type": "checkbox",
+        "input_id": "edit-option39477",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "1 Hour Late Check-Out Fee ($50.00)",
+        "input_name": "option39476",
+        "input_type": "checkbox",
+        "input_id": "edit-option39476",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "2 Hour Early Check-In Fee ($100.00)",
+        "input_name": "option80991",
+        "input_type": "checkbox",
+        "input_id": "edit-option80991",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "2 Hour Late Check-Out Fee ($100.00)",
+        "input_name": "option81000",
+        "input_type": "checkbox",
+        "input_id": "edit-option81000",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "Firewood 1/2 Face Cord ($165.00)",
+        "input_name": "option40170",
+        "input_type": "checkbox",
+        "input_id": "edit-option40170",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "Firewood 1/4 Face Cord ($135.00)",
+        "input_name": "option178511",
+        "input_type": "checkbox",
+        "input_id": "edit-option178511",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "Full Day Guided Private Water Trophy Fishing for 1 Person ($425.00)",
+        "input_name": "option202451",
+        "input_type": "checkbox",
+        "input_id": "edit-option202451",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      },
+      {
+        "label": "\u00bd day Guided Private Water Trophy Fishing for 1 Person\u00a0 ($250.00)",
+        "input_name": "option202449",
+        "input_type": "checkbox",
+        "input_id": "edit-option202449",
+        "required": false,
+        "visible": true,
+        "label_css": {
+          "fontFamily": "\"Fanwood Text\", serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "italic",
+          "color": "rgb(83, 62, 39)"
+        },
+        "input_css": {
+          "fontSize": "13.3333px",
+          "fontFamily": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderColor": "rgb(0, 0, 0)",
+          "borderRadius": "0px",
+          "padding": "0px 0px 0px 0px",
+          "height": "13px",
+          "width": "13px"
+        }
+      }
+    ]
+  }
+}
