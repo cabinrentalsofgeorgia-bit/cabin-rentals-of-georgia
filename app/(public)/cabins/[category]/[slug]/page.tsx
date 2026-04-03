@@ -71,7 +71,7 @@ async function CabinCategoryContent({ category, slug }: { category: string; slug
         {descriptionHtml && (
           <ProcessedHTML
             html={descriptionHtml}
-            className="prose prose-stone max-w-none mb-4 prose-p:text-[#533e27] prose-headings:text-[#7c2c00] prose-headings:font-normal prose-a:text-[#7c2c00] prose-li:text-[#533e27] prose-strong:text-[#533e27] prose-img:rounded-lg prose-img:shadow-md"
+            className="prose prose-legacy max-w-none mb-4"
           />
         )}
 
