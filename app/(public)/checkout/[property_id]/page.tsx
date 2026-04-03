@@ -36,11 +36,30 @@ interface LedgerLineItem {
   type: 'rent' | 'fee' | 'addon' | 'tax' | 'deposit' | 'discount'
 }
 
+interface TaxBreakdownDetail {
+  tax_name: string
+  tax_rate: number
+  taxable_base: number
+  amount: number
+  bucket: string
+}
+
+interface TaxBreakdown {
+  state_sales_tax: number
+  county_sales_tax: number
+  lodging_tax: number
+  dot_fee: number
+  total_tax: number
+  county: string
+  details: TaxBreakdownDetail[]
+}
+
 interface LedgerSummary {
   taxable_subtotal: number
   tax_amount: number
   non_taxable_subtotal: number
   grand_total: number
+  tax_breakdown: TaxBreakdown | null
 }
 
 interface QuoteResponse {
@@ -117,7 +136,7 @@ function ReservationTotal({
   quoteError: string | null
   hasValidRange: boolean
 }) {
-  const isTaxLikeFee = (name: string) => /tax/i.test(name)
+  const [taxOpen, setTaxOpen] = useState(false)
 
   return (
     <div className="rounded-xl border border-[#e8dcc8] bg-[#faf6ef] p-5 shadow-sm">
@@ -144,7 +163,7 @@ function ReservationTotal({
           {/* Lodging & Fees */}
           {(() => {
             const lodgingItems = quote.line_items.filter(
-              (i) => (i.type === 'rent' || i.type === 'fee' || i.type === 'discount') && !isTaxLikeFee(i.name)
+              (i) => (i.type === 'rent' || i.type === 'fee' || i.type === 'discount') && !/tax/i.test(i.name)
             )
             return lodgingItems.length > 0 ? (
               <div className="space-y-1">
@@ -179,26 +198,75 @@ function ReservationTotal({
             ) : null
           })()}
 
-          {/* Taxes & Assessments */}
-          {(() => {
-            const taxItems = [
-              ...quote.line_items.filter((i) => i.type === 'tax'),
-              ...quote.line_items.filter((i) => i.type === 'fee' && isTaxLikeFee(i.name)),
-            ]
-            return taxItems.length > 0 ? (
-              <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
+          {/* Taxes & Assessments — with collapsible breakdown */}
+          {quote.summary.tax_amount > 0 && (
+            <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
+              <button
+                type="button"
+                onClick={() => setTaxOpen(!taxOpen)}
+                className="flex items-center justify-between w-full text-left group"
+              >
                 <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">
-                  Taxes &amp; Assessments
+                  Tax &amp; Fees Breakdown
                 </p>
-                {taxItems.map((item) => (
-                  <div key={item.id} className="flex justify-between">
-                    <span>{item.name}</span>
-                    <span>${item.amount.toFixed(2)}</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-[14px] font-semibold text-[#7c2c00]">
+                    ${quote.summary.tax_amount.toFixed(2)}
+                  </span>
+                  <svg
+                    className={`w-3.5 h-3.5 text-[#7c2c00] transition-transform ${taxOpen ? 'rotate-180' : ''}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
+
+              {taxOpen && quote.summary.tax_breakdown ? (
+                <div className="mt-2 pt-2 border-t border-[#e8dcc8]/40 space-y-1.5 text-[13px]">
+                  {quote.summary.tax_breakdown.state_sales_tax > 0 && (
+                    <div className="flex justify-between">
+                      <span>GA State Sales Tax</span>
+                      <span>${quote.summary.tax_breakdown.state_sales_tax.toFixed(2)}</span>
+                    </div>
+                  )}
+                  {quote.summary.tax_breakdown.county_sales_tax > 0 && (
+                    <div className="flex justify-between">
+                      <span>{quote.summary.tax_breakdown.county} County Sales Tax</span>
+                      <span>${quote.summary.tax_breakdown.county_sales_tax.toFixed(2)}</span>
+                    </div>
+                  )}
+                  {quote.summary.tax_breakdown.lodging_tax > 0 && (
+                    <div className="flex justify-between">
+                      <span>{quote.summary.tax_breakdown.county} County Lodging Tax</span>
+                      <span>${quote.summary.tax_breakdown.lodging_tax.toFixed(2)}</span>
+                    </div>
+                  )}
+                  {quote.summary.tax_breakdown.dot_fee > 0 && (
+                    <div className="flex justify-between">
+                      <span>GA DOT Fee</span>
+                      <span>${quote.summary.tax_breakdown.dot_fee.toFixed(2)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between pt-1 border-t border-[#e8dcc8]/40 font-semibold text-[#7c2c00]">
+                    <span>Total Taxes &amp; Fees</span>
+                    <span>${quote.summary.tax_breakdown.total_tax.toFixed(2)}</span>
                   </div>
-                ))}
-              </div>
-            ) : null
-          })()}
+                </div>
+              ) : taxOpen ? (
+                <div className="mt-2 space-y-1 text-[13px]">
+                  {quote.line_items
+                    .filter((i) => i.type === 'tax')
+                    .map((item) => (
+                      <div key={item.id} className="flex justify-between">
+                        <span>{item.name}</span>
+                        <span>${item.amount.toFixed(2)}</span>
+                      </div>
+                    ))}
+                </div>
+              ) : null}
+            </div>
+          )}
 
           {/* Security Deposits */}
           {(() => {
