@@ -1,0 +1,21 @@
+# Backend scripts (not needed for frontend deployment)
+backend/
+scripts/
+
+# Large extracted JSON maps (build-time artifacts only)
+checkout_layout_map.json
+design_tokens.json
+
+# Development and temp files
+*.tmp
+*.log
+.env*.local
+.husky/
+
+# Test files
+tests/
+
+# Documentation and config not needed in production
+.cursorrules
+*.md
+!README.md

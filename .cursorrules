@@ -221,6 +221,37 @@ Phone:         800-228-9792
 
 ---
 
+## Security Protocol
+
+### ⚠ CRITICAL — Secret & Environment Variable Rules
+
+1. **All API keys must be marked as "Sensitive" in Vercel.**
+   Sensitive variables are write-only — they cannot be read back from
+   the dashboard or CLI after being set. This includes:
+   - `STRIPE_SECRET_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `STREAMLINE_API_KEY`
+   - Any third-party secret (Travelex, email, analytics)
+
+2. **NEVER commit secrets to the repository.**
+   All `.env*.local` files are gitignored. If a secret appears in a
+   commit, rotate it immediately and force-push a clean history.
+
+3. **Production branch `main` is read-only.**
+   All merges into `main` require a verified Vercel Preview URL from
+   the `develop` branch. Direct pushes to `main` are prohibited.
+
+4. **NEVER hardcode API keys, tokens, or credentials in source code.**
+   Always reference `process.env.VARIABLE_NAME` and provision via
+   Vercel Environment Variables or `.env.local` for local dev.
+
+5. **NEVER expose server-side secrets to the client.**
+   Only variables prefixed with `NEXT_PUBLIC_` are safe for client
+   components. All other env vars must stay in Server Components,
+   Server Actions, or Route Handlers.
+
+---
+
 ## Deployment
 
 - Hosted on Vercel (project: `frontend-next`)
