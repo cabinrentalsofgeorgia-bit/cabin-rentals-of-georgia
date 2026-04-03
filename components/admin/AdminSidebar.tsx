@@ -121,6 +121,12 @@ const menuSections: MenuSection[] = [
         href: '/admin',
         icon: 'Dashboard',
       },
+      {
+        name: 'Tax Vault',
+        href: '/admin/dashboard/tax-reports',
+        icon: 'Shield',
+        badge: 'NEW',
+      },
     ],
   },
   {
