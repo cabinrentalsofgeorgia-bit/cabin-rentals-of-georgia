@@ -8,6 +8,7 @@ import Image from 'next/image'
 
 import BookingAddOns from '@/components/booking/BookingAddOns'
 import AvailabilityCalendar from '@/components/cabin/AvailabilityCalendar'
+import DemandBadge from '@/components/ui/DemandBadge'
 
 import type { Stripe } from '@stripe/stripe-js'
 
@@ -639,6 +640,10 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
       >
         Book Your Getaway{cabin ? ` - ${cabin.title}` : ''}
       </h1>
+
+      {cabin?.cabin_slug && (
+        <DemandBadge propertySlug={cabin.cabin_slug} className="mb-4" />
+      )}
 
       {/* ══════════════════════════════════════════════════════════════
           TWO-COLUMN LAYOUT  (legacy: content 609px | sidebar 319px)

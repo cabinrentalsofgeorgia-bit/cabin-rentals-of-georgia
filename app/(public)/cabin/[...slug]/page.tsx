@@ -16,6 +16,7 @@ import AmenityMatrix from '@/components/cabin/AmenityMatrix'
 import LikeSaveButton from '@/components/cabin/LikeSaveButton'
 import CabinReviews from '@/components/cabin/CabinReviews'
 import ReadMore from '@/components/ui/ReadMore'
+import DemandBadge from '@/components/ui/DemandBadge'
 
 interface PageProps {
   params: {
@@ -152,6 +153,8 @@ async function CabinContent({ slug }: { slug: string[] }) {
           </h1>
           <LikeSaveButton cabinId={cabin.id} cabinTitle={cabin.title} className="mt-[10px] max-[767px]:hidden" />
         </div>
+
+        <DemandBadge propertySlug={cabin.slug} className="pl-[20px] mb-2" />
 
         <div className='flex flex-col gap-[5px] p-[0px_0px_20px_20px] bg-[url("/images/cabin_separator.png")] bg-[center_bottom] bg-no-repeat max-[1010px]:w-[53%] max-[767px]:w-[100%] max-[767px]:text-center'>
           {/* Property Listings */}
