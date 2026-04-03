@@ -57,7 +57,7 @@ async function AboutUsContent() {
               
               <p className="text-lg text-gray-700 mb-6">
                 Our carefully curated collection of cabins offers something for everyone - from cozy 
-                romantic retreats to spacious family lodges. Whether you're seeking a mountain view, 
+                romantic retreats to spacious family lodges. Whether you&apos;re seeking a mountain view, 
                 river frontage, or lake access, we have the perfect cabin for your getaway.
               </p>
               

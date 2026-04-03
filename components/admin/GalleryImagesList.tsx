@@ -195,7 +195,7 @@ export default function GalleryImagesList({
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm disabled:bg-slate-100 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-slate-500 mt-2">
-                  Click "Choose File" above to upload a new image.
+                  Click &quot;Choose File&quot; above to upload a new image.
                 </p>
               </div>
             </div>

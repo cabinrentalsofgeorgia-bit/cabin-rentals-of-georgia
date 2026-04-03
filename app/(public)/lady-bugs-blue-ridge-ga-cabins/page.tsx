@@ -28,7 +28,7 @@ async function LadyBugsContent() {
         ) : (
           <div className="text-[#533e27] text-lg py-6">
             <p className="mb-4">
-              If you've ever stayed in a mountain cabin during the cooler months, you may have noticed
+              If you&apos;ve ever stayed in a mountain cabin during the cooler months, you may have noticed
               ladybugs making themselves at home. This is a completely natural occurrence in the Blue Ridge
               Mountains and is common across all cabin rental companies in the area.
             </p>
@@ -49,7 +49,7 @@ async function LadyBugsContent() {
         </h1>
         <div className="text-[#533e27] text-lg py-6">
           <p className="mb-4">
-            If you've ever stayed in a mountain cabin during the cooler months, you may have noticed
+            If you&apos;ve ever stayed in a mountain cabin during the cooler months, you may have noticed
             ladybugs making themselves at home. This is a completely natural occurrence in the Blue Ridge
             Mountains and is common across all cabin rental companies in the area.
           </p>

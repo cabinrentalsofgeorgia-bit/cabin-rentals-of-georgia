@@ -266,7 +266,7 @@ export default function ImageUploader({
                   />
                 )}
                 <p className="text-xs text-slate-500 mt-2">
-                  Click "Choose File" to upload a new image.
+                  Click &quot;Choose File&quot; to upload a new image.
                 </p>
               </div>
             </div>

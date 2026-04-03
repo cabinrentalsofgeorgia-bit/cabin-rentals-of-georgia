@@ -1,5 +1,5 @@
 # Cabin Rentals of Georgia — AI Agent Rules
-# Last updated: 2026-04-03 (Level 56: Pre-Built Deployment Protocol)
+# Last updated: 2026-04-03 (Level 59: The Iron Sentry)
 
 ## Project Identity
 
@@ -191,9 +191,41 @@ Phone:         800-228-9792
 
 ---
 
+## Git & Branch Strategy (Level 59: The Iron Sentry)
+
+### ⚠ CRITICAL — Branch Protection Rules
+
+1. **NEVER push directly to `main`.** The `main` branch is reserved for
+   production-only releases. All work happens on `develop` or feature branches.
+
+2. **Workflow:**
+   - Create feature branches from `develop` (e.g., `feature/new-component`)
+   - Commit frequently to `develop` — this triggers Vercel Preview deployments
+   - Verify Preview URL before merging
+   - When ready for production: merge `develop` → `main` via PR or local merge
+   - Only `main` triggers Production deployment on Vercel
+
+3. **Pre-commit hooks (Husky):**
+   - `lint-staged` runs `next lint --fix` on staged `.ts/.tsx/.js/.jsx` files
+   - Full `next build` runs to catch compile errors
+   - If either fails, the commit is REJECTED — fix the error first
+
+4. **Deployment flow:**
+   ```
+   develop (work) → push → Vercel Preview URL → verify
+   main (production) → push → Vercel Production → frontend-next-topaz.vercel.app
+   ```
+
+5. **NEVER run `vercel --prod` from CLI.** Push to `main` on GitHub instead.
+   Vercel CI/CD auto-deploys on push via the connected GitHub repo.
+
+---
+
 ## Deployment
 
 - Hosted on Vercel (project: `frontend-next`)
-- Deploy command: `vercel --prod --yes --force`
+- Production trigger: `git push origin main` (auto-deploys via GitHub integration)
+- Preview trigger: `git push origin develop` (auto-deploys Preview URL)
 - Build: `next build` (Turbopack in dev)
 - Domain: `frontend-next-topaz.vercel.app`
+- GitHub repo: `cabinrentalsofgeorgia-bit/cabin-rentals-of-georgia`

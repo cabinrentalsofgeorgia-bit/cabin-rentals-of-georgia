@@ -139,7 +139,7 @@ export default function PropertyManagementContent() {
               Powerful Property <br />Marketing
             </div>
             <div className="text-[16px] space-y-[8px]">
-              Your home's exposure across all major marketing channels will be enhanced by our marketing and sales strategy. Third-party booking sites, professional photography, and engaging copywriting all contribute to our cabins' competitive advantage in online searches, along with monthly email blasts, robust social media engagement, and PPC campaigns which increase bookings.
+              Your home&apos;s exposure across all major marketing channels will be enhanced by our marketing and sales strategy. Third-party booking sites, professional photography, and engaging copywriting all contribute to our cabins&apos; competitive advantage in online searches, along with monthly email blasts, robust social media engagement, and PPC campaigns which increase bookings.
             </div>
           </div>
           <div className="basis-1/4 text-[22px] font-normal">
@@ -207,7 +207,7 @@ export default function PropertyManagementContent() {
               Quality <br />Inspections
             </div>
             <div className="text-[16px] space-y-[8px]">
-              Our inspection process delivers a high standard of care. Your home is inspected after each departure to ensure everything is in order. We inspect it again after the Housekeeper cleans, and we inspect again upon guests' arrival to make sure everything is perfect for their arrival.
+              Our inspection process delivers a high standard of care. Your home is inspected after each departure to ensure everything is in order. We inspect it again after the Housekeeper cleans, and we inspect again upon guests&apos; arrival to make sure everything is perfect for their arrival.
             </div>
           </div>
           <div className="basis-1/3 text-[22px] font-normal">
@@ -237,7 +237,7 @@ export default function PropertyManagementContent() {
               VIP Experience <br />App
             </div>
             <div className="text-[16px] space-y-[8px]">
-              All guests are given a direct line of communication with our staff during their stay. Guests can check in and out, use our concierge services, access our destination guide, and even watch instructional videos on the operation of the home's TVs, gas fireplaces, and more.
+              All guests are given a direct line of communication with our staff during their stay. Guests can check in and out, use our concierge services, access our destination guide, and even watch instructional videos on the operation of the home&apos;s TVs, gas fireplaces, and more.
             </div>
           </div>
           <div className="basis-1/3 text-[22px] font-normal">
@@ -248,7 +248,7 @@ export default function PropertyManagementContent() {
               Exceeding <br />Expectations
             </div>
             <div className="text-[16px] space-y-[8px]">
-              While providing excellent customer service through our VIP app along with an informative Destination Guide, we ensure that each guest's experience is elevated while staying in your home. They know to expect a flawlessly clean and well-maintained home along with luxury amenities. Our concierge services provide guests with day itineraries, fishing trips, grocery shopping and more.
+              While providing excellent customer service through our VIP app along with an informative Destination Guide, we ensure that each guest&apos;s experience is elevated while staying in your home. They know to expect a flawlessly clean and well-maintained home along with luxury amenities. Our concierge services provide guests with day itineraries, fishing trips, grocery shopping and more.
             </div>
           </div>
           <div className="basis-1/3 text-[22px] font-normal">
@@ -259,7 +259,7 @@ export default function PropertyManagementContent() {
               Smart-Home <br />Technology
             </div>
             <div className="text-[16px] space-y-[8px]">
-              Our homes are equipped with a directory system that serves as a direct line of communication between our guests and our staff. Our guests can access the directory and watch instructional videos on how to operate the home's gas fireplaces, TV remotes, and more. Most homes are equipped with keyless door locks and thermostat sensors.
+              Our homes are equipped with a directory system that serves as a direct line of communication between our guests and our staff. Our guests can access the directory and watch instructional videos on how to operate the home&apos;s gas fireplaces, TV remotes, and more. Most homes are equipped with keyless door locks and thermostat sensors.
             </div>
           </div>
         </div>
@@ -304,7 +304,7 @@ export default function PropertyManagementContent() {
               Private Client <br />Portal Access
             </div>
             <div className="text-[16px] space-y-[8px]">
-              Enjoy transparent updates through your private portal access giving you a 360º view of your home's details.
+              Enjoy transparent updates through your private portal access giving you a 360º view of your home&apos;s details.
             </div>
           </div>
           <div className="basis-1/3 text-[22px] font-normal">
