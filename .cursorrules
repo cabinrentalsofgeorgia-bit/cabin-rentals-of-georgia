@@ -221,6 +221,30 @@ Phone:         800-228-9792
 
 ---
 
+## Database Migration Protocol
+
+### ⚠ CRITICAL — Schema Change Rules
+
+1. **NEVER modify a SQLAlchemy model without creating a corresponding
+   Alembic migration script.** The model file and migration must be
+   committed together. Missing migrations cause silent production outages.
+
+2. **Migration location:** `backend/alembic/versions/`
+   Format: `{revision_id}_{descriptive_slug}.py`
+
+3. **Migrations MUST be idempotent.** Use `inspector.get_columns()` to
+   check if a column already exists before adding it. This prevents
+   failures when the migration is run against databases in different states.
+
+4. **All target databases must be migrated.** The platform connects to
+   multiple PostgreSQL databases (`fortress_shadow`, `fortress_guest`).
+   A column missing from ANY database will crash the ORM at runtime.
+
+5. **After adding columns:** always backfill sensible defaults.
+   Example: `op.execute("UPDATE properties SET county = 'Fannin' WHERE county IS NULL")`
+
+---
+
 ## Security Protocol
 
 ### ⚠ CRITICAL — Secret & Environment Variable Rules
