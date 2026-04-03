@@ -22,22 +22,23 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true)
-        setError(null)
-        const result = await getAvailabilityMatrix(year, month)
-        setData(result)
-      } catch (err: any) {
-        setError(err.message || 'Failed to load availability data')
-        console.error('Error fetching availability matrix:', err)
-      } finally {
-        setLoading(false)
-      }
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const result = await getAvailabilityMatrix(year, month)
+      setData(result)
+    } catch (err: any) {
+      setError(err.message || 'Failed to load availability data')
+      console.error('Error fetching availability matrix:', err)
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchData()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year, month])
 
   // Generate month options for dropdown (next 12 months)
@@ -82,9 +83,32 @@ export default function AvailabilityMatrix({ year, month }: AvailabilityMatrixPr
 
   if (error) {
     return (
-      <div className="availability-matrix-page py-8 px-5">
-        <div className="text-center">
-          <p className="text-red-600">Error: {error}</p>
+      <div className="availability-matrix-page py-8 px-5 max-w-7xl mx-auto">
+        <h1 className="text-[#7c2c00] text-[42px] max-[1010px]:text-[36px] font-normal italic leading-[100%] mb-4">
+          Blue Ridge Cabin Rental Availability
+        </h1>
+        <div className="bg-amber-50 border border-amber-300 rounded-lg p-8 text-center">
+          <svg className="w-12 h-12 text-amber-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+          </svg>
+          <h2 className="text-lg font-semibold text-amber-800 mb-2">Calendar Temporarily Unavailable</h2>
+          <p className="text-amber-700 text-sm mb-4">
+            We&apos;re having trouble loading the availability calendar. This is usually temporary.
+          </p>
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={() => fetchData()}
+              className="px-5 py-2 bg-[#7c2c00] text-white rounded-lg text-sm font-medium hover:bg-[#5e2100] transition-colors"
+            >
+              Retry
+            </button>
+            <a
+              href="tel:706-432-2140"
+              className="px-5 py-2 border border-[#7c2c00] text-[#7c2c00] rounded-lg text-sm font-medium hover:bg-[#7c2c00]/5 transition-colors"
+            >
+              Call 706-432-2140
+            </a>
+          </div>
         </div>
       </div>
     )

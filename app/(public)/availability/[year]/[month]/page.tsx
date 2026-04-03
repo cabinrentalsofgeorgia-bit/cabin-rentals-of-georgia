@@ -5,17 +5,14 @@ import PageLoading from '@/components/ui/PageLoading'
 import AvailabilityMatrix from '@/components/availability/AvailabilityMatrix'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     year: string
     month: string
-  }
+  }>
 }
 
-/**
- * Generate metadata for the availability page
- */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { year, month } = params
+  const { year, month } = await params
   const yearNum = parseInt(year, 10)
   const monthNum = parseInt(month, 10)
 
@@ -36,18 +33,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-/**
- * Availability Matrix Page
- * 
- * Displays a calendar matrix showing all cabins and their availability for a specific month.
- * URL pattern: /availability/2026/06
- */
 async function AvailabilityContent({ params }: PageProps) {
-  const { year, month } = params
+  const { year, month } = await params
   const yearNum = parseInt(year, 10)
   const monthNum = parseInt(month, 10)
 
-  // Validate year and month
   if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
     notFound()
   }
@@ -55,11 +45,10 @@ async function AvailabilityContent({ params }: PageProps) {
   return <AvailabilityMatrix year={yearNum} month={monthNum} />
 }
 
-export default function AvailabilityPage({ params }: PageProps) {
+export default async function AvailabilityPage({ params }: PageProps) {
   return (
     <Suspense fallback={<PageLoading message="Loading availability calendar..." />}>
       <AvailabilityContent params={params} />
     </Suspense>
   )
 }
-

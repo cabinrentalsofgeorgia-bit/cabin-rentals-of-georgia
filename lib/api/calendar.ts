@@ -158,17 +158,30 @@ export async function getAvailabilityMatrix(
   year: number,
   month: number
 ): Promise<AvailabilityMatrixResponse> {
-  const response = await fetch(
-    `${API_URL}/api/v1/calendar/availability-matrix/${year}/${month}`,
-    {
-      cache: 'no-store', // Don't cache availability data
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 15000)
+
+  try {
+    const response = await fetch(
+      `${API_URL}/api/v1/calendar/availability-matrix/${year}/${month}`,
+      {
+        cache: 'no-store',
+        signal: controller.signal,
+      }
+    )
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ detail: 'Unknown error' }))
+      throw new Error(error.detail || `Failed to fetch availability matrix: ${response.status}`)
     }
-  )
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ detail: 'Unknown error' }))
-    throw new Error(error.detail || `Failed to fetch availability matrix: ${response.status}`)
+    return response.json()
+  } catch (err: any) {
+    if (err.name === 'AbortError') {
+      throw new Error('The calendar is taking longer than expected. Please try again in a moment.')
+    }
+    throw err
+  } finally {
+    clearTimeout(timeout)
   }
-
-  return response.json()
 }
