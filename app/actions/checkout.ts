@@ -19,10 +19,14 @@ export type SignedQuoteActionState =
   | { ok: true; quote: SignedSovereignQuotePayload; error: null }
   | { ok: false; quote: null; error: string };
 
+// The Stripe publishable key is always available from the NEXT_PUBLIC env var
+// regardless of whether the backend config endpoint is reachable.
+const ENV_STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "";
+
 export async function getDirectBookingConfig(): Promise<DirectBookingConfig | null> {
   if (process.env.CI) {
     return {
-      stripe_publishable_key: "",
+      stripe_publishable_key: ENV_STRIPE_KEY,
       min_nights: 1,
       max_nights: 30,
       max_advance_days: 365,
@@ -33,17 +37,43 @@ export async function getDirectBookingConfig(): Promise<DirectBookingConfig | nu
     };
   }
 
-  const response = await fetch(buildBackendUrl("/api/direct-booking/config"), {
-    method: "GET",
-    cache: "no-store",
-  });
+  let response: Response;
+  try {
+    response = await fetch(buildBackendUrl("/api/direct-booking/config"), {
+      method: "GET",
+      cache: "no-store",
+    });
+  } catch {
+    // Backend unreachable — return a minimal config so Stripe can still load.
+    return {
+      stripe_publishable_key: ENV_STRIPE_KEY,
+      min_nights: 1,
+      max_nights: 30,
+      max_advance_days: 365,
+      cancellation_policy: "flexible",
+      service_fee_pct: 3,
+      tax_rate_pct: 8,
+      sovereign_quote_signing_required: false,
+    };
+  }
 
   const data = (await response.json().catch(() => null)) as DirectBookingConfig | null;
   if (!response.ok || !data) {
-    return null;
+    return {
+      stripe_publishable_key: ENV_STRIPE_KEY,
+      min_nights: 1,
+      max_nights: 30,
+      max_advance_days: 365,
+      cancellation_policy: "flexible",
+      service_fee_pct: 3,
+      tax_rate_pct: 8,
+      sovereign_quote_signing_required: false,
+    };
   }
   return {
     ...data,
+    // Prefer the backend value; fall back to the env var so the key is never blank.
+    stripe_publishable_key: data.stripe_publishable_key || ENV_STRIPE_KEY,
     sovereign_quote_signing_required: Boolean(data.sovereign_quote_signing_required),
   };
 }

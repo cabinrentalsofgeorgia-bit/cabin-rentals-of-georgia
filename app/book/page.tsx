@@ -388,9 +388,13 @@ function StorefrontBookPageContent() {
     sovereignCheckout.quotePending ||
     sovereignCheckout.signingPending;
 
+  // NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is inlined at build time and is the
+  // canonical source. Backend config responses may override it (e.g. in multi-
+  // tenant setups), but the env var guarantees the key is always available.
   const stripePublishableKey =
     sovereignCheckout.config?.stripe_publishable_key ||
     bookingConfig.data?.stripe_publishable_key ||
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
     "";
 
   useEffect(() => {
