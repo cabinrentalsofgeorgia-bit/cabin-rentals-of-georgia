@@ -255,7 +255,7 @@ function StorefrontBookPageContent() {
 
   const quoteQuery = useQuery<GuestQuotePublic>({
     queryKey: ["guest-quote", quoteRef],
-    queryFn: () => api.get<GuestQuotePublic>(`/api/proxy/api/quotes/${quoteRef}`),
+    queryFn: () => api.get<GuestQuotePublic>(`/api/quotes/${quoteRef}`),
     enabled: Boolean(quoteRef),
     staleTime: 300_000,
   });
