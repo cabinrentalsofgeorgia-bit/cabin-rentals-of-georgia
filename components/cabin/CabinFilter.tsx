@@ -77,7 +77,7 @@ export default function CabinFilter({ cabins }: CabinFilterProps) {
                   <button
                     key={property.id}
                     type="button"
-                    onClick={() => handleSelect(property.title)}
+                    onClick={() => handleSelect(property.title ?? '')}
                     className="w-full text-left px-3 py-2 text-[#533e27] hover:bg-[#f0d089] transition-colors first:rounded-t last:rounded-b whitespace-nowrap"
                   >
                     {property.title}

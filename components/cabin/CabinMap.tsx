@@ -270,9 +270,9 @@ export default function CabinMap({ cabins, selectedCabinId }: CabinMapProps) {
         return div.innerHTML
       }
 
-      const bedrooms = escapeHtml(cabin.bedrooms || 'N/A')
+      const bedrooms = escapeHtml(String(cabin.bedrooms || 'N/A'))
       const sleeps = cabin.sleeps ? `Sleeps ${cabin.sleeps}` : ''
-      const cabinTitle = escapeHtml(cabin.title)
+      const cabinTitle = escapeHtml(cabin.title ?? '')
       const cabinSlug = cabin.cabin_slug || cabin.id
 
       const infoContent = `
@@ -430,7 +430,7 @@ export default function CabinMap({ cabins, selectedCabinId }: CabinMapProps) {
                         <div className="map-image mb-2">
                           <Image
                             src={imageUrl}
-                            alt={cabin.title}
+                            alt={cabin.title ?? ''}
                             width={230}
                             height={105}
                             className="w-full h-auto rounded"
