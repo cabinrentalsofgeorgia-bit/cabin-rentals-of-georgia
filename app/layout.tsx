@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { FavoritesProvider } from '@/lib/hooks/useFavorites'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: 'Blue Ridge, GA Cabin Rentals | Cabin Rentals of Georgia',
@@ -18,9 +18,9 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon" />
       </head>
       <body>
-        <FavoritesProvider>
+        <Providers>
           {children}
-        </FavoritesProvider>
+        </Providers>
       </body>
     </html>
   )
