@@ -371,7 +371,7 @@ export default async function GuestQuotePage({
                     checkIn={quote.check_in}
                     checkOut={quote.check_out}
                     adults={quote.adults}
-                    children={quote.children}
+                    childGuests={quote.children}
                     pets={quote.pets}
                     quoteId={quote.id}
                   />

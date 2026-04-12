@@ -9,7 +9,7 @@ interface QuoteBookButtonProps {
   checkIn: string | null;
   checkOut: string | null;
   adults: number;
-  children: number;
+  childGuests: number;
   pets: number;
   quoteId: string;
 }
@@ -20,7 +20,7 @@ export function QuoteBookButton({
   checkIn,
   checkOut,
   adults,
-  children,
+  childGuests,
   pets,
   quoteId,
 }: QuoteBookButtonProps) {
@@ -32,12 +32,12 @@ export function QuoteBookButton({
       return;
     }
 
-    const guests = adults + children;
+    const guests = adults + childGuests;
     const params = new URLSearchParams({ propertyId, guests: String(guests) });
     if (checkIn) params.set("checkIn", checkIn);
     if (checkOut) params.set("checkOut", checkOut);
     params.set("adults", String(adults));
-    params.set("children", String(children));
+    params.set("children", String(childGuests));
     params.set("pets", String(pets));
     params.set("quote_ref", quoteId);
 
