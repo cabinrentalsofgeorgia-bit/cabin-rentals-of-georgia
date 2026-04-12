@@ -89,6 +89,33 @@ type BookingConfig = {
   sovereign_quote_signing_required?: boolean;
 };
 
+type GuestQuotePublic = {
+  id: string;
+  status: "pending" | "accepted" | "rejected" | "expired";
+  target_property_id: string;
+  property_name: string;
+  property_slug: string | null;
+  property_type: string | null;
+  property_bedrooms: number | null;
+  property_bathrooms: number | null;
+  property_max_guests: number | null;
+  property_hero_image: string | null;
+  check_in: string | null;
+  check_out: string | null;
+  nights: number | null;
+  adults: number;
+  children: number;
+  pets: number;
+  currency: string;
+  base_rent: number;
+  taxes: number;
+  fees: number;
+  total_amount: number;
+  sovereign_narrative: string;
+  stripe_payment_link_url: string | null;
+  expires_at: string;
+};
+
 type BookingStep = "search" | "results" | "details" | "pay" | "confirmed";
 
 function clampGuests(rawValue: string | null): number {
@@ -123,6 +150,7 @@ function StorefrontBookPageContent() {
   const handoffAdultsRaw = searchParams.get("adults");
   const handoffChildrenRaw = searchParams.get("children");
   const handoffPets = clampPets(searchParams.get("pets"));
+  const quoteRef = searchParams.get("quote_ref")?.trim() || "";
   const hasHandoff = Boolean(handoffPropertyId && handoffCheckIn && handoffCheckOut);
 
   const [step, setStep] = useState<BookingStep>("search");
@@ -225,6 +253,29 @@ function StorefrontBookPageContent() {
     staleTime: 60_000,
   });
 
+  const quoteQuery = useQuery<GuestQuotePublic>({
+    queryKey: ["guest-quote", quoteRef],
+    queryFn: () => api.get<GuestQuotePublic>(`/api/proxy/api/quotes/${quoteRef}`),
+    enabled: Boolean(quoteRef),
+    staleTime: 300_000,
+  });
+
+  // Synthesise a catalog-compatible property object from quote data so the
+  // details step renders without a separate catalog lookup.
+  const quoteAsCatalogProperty: CatalogProperty | null = quoteQuery.data
+    ? {
+        id: quoteQuery.data.target_property_id,
+        name: quoteQuery.data.property_name,
+        slug: quoteQuery.data.property_slug ?? quoteQuery.data.target_property_id,
+        property_type: quoteQuery.data.property_type ?? "",
+        bedrooms: quoteQuery.data.property_bedrooms ?? 0,
+        bathrooms: quoteQuery.data.property_bathrooms ?? 0,
+        max_guests: quoteQuery.data.property_max_guests ?? 0,
+        is_active: true,
+        source: "quote",
+      }
+    : null;
+
   const bookMutation = useMutation({
     mutationFn: (data: Record<string, unknown>) =>
       api.post<HoldBookingResponse>("/api/direct-booking/book", data),
@@ -238,9 +289,10 @@ function StorefrontBookPageContent() {
     return (
       availability.data?.results.find((property) => property.id === selectedProperty) ??
       handoffCatalog.data?.properties.find((property) => property.id === selectedProperty) ??
+      quoteAsCatalogProperty ??
       null
     );
-  }, [availability.data?.results, handoffCatalog.data?.properties, selectedProperty]);
+  }, [availability.data?.results, handoffCatalog.data?.properties, quoteAsCatalogProperty, selectedProperty]);
   const checkoutIntentKey = useMemo(() => {
     if (step !== "details" || !selected?.slug || !checkIn || !checkOut) {
       return null;
@@ -411,6 +463,9 @@ function StorefrontBookPageContent() {
     if (intentSid) {
       payload.intent_session_id = intentSid;
     }
+    if (quoteRef) {
+      payload.quote_ref = quoteRef;
+    }
     bookMutation.mutate(payload);
   }
 
@@ -433,7 +488,7 @@ function StorefrontBookPageContent() {
       </section>
 
       <main className="mx-auto max-w-6xl px-6 py-10">
-        {step === "details" && !selected && hasHandoff && handoffCatalog.isLoading && (
+        {step === "details" && !selected && (quoteQuery.isLoading || (hasHandoff && handoffCatalog.isLoading)) && (
           <section className="mx-auto max-w-2xl rounded-[2rem] border border-slate-200 bg-white px-8 py-12 text-center text-slate-600 shadow-sm">
             Loading cabin details...
           </section>
@@ -787,7 +842,8 @@ function StorefrontBookPageContent() {
                   {bookMutation.isPending
                     ? "Securing Your Hold"
                     : `Continue to Payment ${formatCurrency(
-                        sovereignCheckout.quoteState?.quote?.total_amount ??
+                        quoteQuery.data?.total_amount ??
+                          sovereignCheckout.quoteState?.quote?.total_amount ??
                           ("pricing" in selected ? selected.pricing.total : 0),
                       )}`}
                 </button>
@@ -831,7 +887,35 @@ function StorefrontBookPageContent() {
               </div>
 
               <div className="mt-6 space-y-3 rounded-[1.5rem] border border-slate-200 bg-white p-5">
-                {checkoutFlowBusy ? (
+                {quoteQuery.data ? (
+                  // Frozen pricing from the approved quote — shown when quote_ref is present
+                  <>
+                    <div className="flex items-center justify-between text-sm text-slate-700">
+                      <span>Cabin rental</span>
+                      <span>{formatCurrency(quoteQuery.data.base_rent)}</span>
+                    </div>
+                    {quoteQuery.data.fees > 0 && (
+                      <div className="flex items-center justify-between text-sm text-slate-700">
+                        <span>Fees</span>
+                        <span>{formatCurrency(quoteQuery.data.fees)}</span>
+                      </div>
+                    )}
+                    {quoteQuery.data.taxes > 0 && (
+                      <div className="flex items-center justify-between text-sm text-slate-700">
+                        <span>Taxes</span>
+                        <span>{formatCurrency(quoteQuery.data.taxes)}</span>
+                      </div>
+                    )}
+                    <div className="h-px bg-slate-200" />
+                    <div className="flex items-center justify-between text-base font-semibold text-slate-900">
+                      <span>Total</span>
+                      <span>{formatCurrency(quoteQuery.data.total_amount)}</span>
+                    </div>
+                    <p className="text-xs uppercase tracking-[0.14em] text-emerald-700">
+                      Frozen from approved quote
+                    </p>
+                  </>
+                ) : checkoutFlowBusy ? (
                   <p className="text-sm text-slate-600">Syncing ledger quote{sovereignCheckout.sovereign_quote_signing_required ? " and seal" : ""}…</p>
                 ) : checkoutLedgerError ? (
                   <p className="text-sm text-rose-700">{checkoutLedgerError}</p>
