@@ -1,6 +1,5 @@
 # Backend scripts (not needed for frontend deployment)
 backend/
-scripts/
 
 # Large extracted JSON maps (build-time artifacts only)
 checkout_layout_map.json
@@ -16,6 +15,5 @@ design_tokens.json
 tests/
 
 # Documentation and config not needed in production
-.cursorrules
 *.md
 !README.md
