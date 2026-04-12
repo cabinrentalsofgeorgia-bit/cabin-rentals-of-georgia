@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
+
 const BACKEND_URL = (
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 ).replace(/\/+$/, '')
@@ -37,6 +40,7 @@ async function handler(
       body: request.method !== 'GET' && request.method !== 'HEAD'
         ? await request.text()
         : undefined,
+      cache: 'no-store',
     })
 
     const body = await response.text()

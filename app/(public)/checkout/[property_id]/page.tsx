@@ -32,35 +32,49 @@ interface CabinData {
 interface LedgerLineItem {
   id: string
   name: string
-  amount: number
+  amount_cents: number
   is_taxable: boolean
+  is_refundable: boolean
+  refund_policy: string
   type: 'rent' | 'fee' | 'addon' | 'tax' | 'deposit' | 'discount'
+  bucket?: 'lodging' | 'admin' | 'goods' | 'service' | 'exempt' | 'tax'
 }
 
 interface TaxBreakdownDetail {
   tax_name: string
   tax_rate: number
-  taxable_base: number
-  amount: number
+  taxable_base_cents: number
+  amount_cents: number
   bucket: string
 }
 
 interface TaxBreakdown {
-  state_sales_tax: number
-  county_sales_tax: number
-  lodging_tax: number
-  dot_fee: number
-  total_tax: number
+  state_sales_tax_cents: number
+  county_sales_tax_cents: number
+  lodging_tax_cents: number
+  hospitality_tax_cents: number
+  dot_fee_cents: number
+  total_tax_cents: number
   county: string
   details: TaxBreakdownDetail[]
 }
 
 interface LedgerSummary {
-  taxable_subtotal: number
-  tax_amount: number
-  non_taxable_subtotal: number
-  grand_total: number
+  taxable_subtotal_cents: number
+  tax_amount_cents: number
+  non_taxable_subtotal_cents: number
+  grand_total_cents: number
   tax_breakdown: TaxBreakdown | null
+}
+
+interface OptionalFeeOption {
+  id: string
+  name: string
+  amount_cents: number
+}
+
+function formatDollars(cents: number): string {
+  return (cents / 100).toFixed(2)
 }
 
 interface QuoteResponse {
@@ -71,6 +85,7 @@ interface QuoteResponse {
   summary: LedgerSummary
   is_bookable: boolean
   currency: string
+  available_enhancements?: OptionalFeeOption[]
 }
 
 /* ------------------------------------------------------------------ */
@@ -131,11 +146,15 @@ function ReservationTotal({
   quoteLoading,
   quoteError,
   hasValidRange,
+  selectedEnhancements,
+  onToggleEnhancement,
 }: {
   quote: QuoteResponse | null
   quoteLoading: boolean
   quoteError: string | null
   hasValidRange: boolean
+  selectedEnhancements: Set<string>
+  onToggleEnhancement: (id: string) => void
 }) {
   const [taxOpen, setTaxOpen] = useState(false)
 
@@ -161,46 +180,99 @@ function ReservationTotal({
             {quote.property_name} &middot; {quote.nights} {quote.nights === 1 ? 'night' : 'nights'}
           </div>
 
-          {/* Lodging & Fees */}
+          {/* Dynamic bucket-based fee grouping */}
           {(() => {
             const lodgingItems = quote.line_items.filter(
-              (i) => (i.type === 'rent' || i.type === 'fee' || i.type === 'discount') && !/tax/i.test(i.name)
+              (i) => (i.bucket === 'lodging' || (!i.bucket && (i.type === 'rent' || i.type === 'fee' || i.type === 'discount'))) && i.type !== 'tax'
             )
-            return lodgingItems.length > 0 ? (
-              <div className="space-y-1">
-                <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">
-                  Lodging &amp; Fees
-                </p>
-                {lodgingItems.map((item) => (
-                  <div key={item.id} className="flex justify-between">
-                    <span>{item.name}</span>
-                    <span className={item.amount < 0 ? 'text-green-700' : ''}>
-                      {item.amount < 0 ? '-' : ''}${Math.abs(item.amount).toFixed(2)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : null
+            const adminItems = quote.line_items.filter(
+              (i) =>
+                (i.bucket === 'admin' || i.bucket === 'exempt') &&
+                i.type !== 'deposit' &&
+                i.type !== 'addon' &&
+                i.type !== 'tax'
+            )
+            const goodsItems = quote.line_items.filter((i) => i.bucket === 'goods' || i.type === 'addon')
+            const serviceItems = quote.line_items.filter((i) => i.bucket === 'service')
+            const depositItems = quote.line_items.filter((i) => i.type === 'deposit')
+
+            const renderSection = (label: string, items: LedgerLineItem[], isFirst: boolean) =>
+              items.length > 0 ? (
+                <div className={isFirst ? 'space-y-1' : 'border-t border-[#e8dcc8] pt-2 space-y-1'}>
+                  <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">{label}</p>
+                  {items.map((item) => (
+                    <div key={item.id} className="flex justify-between">
+                      <span>{item.name}</span>
+                      <span className={item.amount_cents < 0 ? 'text-green-700' : ''}>
+                        {item.amount_cents < 0 ? '-' : ''}${formatDollars(Math.abs(item.amount_cents))}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : null
+
+            let sectionRendered = false
+            const sections = [
+              { label: 'Lodging & Fees', items: lodgingItems },
+              { label: 'Protection & Processing', items: adminItems },
+              { label: 'Add-Ons', items: goodsItems },
+              { label: 'Services', items: serviceItems },
+              { label: 'Deposits', items: depositItems },
+            ]
+
+            return (
+              <>
+                {sections.map(({ label, items }) => {
+                  if (items.length === 0) return null
+                  const isFirst = !sectionRendered
+                  sectionRendered = true
+                  return <div key={label}>{renderSection(label, items, isFirst)}</div>
+                })}
+              </>
+            )
           })()}
 
-          {/* Add-Ons */}
-          {(() => {
-            const addonItems = quote.line_items.filter((i) => i.type === 'addon')
-            return addonItems.length > 0 ? (
-              <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
-                <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">Add-Ons</p>
-                {addonItems.map((item) => (
-                  <div key={item.id} className="flex justify-between">
-                    <span>{item.name}</span>
-                    <span>${item.amount.toFixed(2)}</span>
-                  </div>
-                ))}
-              </div>
-            ) : null
-          })()}
+          {/* Stay Enhancements — optional fees the guest can toggle */}
+          {quote.available_enhancements && quote.available_enhancements.length > 0 && (
+            <div className="border-t border-[#e8dcc8] pt-2 space-y-2">
+              <p className="text-[11px] uppercase tracking-wider text-[#7c2c00] font-semibold">
+                Stay Enhancements
+              </p>
+              {quote.available_enhancements.map((enh) => {
+                const isOn = selectedEnhancements.has(enh.id)
+                return (
+                  <label
+                    key={enh.id}
+                    className="flex items-center justify-between cursor-pointer group"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span
+                        className={`relative inline-flex h-5 w-9 flex-shrink-0 rounded-full transition-colors ${
+                          isOn ? 'bg-[#7c2c00]' : 'bg-[#d4c8b8]'
+                        }`}
+                        onClick={(e) => { e.preventDefault(); onToggleEnhancement(enh.id) }}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform mt-0.5 ${
+                            isOn ? 'translate-x-[18px]' : 'translate-x-0.5'
+                          }`}
+                        />
+                      </span>
+                      <span className={isOn ? 'text-[#533e27]' : 'text-[#9a8b78]'}>
+                        {enh.name}
+                      </span>
+                    </span>
+                    <span className={isOn ? 'text-[#533e27] font-semibold' : 'text-[#9a8b78]'}>
+                      +${formatDollars(enh.amount_cents)}
+                    </span>
+                  </label>
+                )
+              })}
+            </div>
+          )}
 
           {/* Taxes & Assessments — with collapsible breakdown */}
-          {quote.summary.tax_amount > 0 && (
+          {quote.summary.tax_amount_cents > 0 && (
             <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
               <button
                 type="button"
@@ -212,7 +284,7 @@ function ReservationTotal({
                 </p>
                 <div className="flex items-center gap-1">
                   <span className="text-[14px] font-semibold text-[#7c2c00]">
-                    ${quote.summary.tax_amount.toFixed(2)}
+                    ${formatDollars(quote.summary.tax_amount_cents)}
                   </span>
                   <svg
                     className={`w-3.5 h-3.5 text-[#7c2c00] transition-transform ${taxOpen ? 'rotate-180' : ''}`}
@@ -225,33 +297,39 @@ function ReservationTotal({
 
               {taxOpen && quote.summary.tax_breakdown ? (
                 <div className="mt-2 pt-2 border-t border-[#e8dcc8]/40 space-y-1.5 text-[13px]">
-                  {quote.summary.tax_breakdown.state_sales_tax > 0 && (
+                  {quote.summary.tax_breakdown.state_sales_tax_cents > 0 && (
                     <div className="flex justify-between">
                       <span>GA State Sales Tax</span>
-                      <span>${quote.summary.tax_breakdown.state_sales_tax.toFixed(2)}</span>
+                      <span>${formatDollars(quote.summary.tax_breakdown.state_sales_tax_cents)}</span>
                     </div>
                   )}
-                  {quote.summary.tax_breakdown.county_sales_tax > 0 && (
+                  {quote.summary.tax_breakdown.county_sales_tax_cents > 0 && (
                     <div className="flex justify-between">
                       <span>{quote.summary.tax_breakdown.county} County Sales Tax</span>
-                      <span>${quote.summary.tax_breakdown.county_sales_tax.toFixed(2)}</span>
+                      <span>${formatDollars(quote.summary.tax_breakdown.county_sales_tax_cents)}</span>
                     </div>
                   )}
-                  {quote.summary.tax_breakdown.lodging_tax > 0 && (
+                  {quote.summary.tax_breakdown.lodging_tax_cents > 0 && (
                     <div className="flex justify-between">
                       <span>{quote.summary.tax_breakdown.county} County Lodging Tax</span>
-                      <span>${quote.summary.tax_breakdown.lodging_tax.toFixed(2)}</span>
+                      <span>${formatDollars(quote.summary.tax_breakdown.lodging_tax_cents)}</span>
                     </div>
                   )}
-                  {quote.summary.tax_breakdown.dot_fee > 0 && (
+                  {quote.summary.tax_breakdown.hospitality_tax_cents > 0 && (
+                    <div className="flex justify-between">
+                      <span>{quote.summary.tax_breakdown.county} Hospitality Tax</span>
+                      <span>${formatDollars(quote.summary.tax_breakdown.hospitality_tax_cents)}</span>
+                    </div>
+                  )}
+                  {quote.summary.tax_breakdown.dot_fee_cents > 0 && (
                     <div className="flex justify-between">
                       <span>GA DOT Fee</span>
-                      <span>${quote.summary.tax_breakdown.dot_fee.toFixed(2)}</span>
+                      <span>${formatDollars(quote.summary.tax_breakdown.dot_fee_cents)}</span>
                     </div>
                   )}
                   <div className="flex justify-between pt-1 border-t border-[#e8dcc8]/40 font-semibold text-[#7c2c00]">
                     <span>Total Taxes &amp; Fees</span>
-                    <span>${quote.summary.tax_breakdown.total_tax.toFixed(2)}</span>
+                    <span>${formatDollars(quote.summary.tax_breakdown.total_tax_cents)}</span>
                   </div>
                 </div>
               ) : taxOpen ? (
@@ -261,7 +339,7 @@ function ReservationTotal({
                     .map((item) => (
                       <div key={item.id} className="flex justify-between">
                         <span>{item.name}</span>
-                        <span>${item.amount.toFixed(2)}</span>
+                        <span>${formatDollars(item.amount_cents)}</span>
                       </div>
                     ))}
                 </div>
@@ -280,7 +358,7 @@ function ReservationTotal({
                 {depositItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name}</span>
-                    <span>${item.amount.toFixed(2)}</span>
+                    <span>${formatDollars(item.amount_cents)}</span>
                   </div>
                 ))}
               </div>
@@ -288,16 +366,16 @@ function ReservationTotal({
           })()}
 
           {/* Subtotals */}
-          {quote.summary.taxable_subtotal > 0 && (
+          {quote.summary.taxable_subtotal_cents > 0 && (
             <div className="border-t border-[#e8dcc8] pt-2 space-y-1">
               <div className="flex justify-between text-[14px]">
                 <span>Subtotal</span>
-                <span>${quote.summary.taxable_subtotal.toFixed(2)}</span>
+                <span>${formatDollars(quote.summary.taxable_subtotal_cents)}</span>
               </div>
-              {quote.summary.tax_amount > 0 && (
+              {quote.summary.tax_amount_cents > 0 && (
                 <div className="flex justify-between text-[14px]">
                   <span>Tax Total</span>
-                  <span>${quote.summary.tax_amount.toFixed(2)}</span>
+                  <span>${formatDollars(quote.summary.tax_amount_cents)}</span>
                 </div>
               )}
             </div>
@@ -306,7 +384,7 @@ function ReservationTotal({
           {/* Grand Total */}
           <div className="flex justify-between pt-3 border-t-2 border-[#7c2c00] text-[18px] font-bold text-[#7c2c00]">
             <span>Total</span>
-            <span>${quote.summary.grand_total.toFixed(2)}</span>
+            <span>${formatDollars(quote.summary.grand_total_cents)}</span>
           </div>
 
           {!quote.is_bookable && (
@@ -444,6 +522,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
   const [promoCode, setPromoCode] = useState('')
+  const [selectedEnhancements, setSelectedEnhancements] = useState<Set<string>>(new Set())
   const [formErrors, setFormErrors] = useState<Record<string, boolean>>({})
   const [form, setForm] = useState({
     first_name: '',
@@ -505,9 +584,14 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
     return Boolean(arrive && depart && arrive < depart)
   }, [arrive, depart])
 
+  const enhancementsKey = useMemo(
+    () => Array.from(selectedEnhancements).sort().join(','),
+    [selectedEnhancements],
+  )
+
   useEffect(() => {
     setClientSecret(null)
-  }, [arrive, depart, selectedAddOnIds, promoCode, form.adults, form.children, form.pets])
+  }, [arrive, depart, selectedAddOnIds, enhancementsKey, promoCode, form.adults, form.children, form.pets])
 
   useEffect(() => {
     async function fetchQuote() {
@@ -519,6 +603,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
       try {
         setQuoteLoading(true)
         setQuoteError(null)
+        const allSelectedIds = [...selectedAddOnIds, ...Array.from(selectedEnhancements)]
         const res = await fetch('/api/proxy/api/v1/checkout/quote', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -529,7 +614,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
             adults: form.adults,
             children: form.children,
             pets: form.pets,
-            selected_add_on_ids: selectedAddOnIds,
+            selected_add_on_ids: allSelectedIds,
             promo_code: promoCode || undefined,
           }),
         })
@@ -552,7 +637,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
 
     const timer = setTimeout(fetchQuote, 300)
     return () => clearTimeout(timer)
-  }, [propertyId, arrive, depart, form.adults, form.children, form.pets, selectedAddOnIds, promoCode, hasValidRange])
+  }, [propertyId, arrive, depart, form.adults, form.children, form.pets, selectedAddOnIds, enhancementsKey, promoCode, hasValidRange])
 
   const validateGuestForm = (): boolean => {
     const errors: Record<string, boolean> = {}
@@ -574,6 +659,7 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
     try {
       setCheckoutLoading(true)
       setCheckoutError(null)
+      const allSelectedIds = [...selectedAddOnIds, ...Array.from(selectedEnhancements)]
       const res = await fetch('/api/proxy/api/v1/checkout/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -584,9 +670,9 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
           adults: form.adults,
           children: form.children,
           pets: form.pets,
-          selected_add_on_ids: selectedAddOnIds,
+          selected_add_on_ids: allSelectedIds,
           promo_code: promoCode || undefined,
-          total_cents: Math.round(quote.summary.grand_total * 100),
+          total_cents: quote.summary.grand_total_cents,
           first_name: form.first_name,
           last_name: form.last_name,
           email: form.email,
@@ -1025,6 +1111,15 @@ function CheckoutInner({ propertyId }: { propertyId: string }) {
               quoteLoading={quoteLoading}
               quoteError={quoteError}
               hasValidRange={hasValidRange}
+              selectedEnhancements={selectedEnhancements}
+              onToggleEnhancement={(id) => {
+                setSelectedEnhancements((prev) => {
+                  const next = new Set(prev)
+                  if (next.has(id)) next.delete(id)
+                  else next.add(id)
+                  return next
+                })
+              }}
             />
           </div>
         </div>
