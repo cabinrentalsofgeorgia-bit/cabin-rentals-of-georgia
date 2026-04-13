@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { getStorefrontSessionId } from "@/lib/storefront-session";
 import { postStorefrontIntentEvent } from "@/lib/storefront-intent";
+import { toast } from "sonner";
 import { useSovereignCheckoutFlow } from "@/components/booking/sovereign-checkout-flow";
 import { DirectBookingPayPanel } from "@/components/booking/direct-booking-pay-panel";
 import { Input } from "@/components/ui/input";
@@ -282,6 +283,13 @@ function StorefrontBookPageContent() {
     onSuccess: (data) => {
       setCheckoutHold(data);
       setStep("pay");
+    },
+    onError: (error: unknown) => {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Booking failed — please try again or call (706) 455-5555.";
+      toast.error(message);
     },
   });
 
