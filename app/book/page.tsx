@@ -142,6 +142,61 @@ function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
+/** Live countdown for the 15-minute booking hold. */
+function HoldCountdown({ expiresAt }: { expiresAt: string }) {
+  const [secsLeft, setSecsLeft] = useState(() =>
+    Math.max(0, Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000)),
+  );
+
+  useEffect(() => {
+    if (secsLeft <= 0) return;
+    const id = setInterval(() => {
+      setSecsLeft((s) => {
+        const next = Math.max(0, Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000));
+        return next;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [expiresAt]);
+
+  useEffect(() => {
+    if (secsLeft === 0) {
+      toast.error("Your hold has expired. Please start over to secure new dates.", {
+        duration: 10_000,
+      });
+    }
+  }, [secsLeft]);
+
+  const mins = Math.floor(secsLeft / 60);
+  const secs = secsLeft % 60;
+  const label = secsLeft > 0
+    ? `Hold expires in ${mins}:${String(secs).padStart(2, "0")}`
+    : "Hold expired";
+
+  if (secsLeft === 0) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700">
+        <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+        Hold expired — please restart
+      </span>
+    );
+  }
+  if (secsLeft <= 180) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+        <span className="h-1.5 w-1.5 animate-ping rounded-full bg-amber-500" />
+        {label} — complete payment now
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+      {label}
+    </span>
+  );
+}
+
 function StorefrontBookPageContent() {
   const searchParams = useSearchParams();
   const handoffPropertyId = searchParams.get("propertyId")?.trim() || "";
@@ -984,9 +1039,10 @@ function StorefrontBookPageContent() {
               <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
                 Complete your reservation
               </h2>
-              <p className="text-slate-600">
-                {selected.name} · Hold expires {new Date(checkoutHold.expires_at).toLocaleString()}
-              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="text-slate-600">{selected.name}</p>
+                <HoldCountdown expiresAt={checkoutHold.expires_at} />
+              </div>
             </div>
 
             <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-6">
@@ -999,6 +1055,8 @@ function StorefrontBookPageContent() {
                   holdId={checkoutHold.hold_id}
                   totalAmount={checkoutHold.total_amount}
                   defaultCardholderName={`${guestInfo.first_name} ${guestInfo.last_name}`.trim()}
+                  guestEmail={guestInfo.email}
+                  guestPhone={guestInfo.phone}
                   onConfirmed={(result) => {
                     setConfirmation(result);
                     setCheckoutHold(null);

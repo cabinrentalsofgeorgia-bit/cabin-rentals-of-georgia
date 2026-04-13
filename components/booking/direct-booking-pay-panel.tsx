@@ -39,12 +39,16 @@ function PayForm({
   holdId,
   totalAmount,
   defaultName,
+  guestEmail,
+  guestPhone,
   onConfirmed,
 }: {
   clientSecret: string;
   holdId: string;
   totalAmount: number;
   defaultName: string;
+  guestEmail: string;
+  guestPhone: string;
   onConfirmed: (c: ConfirmResponse) => void;
 }) {
   const stripe = useStripe();
@@ -63,7 +67,11 @@ function PayForm({
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardNumber,
-          billing_details: { name: cardholderName || undefined },
+          billing_details: {
+            name: cardholderName || undefined,
+            email: guestEmail || undefined,
+            phone: guestPhone || undefined,
+          },
         },
       });
 
@@ -141,6 +149,8 @@ export function DirectBookingPayPanel({
   holdId,
   totalAmount,
   defaultCardholderName,
+  guestEmail,
+  guestPhone,
   onConfirmed,
 }: {
   publishableKey: string;
@@ -148,6 +158,8 @@ export function DirectBookingPayPanel({
   holdId: string;
   totalAmount: number;
   defaultCardholderName: string;
+  guestEmail: string;
+  guestPhone: string;
   onConfirmed: (c: ConfirmResponse) => void;
 }) {
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
@@ -177,6 +189,8 @@ export function DirectBookingPayPanel({
         holdId={holdId}
         totalAmount={totalAmount}
         defaultName={defaultCardholderName}
+        guestEmail={guestEmail}
+        guestPhone={guestPhone}
         onConfirmed={onConfirmed}
       />
     </Elements>
